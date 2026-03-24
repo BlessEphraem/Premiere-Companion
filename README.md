@@ -87,4 +87,4 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 ## 📄 License
 
-MIT License — see [LICENSE]() for details.
+GPL-3.0 license — see [LICENSE](LICENSE) for details.
