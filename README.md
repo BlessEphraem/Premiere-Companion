@@ -7,12 +7,24 @@
 **Premiere Companion** is a productivity tool for Adobe Premiere Pro that lets you instantly apply **video effects**, **audio effects**, **transitions**, and **presets** — all from a fast, keyboard-driven search bar without ever leaving your timeline.
 > Think of it as a Excalibur plugin alternatives, but can apply Presets too, and for FREE and Open Source.
 
+<p align="center">
+  <video src="./.docs/medias/preview_SearchBar.mp4" width="100%" muted autoplay loop playsinline>
+    votre navigateur ne supporte pas la lecture de vidéos.
+  </video>
+</p>
+
 ## ✨ Features
 - **⚡ Instant Search Bar** — Summon a floating search bar from anywhere with a fully customizable shortcut (default: `Ctrl+Space`) while Premiere Pro is in focus.
 - **🗂️ Category Navigation** — Use the `←` / `→` arrow keys to cycle through element categories (Transitions, Video FX, Audio FX, Presets, All) without touching the mouse.
 - **🔍 Live Filtering** — Results update as you type with a smart scoring algorithm that prioritizes recently used items.
 - **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](.docs/QuickApply.md).)_
 - **🔌 WebSocket Bridge** — Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
+
+<p align="center">
+  <video src="./.docs/medias/preview_ApplyingEffectsAndPresets.mp4" width="100%" muted autoplay loop playsinline>
+    votre navigateur ne supporte pas la lecture de vidéos.
+  </video>
+</p>
 
 ---
 
