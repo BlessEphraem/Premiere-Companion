@@ -1,5 +1,6 @@
+# GUI/theme_page.py
 import os
-import re
+import json
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QHBoxLayout, QPushButton, QLineEdit, QMessageBox
 from PyQt6.QtCore import Qt
 
@@ -7,7 +8,7 @@ class ThemePage(QWidget):
     def __init__(self, main_window):
         super().__init__()
         self.mw = main_window
-        self.style_path = os.path.join("Data", "style.qss")
+        self.theme_path = os.path.join("Data", "theme.json")
         self.init_ui()
 
     def init_ui(self):
@@ -29,11 +30,23 @@ class ThemePage(QWidget):
         lbl_info.setWordWrap(True)
         vbox.addWidget(lbl_info)
 
+        # --- Lecture intelligente des couleurs actuelles de l'utilisateur ---
+        current_accent = "#FF1796"
+        current_bg = "#09090b"
+        if os.path.exists(self.theme_path):
+            try:
+                with open(self.theme_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    current_accent = data.get("accent", current_accent)
+                    current_bg = data.get("bg", current_bg)
+            except Exception:
+                pass
+
         # Accent Color
         hbox_accent = QHBoxLayout()
         lbl_accent = QLabel("Accent Color (Pink):")
         lbl_accent.setObjectName("CardLabel")
-        self.inp_accent = QLineEdit("#FF1796")
+        self.inp_accent = QLineEdit(current_accent)
         self.inp_accent.setFixedWidth(100)
         hbox_accent.addWidget(lbl_accent)
         hbox_accent.addStretch()
@@ -44,7 +57,7 @@ class ThemePage(QWidget):
         hbox_bg = QHBoxLayout()
         lbl_bg = QLabel("Main Background:")
         lbl_bg.setObjectName("CardLabel")
-        self.inp_bg = QLineEdit("#09090b")
+        self.inp_bg = QLineEdit(current_bg)
         self.inp_bg.setFixedWidth(100)
         hbox_bg.addWidget(lbl_bg)
         hbox_bg.addStretch()
@@ -65,20 +78,12 @@ class ThemePage(QWidget):
         accent_color = self.inp_accent.text().strip()
         bg_color = self.inp_bg.text().strip()
 
-        if not os.path.exists(self.style_path):
-            QMessageBox.warning(self, "Error", "style.qss not found!")
-            return
-
-        # QSS Reading
-        with open(self.style_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        content = re.sub(r"#[A-Fa-f0-9]{6}(?=;|\s+\})", lambda m: accent_color if m.group(0).lower() == "#ff1796" else m.group(0), content)
-        content = re.sub(r"#[A-Fa-f0-9]{6}(?=;|\s+\})", lambda m: bg_color if m.group(0).lower() == "#09090b" else m.group(0), content)
-
-        # Écriture
-        with open(self.style_path, "w", encoding="utf-8") as f:
-            f.write(content)
+        # Sauvegarde propre dans le fichier JSON
+        theme_data = {"accent": accent_color, "bg": bg_color}
+        os.makedirs("Data", exist_ok=True)
+        
+        with open(self.theme_path, "w", encoding="utf-8") as f:
+            json.dump(theme_data, f, indent=4)
 
         self.mw.append_log(f"🎨 Theme updated (Accent: {accent_color}, BG: {bg_color}). Restart required.", "#55ff55")
         QMessageBox.information(self, "Success", "Theme saved successfully! Please restart the application.")
