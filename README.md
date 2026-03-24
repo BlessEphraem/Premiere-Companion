@@ -36,13 +36,10 @@ Before using Premiere Companion, make sure you have:
 ## 🚀 Installation
 > ⚠️ **Reminder:** Install the UXP plugin first before proceeding. See [Prerequisites] above.
 
-### ✅ Recommended — Download the Setup.exe
-1. Download the setup [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/2.1.1) page.
+### ✅ Recommended — Download the Setup / Portable version
+1. Choose the "setup.exe" or the "portable.zip" here: [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/3.0.0) page.
 2. Install and enjoy !
-
-### ✅ Recommended — Download the portable version
-1. Download the .zip archive [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/2.1.1_portable) page.
-2. Extract and run **Premiere Companion** — no additional setup required.
+* For the Portable version:
 The release build is pre-packaged and ready to use out of the box.
 
 ### 🛠️ From Source — Run the `.pyw` Script

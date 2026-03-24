@@ -30,7 +30,21 @@ from Core.paths import get_data_path, get_base_path
 
 def get_theme_colors():
     """Charge les couleurs de l'utilisateur depuis le JSON ou utilise celles par défaut"""
-    defaults = {"accent": "#FF1796", "bg": "#09090b"}
+    defaults = {
+        "accent": "#FF1796", 
+        "bg": "#09090b",
+        "bg_secondary": "#18181b",
+        "card_bg": "#121214",
+        "border": "#27272a",
+        "text_main": "#e4e4e7",
+        "text_subtle": "#a1a1aa",
+        "success": "#55ff55",
+        "error": "#ff5555",
+        "info": "#55ccff",
+        "warning": "#ffaa00",
+        "primary_btn": "#3b82f6",
+        "accent_btn": "#aa00ff"
+    }
     theme_path = get_data_path("theme.json")
     
     if os.path.exists(theme_path):
@@ -69,6 +83,17 @@ def main():
     colors = get_theme_colors()
     ACCENT = colors.get("accent", "#FF1796")
     BG = colors.get("bg", "#09090b")
+    BG_SEC = colors.get("bg_secondary", "#18181b")
+    CARD_BG = colors.get("card_bg", "#121214")
+    BORDER = colors.get("border", "#27272a")
+    TEXT = colors.get("text_main", "#e4e4e7")
+    TEXT_SUBTLE = colors.get("text_subtle", "#a1a1aa")
+    SUCCESS = colors.get("success", "#55ff55")
+    ERROR = colors.get("error", "#ff5555")
+    INFO = colors.get("info", "#55ccff")
+    WARNING = colors.get("warning", "#ffaa00")
+    PRIMARY_BTN = colors.get("primary_btn", "#3b82f6")
+    ACCENT_BTN = colors.get("accent_btn", "#aa00ff")
 
     # 2. Nettoyage silencieux de l'ancien fichier .qss s'il existe
     old_style_path = get_data_path("style.qss")
@@ -80,66 +105,66 @@ def main():
 
     # 3. Le QSS dynamique complet
     dynamic_qss = f"""
-    QMainWindow, QWidget {{ background-color: {BG}; color: #e4e4e7; font-family: "Inter", "Segoe UI", "-apple-system", "Helvetica Neue", sans-serif; font-size: 14px; }}
-    QLabel {{ background-color: transparent; color: #e4e4e7; font-weight: 500; }}
-    QLineEdit, QComboBox, QSpinBox {{ background-color: #18181b; color: #ffffff; border: 1px solid #27272a; border-radius: 8px; padding: 10px 14px; }}
+    QMainWindow, QWidget {{ background-color: {BG}; color: {TEXT}; font-family: "Inter", "Segoe UI", "-apple-system", "Helvetica Neue", sans-serif; font-size: 14px; }}
+    QLabel {{ background-color: transparent; color: {TEXT}; font-weight: 500; }}
+    QLineEdit, QComboBox, QSpinBox {{ background-color: {BG_SEC}; color: #ffffff; border: 1px solid {BORDER}; border-radius: 8px; padding: 10px 14px; }}
     QLineEdit:focus, QComboBox:focus, QSpinBox:focus {{ border: 1px solid {ACCENT}; background-color: #202024; }}
-    QPushButton {{ background-color: #18181b; color: #fafafa; border: 1px solid #27272a; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 13px; }}
-    QPushButton:hover {{ background-color: #27272a; border: 1px solid #3f3f46; }}
-    QPushButton:pressed {{ background-color: #18181b; border: 1px solid {ACCENT}; color: {ACCENT}; }}
-    QListWidget, QTextEdit, QScrollArea {{ background-color: {BG}; border: 1px solid #27272a; border-radius: 10px; padding: 6px; outline: none; color: #ffffff; font-size: 15px; font-weight: 600; }}
-    QListWidget::item {{ background-color: #121214; border: 1px solid #18181b; border-radius: 8px; margin: 4px; padding-left: 15px; min-height: 40px; }}
-    QListWidget::item:hover {{ background-color: #18181b; border: 1px solid #27272a; }}
+    QPushButton {{ background-color: {BG_SEC}; color: #fafafa; border: 1px solid {BORDER}; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 13px; }}
+    QPushButton:hover {{ background-color: {BORDER}; border: 1px solid #3f3f46; }}
+    QPushButton:pressed {{ background-color: {BG_SEC}; border: 1px solid {ACCENT}; color: {ACCENT}; }}
+    QListWidget, QTextEdit, QScrollArea {{ background-color: {BG}; border: 1px solid {BORDER}; border-radius: 10px; padding: 6px; outline: none; color: #ffffff; font-size: 15px; font-weight: 600; }}
+    QListWidget::item {{ background-color: {CARD_BG}; border: 1px solid {BG_SEC}; border-radius: 8px; margin: 4px; padding-left: 15px; min-height: 40px; }}
+    QListWidget::item:hover {{ background-color: {BG_SEC}; border: 1px solid {BORDER}; }}
     QListWidget::item:selected {{ background-color: #1e293b; border: 1px solid {ACCENT}; color: #ffffff; }}
     QScrollBar:vertical {{ background: transparent; width: 8px; margin: 2px; border-radius: 4px; }}
     QScrollBar::handle:vertical {{ background: #3f3f46; min-height: 30px; border-radius: 4px; }}
     QScrollBar::handle:vertical:hover {{ background: #52525b; }}
-    QFrame#separatorLine {{ background-color: #27272a; max-height: 1px; }}
+    QFrame#separatorLine {{ background-color: {BORDER}; max-height: 1px; }}
     QLabel#PageTitle {{ font-size: 22px; font-weight: bold; color: #ffffff; }}
-    QFrame#CardFrame {{ background-color: #121214; border: 1px solid #27272a; border-radius: 8px; }}
+    QFrame#CardFrame {{ background-color: {CARD_BG}; border: 1px solid {BORDER}; border-radius: 8px; }}
     QLabel#CardLabel {{ font-weight: bold; font-size: 14px; border: none; }}
     QLabel#CardLabelBold {{ font-size: 16px; font-weight: bold; border: none; }}
-    QLabel#CardLabelSubtle {{ color: #a1a1aa; border: none; }}
-    QLabel#WarningLabel {{ color: #ffaa00; font-style: italic; font-size: 12px; }}
-    QCheckBox#SubtleCheckbox {{ border: none; color: #a1a1aa; font-weight: bold; }}
+    QLabel#CardLabelSubtle {{ color: {TEXT_SUBTLE}; border: none; }}
+    QLabel#WarningLabel {{ color: {WARNING}; font-style: italic; font-size: 12px; }}
+    QCheckBox#SubtleCheckbox {{ border: none; color: {TEXT_SUBTLE}; font-weight: bold; }}
     QScrollArea#TransparentScroll, QWidget#TransparentContainer, QWidget#effectItem, QWidget#FloatingSearchBar {{ background: transparent; border: none; }}
-    QPushButton#PrimaryButton {{ background-color: #3b82f6; border: none; font-size: 16px; padding: 10px; font-weight: bold; }}
+    QPushButton#PrimaryButton {{ background-color: {PRIMARY_BTN}; border: none; font-size: 16px; padding: 10px; font-weight: bold; }}
     QPushButton#PrimaryButton:hover {{ background-color: #2563eb; }}
-    QPushButton#AccentButton {{ background-color: #aa00ff; border: none; color: white; font-size: 14px; font-weight: bold; padding: 10px; }}
+    QPushButton#AccentButton {{ background-color: {ACCENT_BTN}; border: none; color: white; font-size: 14px; font-weight: bold; padding: 10px; }}
     QPushButton#AccentButton:hover {{ background-color: #9000d8; }}
     QPushButton#NavButton[active="true"] {{ background-color: {ACCENT}; border: none; font-weight: bold; }}
-    QPushButton#ToggleQA[qa_state="enabled"] {{ background-color: #55ff55; color: black; font-weight: bold; padding: 5px; border: none; }}
-    QPushButton#ToggleQA[qa_state="disabled"] {{ background-color: #ff5555; color: white; font-weight: bold; padding: 5px; border: none; }}
+    QPushButton#ToggleQA[qa_state="enabled"] {{ background-color: {SUCCESS}; color: black; font-weight: bold; padding: 5px; border: none; }}
+    QPushButton#ToggleQA[qa_state="disabled"] {{ background-color: {ERROR}; color: white; font-weight: bold; padding: 5px; border: none; }}
     QLabel#EffectTag {{ font-weight: bold; font-size: 14px; margin-right: 5px; }}
-    QLabel#EffectTag[type="TagVideo"]      {{ color: #ff5555; }}
-    QLabel#EffectTag[type="TagAudio"]      {{ color: #55ff55; }}
-    QLabel#EffectTag[type="TagTransition"] {{ color: #55ccff; }}
+    QLabel#EffectTag[type="TagVideo"]      {{ color: {ERROR}; }}
+    QLabel#EffectTag[type="TagAudio"]      {{ color: {SUCCESS}; }}
+    QLabel#EffectTag[type="TagTransition"] {{ color: {INFO}; }}
     QLabel#EffectTag[type="TagPreset"]     {{ color: #ffffff; }}
-    QLabel#EffectTag[type="TagRecent"]     {{ color: #ffaa00; }}
-    QLabel#EffectTag[type="unknown"]       {{ color: #3b82f6; }}
-    QLabel#StatusLabel[connected="true"] {{ color: #55ff55; font-weight: bold; }}
-    QLabel#StatusLabel[connected="false"] {{ color: #ff5555; font-weight: bold; }}
-    QLabel#CoordLabel[state="undefined"] {{ color: #ffaa00; font-weight: bold; font-size: 14px; }}
-    QLabel#CoordLabel[state="saved"] {{ color: #55ff55; font-weight: bold; font-size: 14px; }}
+    QLabel#EffectTag[type="TagRecent"]     {{ color: {WARNING}; }}
+    QLabel#EffectTag[type="unknown"]       {{ color: {PRIMARY_BTN}; }}
+    QLabel#StatusLabel[connected="true"] {{ color: {SUCCESS}; font-weight: bold; }}
+    QLabel#StatusLabel[connected="false"] {{ color: {ERROR}; font-weight: bold; }}
+    QLabel#CoordLabel[state="undefined"] {{ color: {WARNING}; font-weight: bold; font-size: 14px; }}
+    QLabel#CoordLabel[state="saved"] {{ color: {SUCCESS}; font-weight: bold; font-size: 14px; }}
     QFrame#SearchBarContainer {{ background-color: rgba(30, 30, 30, 240); border: 1px solid #555555; border-radius: 12px; }}
     QListWidget#SearchList {{ background-color: transparent; border: none; color: #dddddd; font-size: 14px; outline: none; }}
     QListWidget#SearchList::item:selected {{ background-color: #005577; color: white; border: 1px solid #0077aa; }}
-    QLineEdit#MainSearchBar {{ background-color: #18181b; color: #ffffff; border-radius: 8px; padding: 10px 14px; font-weight: bold; }}
+    QLineEdit#MainSearchBar {{ background-color: {BG_SEC}; color: #ffffff; border-radius: 8px; padding: 10px 14px; font-weight: bold; }}
     QLineEdit#MainSearchBar:focus {{ background-color: #202024; }}
-    QLineEdit#MainSearchBar[filterType="All"] {{ border: 2px solid #3b82f6; }}
-    QLineEdit#MainSearchBar[filterType="FxVideo"] {{ border: 2px solid #ff5555; }}
-    QLineEdit#MainSearchBar[filterType="FxAudio"] {{ border: 2px solid #55ff55; }}
-    QLineEdit#MainSearchBar[filterType="Transition"] {{ border: 2px solid #55ccff; }}
+    QLineEdit#MainSearchBar[filterType="All"] {{ border: 2px solid {PRIMARY_BTN}; }}
+    QLineEdit#MainSearchBar[filterType="FxVideo"] {{ border: 2px solid {ERROR}; }}
+    QLineEdit#MainSearchBar[filterType="FxAudio"] {{ border: 2px solid {SUCCESS}; }}
+    QLineEdit#MainSearchBar[filterType="Transition"] {{ border: 2px solid {INFO}; }}
     QLineEdit#MainSearchBar[filterType="Preset"] {{ border: 2px solid #ffffff; }}
     QLineEdit#SearchInput {{ background-color: rgba(15, 15, 15, 200); color: #ffffff; border-radius: 8px; padding: 12px 15px; font-size: 16px; font-weight: bold; }}
-    QLineEdit#SearchInput[filterType="All"] {{ border: 1px solid #3b82f6; }}
-    QLineEdit#SearchInput[filterType="FxVideo"] {{ border: 1px solid #ff5555; }}
-    QLineEdit#SearchInput[filterType="FxAudio"] {{ border: 1px solid #55ff55; }}
-    QLineEdit#SearchInput[filterType="Transition"] {{ border: 1px solid #55ccff; }}
+    QLineEdit#SearchInput[filterType="All"] {{ border: 1px solid {PRIMARY_BTN}; }}
+    QLineEdit#SearchInput[filterType="FxVideo"] {{ border: 1px solid {ERROR}; }}
+    QLineEdit#SearchInput[filterType="FxAudio"] {{ border: 1px solid {SUCCESS}; }}
+    QLineEdit#SearchInput[filterType="Transition"] {{ border: 1px solid {INFO}; }}
     QLineEdit#SearchInput[filterType="Preset"] {{ border: 1px solid #ffffff; }}
-    QLineEdit#SearchInput[mode="options"] {{ border: 2px solid #55ccff; background-color: rgba(15, 15, 15, 200); color: white; }}
-    QLabel#SearchResultName {{ color: #e4e4e7; font-size: 15px; font-weight: bold; }}
-    QLabel#RegexRuleText {{ color: #e4e4e7; font-size: 14px; background: transparent; }}
+    QLineEdit#SearchInput[mode="options"] {{ border: 2px solid {INFO}; background-color: rgba(15, 15, 15, 200); color: white; }}
+    QLabel#SearchResultName {{ color: {TEXT}; font-size: 15px; font-weight: bold; }}
+    QLabel#RegexRuleText {{ color: {TEXT}; font-size: 14px; background: transparent; }}
     """
 
     app.setStyleSheet(dynamic_qss)

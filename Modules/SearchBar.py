@@ -2,6 +2,7 @@
 import os
 import sys
 import json
+from Core.paths import get_data_path
 import win32gui
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLineEdit, QListWidget, 
                              QListWidgetItem, QApplication, QFrame, QLabel, QHBoxLayout)
@@ -14,8 +15,8 @@ class FloatingSearchBar(QWidget):
     def __init__(self, main_window):
         super().__init__()
         self.main_window = main_window
-        self.history_file = os.path.join("Data", "search_history.json")
-        self.config_path = os.path.join("Data", "searchbar_config.json")
+        self.history_file = get_data_path("search_history.json")
+        self.config_path = get_data_path("searchbar_config.json")
         
         # 1. Chargement de la configuration
         self.load_config()
@@ -109,10 +110,9 @@ class FloatingSearchBar(QWidget):
         # 3. Limite dynamique des éléments récents
         max_recent = self.config.get("max_recent", 3)
         self.recent_items = self.recent_items[:max_recent]
-        
-        os.makedirs("Data", exist_ok=True)
-        with open(self.history_file, "w") as f: json.dump(self.recent_items, f)
 
+        os.makedirs(get_data_path(), exist_ok=True)
+        with open(self.history_file, "w") as f: json.dump(self.recent_items, f)
     def check_focus(self):
         if not self.isVisible():
             self.focus_timer.stop()
@@ -221,10 +221,15 @@ class FloatingSearchBar(QWidget):
             clean_name = self.main_window.cleaner.clean_name(d_name, e_type)
             
             if current_mode != "All":
-                if current_mode == "FxVideo" and ("FxVideo" not in e_type or "Transition" in e_type): continue
-                if current_mode == "FxAudio" and ("FxAudio" not in e_type or "Transition" in e_type): continue
-                if current_mode == "Transition" and "Transition" not in e_type: continue
-                if current_mode == "Preset" and "Preset" not in e_type: continue
+                is_transition = "Transition" in e_type
+                is_preset = "Preset" in e_type
+                is_video = "FxVideo" in e_type and not is_transition
+                is_audio = "FxAudio" in e_type and not is_transition
+
+                if current_mode == "FxVideo" and not is_video: continue
+                if current_mode == "FxAudio" and not is_audio: continue
+                if current_mode == "Transition" and not is_transition: continue
+                if current_mode == "Preset" and not is_preset: continue
 
             target_text = f"{clean_name.lower()} {m_name.lower()}"
             if query_words and not all(word in target_text for word in query_words): 

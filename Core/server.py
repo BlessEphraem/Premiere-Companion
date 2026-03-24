@@ -2,6 +2,7 @@
 import asyncio
 import websockets
 import json
+from Core.paths import get_data_path
 from PyQt6.QtCore import QThread, pyqtSignal
 
 class ServerWorker(QThread):
@@ -91,7 +92,7 @@ class ServerWorker(QThread):
         import json
         
         # Load custom ports
-        port_settings_path = os.path.join("Data", "port_settings.json")
+        port_settings_path = get_data_path("port_settings.json")
         ws_port = 8090
         tcp_port = 8091
         if os.path.exists(port_settings_path):

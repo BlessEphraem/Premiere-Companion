@@ -4,21 +4,58 @@ import json
 import os
 import time
 import ctypes
+from Core.paths import get_data_path
 from ctypes import wintypes
 import pyautogui
 
 class EffectApplier:
     @staticmethod
+    def force_release_modifiers():
+        import ctypes
+        from ctypes import wintypes
+        user32 = ctypes.windll.user32
+        
+        class KEYBDINPUT(ctypes.Structure):
+            _fields_ = (("wVk", wintypes.WORD),
+                        ("wScan", wintypes.WORD),
+                        ("dwFlags", wintypes.DWORD),
+                        ("time", wintypes.DWORD),
+                        ("dwExtraInfo", ctypes.POINTER(wintypes.ULONG)))
+
+        class INPUT(ctypes.Structure):
+            class _I(ctypes.Union):
+                _fields_ = (("ki", KEYBDINPUT),
+                            ("mi", ctypes.c_byte * 28),
+                            ("hi", ctypes.c_byte * 32))
+            _anonymous_ = ("i",)
+            _fields_ = (("type", wintypes.DWORD),
+                        ("i", _I))
+
+        # Relâcher Ctrl, Shift, Alt, Win (et leurs variantes)
+        for vk in [0x10, 0x11, 0x12, 0x5B, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5]:
+            scan = user32.MapVirtualKeyW(vk, 0)
+            ki = KEYBDINPUT(vk, scan, 0x0002, 0, None) # 0x0002 = KEYUP
+            inp = INPUT(type=1, i=INPUT._I(ki=ki))
+            user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(INPUT))
+
+    @staticmethod
     def get_keybind(action_name):
-        path = os.path.join("Data", "pr_keybinds.json")
-        if os.path.exists(path):
+        from Core.paths import get_data_path
+        path = get_data_path("keybinds.json")
+        legacy_path = get_data_path("pr_keybinds.json")
+
+        path_to_load = path
+        if not os.path.exists(path) and os.path.exists(legacy_path):
+            path_to_load = legacy_path
+
+        if os.path.exists(path_to_load):
             try:
-                with open(path, "r", encoding="utf-8") as f:
+                with open(path_to_load, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     return data.get(action_name)
             except Exception:
                 pass
-        
+
         defaults = {
             "Window > Timelines": "Shift+3",
             "Window > Effect": "Shift+2",
@@ -40,6 +77,7 @@ class EffectApplier:
 
     @staticmethod
     def focus_premiere():
+        EffectApplier.force_release_modifiers()
         try:
             user32 = ctypes.windll.user32
             hwnds = []
@@ -81,10 +119,7 @@ class EffectApplier:
             raise ValueError(f"Unsupported effect type: {effect_type}")
 
         EffectApplier.focus_premiere()
-
-        timeline_shortcut = EffectApplier.get_keybind("Window > Timelines")
-        EffectApplier.press_shortcut(timeline_shortcut)
-        time.sleep(0.2)
+        time.sleep(0.1) # Laisse le temps à Premiere de reprendre le focus
 
         # On inclut l'alignement dans le payload envoyé à Premiere Pro
         payload = {
@@ -95,7 +130,7 @@ class EffectApplier:
         }
         
         try:
-            port_path = os.path.join("Data", "port_settings.json")
+            port_path = get_data_path("port_settings.json")
             tcp_port = 8091
             if os.path.exists(port_path):
                 with open(port_path, "r") as f:

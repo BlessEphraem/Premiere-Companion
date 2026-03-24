@@ -78,10 +78,15 @@ class SettingsPage(QWidget):
         self.searchbar_window.show()
 
     def open_theme_settings(self):
+        if hasattr(self, "theme_window") and self.theme_window.isVisible():
+            self.theme_window.raise_()
+            self.theme_window.activateWindow()
+            return
+            
         self.theme_window = ThemePage(self.mw)
         self.theme_window.setWindowTitle("Theme Configuration")
-        self.theme_window.resize(400, 300)
-        self.theme_window.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.theme_window.resize(400, 500)
+        self.theme_window.setWindowModality(Qt.WindowModality.NonModal)
         self.theme_window.show()
 
 

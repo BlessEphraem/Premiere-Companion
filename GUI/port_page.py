@@ -2,12 +2,13 @@ import os
 import json
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QHBoxLayout, QLineEdit, QCheckBox, QPushButton
 from PyQt6.QtCore import Qt
+from Core.paths import get_data_path
 
 class PortPage(QWidget):
     def __init__(self, main_window):
         super().__init__()
         self.mw = main_window
-        self.settings_path = os.path.join("Data", "port_settings.json")
+        self.settings_path = get_data_path("port_settings.json")
         self.init_ui()
 
     def init_ui(self):
@@ -84,7 +85,7 @@ class PortPage(QWidget):
             "tcp_port": int(self.inp_tcp.text() or 8091),
             "auto_connect": self.chk_auto.isChecked()
         }
-        os.makedirs("Data", exist_ok=True)
+        os.makedirs(get_data_path(), exist_ok=True)
         with open(self.settings_path, "w") as f:
             json.dump(data, f, indent=4)
         
@@ -92,7 +93,7 @@ class PortPage(QWidget):
         
     @staticmethod
     def get_ports():
-        path = os.path.join("Data", "port_settings.json")
+        path = get_data_path("port_settings.json")
         default = {"ws_port": 8090, "tcp_port": 8091, "auto_connect": False}
         if os.path.exists(path):
             try:

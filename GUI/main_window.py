@@ -3,6 +3,7 @@ import sys
 import os
 import subprocess
 import json
+from Core.paths import get_data_path
 import keyboard
 from PyQt6.QtWidgets import (QMainWindow, QLabel, QVBoxLayout, QWidget, 
                              QTextEdit, QHBoxLayout, QLineEdit, QListWidget, 
@@ -25,6 +26,8 @@ from Core.paths import get_data_path
 
 class HotkeySignal(QObject):
     trigger_search_bar = pyqtSignal()
+    trigger_transition_options = pyqtSignal(str, str)
+    log_signal = pyqtSignal(str, str)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -160,10 +163,13 @@ class MainWindow(QMainWindow):
         self.search_bar_overlay = FloatingSearchBar(self)
         self.hotkey_signal = HotkeySignal()
         self.hotkey_signal.trigger_search_bar.connect(self.search_bar_overlay.show_bar)
+        self.hotkey_signal.trigger_transition_options.connect(self.search_bar_overlay.show_transition_options)
+        self.hotkey_signal.log_signal.connect(self.append_log)
         
         self.hotkey_manager = GlobalHotkeyManager(
             trigger_callback=self.hotkey_signal.trigger_search_bar.emit,
-            log_callback=self.append_log
+            transition_callback=self.hotkey_signal.trigger_transition_options.emit,
+            log_callback=self.hotkey_signal.log_signal.emit
         )
 
         self.apply_filter_style()
@@ -238,7 +244,7 @@ class MainWindow(QMainWindow):
             return defaults
 
     def save_settings(self):
-        os.makedirs("Data", exist_ok=True)
+        os.makedirs(get_data_path(), exist_ok=True)
         with open(self.settings_path, "w") as f: json.dump(self.settings, f)
 
     def update_global_hotkey(self):
@@ -324,7 +330,7 @@ class MainWindow(QMainWindow):
     def finalize_sync(self):
         self.all_effects = self.temp_effects
         self.temp_effects = []
-        os.makedirs("Data", exist_ok=True)
+        os.makedirs(get_data_path(), exist_ok=True)
         with open(self.cache_path, "w", encoding="utf-8") as f: json.dump(self.all_effects, f, indent=4)
         self.refresh_full_list()
         self.append_log(f"✅ Database saved with {len(self.all_effects)} effects.", "#55ff55")
@@ -361,10 +367,15 @@ class MainWindow(QMainWindow):
             
             matches_type = True
             if current_mode != "All":
-                if current_mode == "FxVideo" and ("FxVideo" not in e_type or "Transition" in e_type): matches_type = False
-                elif current_mode == "FxAudio" and ("FxAudio" not in e_type or "Transition" in e_type): matches_type = False
-                elif current_mode == "Transition" and "Transition" not in e_type: matches_type = False
-                elif current_mode == "Preset" and "Preset" not in e_type: matches_type = False
+                is_transition = "Transition" in e_type
+                is_preset = "Preset" in e_type
+                is_video = "FxVideo" in e_type and not is_transition
+                is_audio = "FxAudio" in e_type and not is_transition
+
+                if current_mode == "FxVideo" and not is_video: matches_type = False
+                elif current_mode == "FxAudio" and not is_audio: matches_type = False
+                elif current_mode == "Transition" and not is_transition: matches_type = False
+                elif current_mode == "Preset" and not is_preset: matches_type = False
 
             target_text = f"{data['clean_name']} {data['match_name']}"
             matches_text = True

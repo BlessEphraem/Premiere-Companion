@@ -1,10 +1,11 @@
 import re
 import json
 import os
+from Core.paths import get_data_path
 
 class EffectCleaner:
     def __init__(self):
-        self.rules_path = os.path.join("Data", "rules.json")
+        self.rules_path = get_data_path("rules.json")
         self.rules = []
         self.load_rules()
 
@@ -17,7 +18,7 @@ class EffectCleaner:
                 self.rules = []
         else:
             self.rules = []
-            os.makedirs("Data", exist_ok=True)
+            os.makedirs(get_data_path(), exist_ok=True)
             self.save_rules()
 
     def save_rules(self, new_rules=None):

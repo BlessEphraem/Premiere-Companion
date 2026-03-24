@@ -1,4 +1,15 @@
 {
-    "accent": "#FF1796",
-    "bg": "#09090b"
+    "accent": "#FF1797",
+    "bg": "#09090b",
+    "bg_secondary": "#18181b",
+    "card_bg": "#09090b",
+    "border": "#27272a",
+    "text_main": "#e4e4e7",
+    "text_subtle": "#a1a1aa",
+    "success": "#55ff55",
+    "error": "#ff5555",
+    "info": "#55ccff",
+    "warning": "#ffaa00",
+    "primary_btn": "#3b82f6",
+    "accent_btn": "#aa00ff"
 }

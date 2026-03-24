@@ -1,0 +1,20 @@
+{
+    "Window > Timelines": "F8",
+    "Window > Effect": "Shift+F4",
+    "Search Find Box": "Ctrl+F",
+    "Run Search Bar": "Ctrl+Space",
+    "custom_hotkeys": [
+        {
+            "keybind": "Ctrl+&",
+            "vk": 49,
+            "effect_type": "FxAudio",
+            "match_name": "DeHummer"
+        },
+        {
+            "keybind": "Ctrl+\u00c9",
+            "vk": 50,
+            "effect_type": "Preset",
+            "match_name": "TRS # Tween ( Soft )"
+        }
+    ]
+}

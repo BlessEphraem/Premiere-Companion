@@ -4,8 +4,10 @@ import json
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel, QSpinBox,
                              QPushButton, QFormLayout, QSlider)
 from PyQt6.QtCore import Qt
+from Core.paths import get_data_path
+
 class SearchBarPage(QDialog):
-    CONFIG_PATH = os.path.join("Data", "searchbar_config.json")
+    CONFIG_PATH = get_data_path("searchbar_config.json")
 
     def __init__(self, main_window):
         super().__init__(main_window)
@@ -109,11 +111,10 @@ class SearchBarPage(QDialog):
             "window_width": self.slider_width.value(),
             "window_height": self.slider_height.value(),
             "font_size": self.slider_font.value()
-        }
-        
-        os.makedirs("Data", exist_ok=True)
-        with open(self.CONFIG_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
+            }
+
+            os.makedirs(get_data_path(), exist_ok=True)
+            with open(self.CONFIG_PATH, "w", encoding="utf-8") as f:            json.dump(data, f, indent=4)
         
         self.mw.append_log("✅ SearchBar settings saved!", "#55ff55")
         self.accept()
