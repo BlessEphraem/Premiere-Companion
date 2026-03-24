@@ -1,0 +1,52 @@
+[
+    {
+        "type": "Transition",
+        "pattern": "^AE\\.",
+        "replacement": ""
+    },
+    {
+        "type": "Transition",
+        "pattern": "^ADBE\\ ",
+        "replacement": ""
+    },
+    {
+        "type": "Transition",
+        "pattern": "^BCC[0-9]*[\\.\\s_]*",
+        "replacement": "BCC "
+    },
+    {
+        "type": "Transition",
+        "pattern": "^S[0-9]*[\\.\\s_]*",
+        "replacement": "S "
+    },
+    {
+        "type": "Transition",
+        "pattern": "^AE[0-9]*[\\.\\s_]*",
+        "replacement": " "
+    },
+    {
+        "type": "Transition",
+        "pattern": "^Mettle[0-9]*[\\.\\s_]*",
+        "replacement": "Mettle "
+    },
+    {
+        "type": "Transition",
+        "pattern": "^PC[0-9]*[\\.\\s_]*",
+        "replacement": "PC "
+    },
+    {
+        "type": "Transition",
+        "pattern": "^Iris[0-9]*[\\.\\s_]*",
+        "replacement": "Iris "
+    },
+    {
+        "type": "Transition",
+        "pattern": "Impact_",
+        "replacement": "Impact "
+    },
+    {
+        "type": "Transition",
+        "pattern": "PrTr$",
+        "replacement": ""
+    }
+]

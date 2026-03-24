@@ -1,0 +1,7 @@
+{
+    "max_items": 100,
+    "max_recent": 3,
+    "window_width": 600,
+    "window_height": 420,
+    "font_size": 15
+}

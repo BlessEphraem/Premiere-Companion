@@ -1,3 +1,12 @@
+### Not necessary, used only as a reference. I will upload it with time.
+# Included for reference purposes only;
+# updates will be provided over time.
+# (Note: Originally sourced from a developer who used Claude
+# but kept their code closed-source—a move I felt was unfair to the community,
+# hence why I will soon sharing it here.)"
+bridge.js
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -204,4 +213,8 @@ cython_debug/
 # Marimo
 marimo/_static/
 marimo/_lsp/
+<<<<<<< HEAD
 __marimo__/
+=======
+__marimo__/
+>>>>>>> 673f862 (Initial commit)

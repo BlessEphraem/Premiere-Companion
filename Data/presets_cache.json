@@ -1,0 +1,596 @@
+[
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Border",
+        "displayName": "ADJ # Border",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Contrast",
+        "displayName": "ADJ # Contrast",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Crop",
+        "displayName": "ADJ # Crop",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Drop Shadow",
+        "displayName": "ADJ # Drop Shadow",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Gamma",
+        "displayName": "ADJ # Gamma",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Green Screen",
+        "displayName": "ADJ # Green Screen",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Levels",
+        "displayName": "ADJ # Levels",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Noise",
+        "displayName": "ADJ # Noise",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Rounded Corner",
+        "displayName": "ADJ # Rounded Corner",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ADJ # Saturation HSV",
+        "displayName": "ADJ # Saturation HSV",
+        "parentFolder": "0.    Framework"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # Black & White",
+        "displayName": "COLOR # Black & White",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # Burned",
+        "displayName": "COLOR # Burned",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # Day to Night",
+        "displayName": "COLOR # Day to Night",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # Dream",
+        "displayName": "COLOR # Dream",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # HighSat Vignette Blur  ( Black )",
+        "displayName": "COLOR # HighSat Vignette Blur  ( Black )",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "COLOR # HighSat Vignette Blur  ( White )",
+        "displayName": "COLOR # HighSat Vignette Blur  ( White )",
+        "parentFolder": "1.    Color"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Tween ( Soft )",
+        "displayName": "TRS # Tween ( Soft )",
+        "parentFolder": "0.    Essentials"
+    },
+    {
+        "type": "Preset",
+        "matchName": "@COLAS ~ TRF # Ease ( Center )",
+        "displayName": "@COLAS ~ TRF # Ease ( Center )",
+        "parentFolder": "1.    Specific"
+    },
+    {
+        "type": "Preset",
+        "matchName": "@COLAS ~ TRF # Ease ( Gameplay )",
+        "displayName": "@COLAS ~ TRF # Ease ( Gameplay )",
+        "parentFolder": "1.    Specific"
+    },
+    {
+        "type": "Preset",
+        "matchName": "@LORD ~ TRF # Talking",
+        "displayName": "@LORD ~ TRF # Talking",
+        "parentFolder": "1.    Specific"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Linear  (  105%  )",
+        "displayName": "TRF # Linear  (  105%  )",
+        "parentFolder": "2.    Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Linear  (  110%  )",
+        "displayName": "TRF # Linear  (  110%  )",
+        "parentFolder": "2.    Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Linear  (  115%  )",
+        "displayName": "TRF # Linear  (  115%  )",
+        "parentFolder": "2.    Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Ease ( Hard )",
+        "displayName": "TRF # Ease ( Hard )",
+        "parentFolder": "3.    Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Ease ( Medium )",
+        "displayName": "TRF # Ease ( Medium )",
+        "parentFolder": "3.    Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Ease ( Soft )",
+        "displayName": "TRF # Ease ( Soft )",
+        "parentFolder": "3.    Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Camera Handheld",
+        "displayName": "WIGGLE # Camera Handheld",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Earthquake",
+        "displayName": "WIGGLE # Earthquake",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Low ( 050 )",
+        "displayName": "WIGGLE # Low ( 050 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Low ( 100 )",
+        "displayName": "WIGGLE # Low ( 100 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Low ( 150 )",
+        "displayName": "WIGGLE # Low ( 150 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Med ( 050 )",
+        "displayName": "WIGGLE # Med ( 050 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Med ( 100 )",
+        "displayName": "WIGGLE # Med ( 100 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Med ( 150 )",
+        "displayName": "WIGGLE # Med ( 150 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "WIGGLE # Med ( 400 )",
+        "displayName": "WIGGLE # Med ( 400 )",
+        "parentFolder": "1.    Wiggle"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Bounce",
+        "displayName": "TRF # Bounce",
+        "parentFolder": "2.    Loop"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Bounce Rotating",
+        "displayName": "TRF # Bounce Rotating",
+        "parentFolder": "2.    Loop"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Laughing",
+        "displayName": "TRF # Laughing",
+        "parentFolder": "2.    Loop"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRF # Walk",
+        "displayName": "TRF # Walk",
+        "parentFolder": "2.    Loop"
+    },
+    {
+        "type": "Preset",
+        "matchName": "@COLAS ~ TRF # Cloth Left",
+        "displayName": "@COLAS ~ TRF # Cloth Left",
+        "parentFolder": "9.    Outro"
+    },
+    {
+        "type": "Preset",
+        "matchName": "@COLAS ~ TRF # Cloth Right",
+        "displayName": "@COLAS ~ TRF # Cloth Right",
+        "parentFolder": "9.    Outro"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Opacity  ( Blur )",
+        "displayName": "TRS # Opacity  ( Blur )",
+        "parentFolder": "1.     Opacity"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide  ( \ud83e\udc81 )",
+        "displayName": "TRS # Slide  ( \ud83e\udc81 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide  ( \ud83e\udc82 )",
+        "displayName": "TRS # Slide  ( \ud83e\udc82 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide  ( \ud83e\udc83 )",
+        "displayName": "TRS # Slide  ( \ud83e\udc83 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide  (\ud83e\udc80 )",
+        "displayName": "TRS # Slide  (\ud83e\udc80 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide Over  ( \ud83e\udc80 )",
+        "displayName": "TRS # Slide Over  ( \ud83e\udc80 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide Over  ( \ud83e\udc81 )",
+        "displayName": "TRS # Slide Over  ( \ud83e\udc81 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide Over  ( \ud83e\udc82 )",
+        "displayName": "TRS # Slide Over  ( \ud83e\udc82 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Slide Over  ( \ud83e\udc83 )",
+        "displayName": "TRS # Slide Over  ( \ud83e\udc83 )",
+        "parentFolder": "2.     Slide"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Block  ( \ud83e\udc80 )",
+        "displayName": "TRS # Block  ( \ud83e\udc80 )",
+        "parentFolder": "3.     Block"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Block  ( \ud83e\udc81 )",
+        "displayName": "TRS # Block  ( \ud83e\udc81 )",
+        "parentFolder": "3.     Block"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Block  ( \ud83e\udc82 )",
+        "displayName": "TRS # Block  ( \ud83e\udc82 )",
+        "parentFolder": "3.     Block"
+    },
+    {
+        "type": "Preset",
+        "matchName": "TRS # Block  ( \ud83e\udc83 )",
+        "displayName": "TRS # Block  ( \ud83e\udc83 )",
+        "parentFolder": "3.     Block"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hold  ( 105% )",
+        "displayName": "ZOOM # Hold  ( 105% )",
+        "parentFolder": "0.     Hold"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hold  ( 110% )",
+        "displayName": "ZOOM # Hold  ( 110% )",
+        "parentFolder": "0.     Hold"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hold  ( 115% )",
+        "displayName": "ZOOM # Hold  ( 115% )",
+        "parentFolder": "0.     Hold"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Linear  ( 105% )",
+        "displayName": "ZOOM # Linear  ( 105% )",
+        "parentFolder": "1.     Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Linear  ( 110% )",
+        "displayName": "ZOOM # Linear  ( 110% )",
+        "parentFolder": "1.     Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Linear  ( 115% )",
+        "displayName": "ZOOM # Linear  ( 115% )",
+        "parentFolder": "1.     Linear"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Ease  ( 105% )",
+        "displayName": "ZOOM # Ease  ( 105% )",
+        "parentFolder": "2.     Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Ease  ( 110% )",
+        "displayName": "ZOOM # Ease  ( 110% )",
+        "parentFolder": "2.     Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Ease  ( 115% )",
+        "displayName": "ZOOM # Ease  ( 115% )",
+        "parentFolder": "2.     Ease"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard IN  ( 105% )",
+        "displayName": "ZOOM # Hard IN  ( 105% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard IN  ( 110% )",
+        "displayName": "ZOOM # Hard IN  ( 110% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard IN  ( 115% )",
+        "displayName": "ZOOM # Hard IN  ( 115% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard OUT  ( 105% )",
+        "displayName": "ZOOM # Hard OUT  ( 105% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard OUT  ( 115% )",
+        "displayName": "ZOOM # Hard OUT  ( 115% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "ZOOM # Hard OUT  ( 115% )",
+        "displayName": "ZOOM # Hard OUT  ( 115% )",
+        "parentFolder": "3.     Hard"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # Chroma  ( 1 )",
+        "displayName": "GLOW # Chroma  ( 1 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # Chroma  ( 2 )",
+        "displayName": "GLOW # Chroma  ( 2 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # Chroma  ( 3 )",
+        "displayName": "GLOW # Chroma  ( 3 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # White  ( 1 )",
+        "displayName": "GLOW # White  ( 1 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # White  ( 2 )",
+        "displayName": "GLOW # White  ( 2 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "GLOW # White  ( 3 )",
+        "displayName": "GLOW # White  ( 3 )",
+        "parentFolder": "1.    Glow"
+    },
+    {
+        "type": "Preset",
+        "matchName": "BLUR # Bokeh",
+        "displayName": "BLUR # Bokeh",
+        "parentFolder": "2.    Blur"
+    },
+    {
+        "type": "Preset",
+        "matchName": "BLUR # Gaussian",
+        "displayName": "BLUR # Gaussian",
+        "parentFolder": "2.    Blur"
+    },
+    {
+        "type": "Preset",
+        "matchName": "VIGNETTE # Black  ( 1 )",
+        "displayName": "VIGNETTE # Black  ( 1 )",
+        "parentFolder": "3.    Vignette"
+    },
+    {
+        "type": "Preset",
+        "matchName": "VIGNETTE # Blur  ( 1 )",
+        "displayName": "VIGNETTE # Blur  ( 1 )",
+        "parentFolder": "3.    Vignette"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Flash ( Red )",
+        "displayName": "FX # Flash ( Red )",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Impact Shake",
+        "displayName": "FX # Impact Shake",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Light Leaks",
+        "displayName": "FX # Light Leaks",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Pixelize",
+        "displayName": "FX # Pixelize",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Scribble",
+        "displayName": "FX # Scribble",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "FX # Wave",
+        "displayName": "FX # Wave",
+        "parentFolder": "1.    All"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Anti-Pop",
+        "displayName": "SFX # Anti-Pop",
+        "parentFolder": "1.    Mixing"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # DeEsser",
+        "displayName": "SFX # DeEsser",
+        "parentFolder": "1.    Mixing"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # DeNoise",
+        "displayName": "SFX # DeNoise",
+        "parentFolder": "1.    Mixing"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Hard Limiter -6",
+        "displayName": "SFX # Hard Limiter -6",
+        "parentFolder": "1.    Mixing"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Alien Voice",
+        "displayName": "SFX # Alien Voice",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Bass Boost",
+        "displayName": "SFX # Bass Boost",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Closed Door",
+        "displayName": "SFX # Closed Door",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Cursed Bass",
+        "displayName": "SFX # Cursed Bass",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Demon Voice",
+        "displayName": "SFX # Demon Voice",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Distortion",
+        "displayName": "SFX # Distortion",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Flanger Alien",
+        "displayName": "SFX # Flanger Alien",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # High Pitch Voice",
+        "displayName": "SFX # High Pitch Voice",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Low Pitch Voice",
+        "displayName": "SFX # Low Pitch Voice",
+        "parentFolder": "2.    Effects"
+    },
+    {
+        "type": "Preset",
+        "matchName": "SFX # Open Door",
+        "displayName": "SFX # Open Door",
+        "parentFolder": "2.    Effects"
+    }
+]
