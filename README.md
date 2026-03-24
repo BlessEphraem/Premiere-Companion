@@ -1,4 +1,9 @@
-# 🎬 Premiere Companion
+# Premiere Companion
+
+<p align="center">
+  <img src="./Icons/icon.ico" width="200" alt="Logo Premiere Companion">
+</p>
+
 **Premiere Companion** is a productivity tool for Adobe Premiere Pro that lets you instantly apply **video effects**, **audio effects**, **transitions**, and **presets** — all from a fast, keyboard-driven search bar without ever leaving your timeline.
 > Think of it as a Excalibur plugin alternatives, but can apply Presets too, and for FREE and Open Source.
 
