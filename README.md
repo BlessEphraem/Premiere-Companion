@@ -16,7 +16,7 @@
 - **⚡ Instant Search Bar** — Summon a floating search bar from anywhere with a fully customizable shortcut (default: `Ctrl+Space`) while Premiere Pro is in focus.
 - **🗂️ Category Navigation** — Use the `←` / `→` arrow keys to cycle through element categories (Transitions, Video FX, Audio FX, Presets, All) without touching the mouse.
 - **🔍 Live Filtering** — Results update as you type with a smart scoring algorithm that prioritizes recently used items.
-- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](#-how-to-enable-quick-apply-apply-presets).)_
+- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](#-how-to-enable-quick-apply-apply-presets)_
 - **🔌 WebSocket Bridge** — Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
 
 <p align="center">
@@ -56,7 +56,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
 ## 🏁 First Run
 
 <p align="center">
-  <img src=".docs/medias/preview_MainPage.png" width="100%" alt="Preview Search Bar">
+  <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
 </p>
 
 By default, **transitions, video effects, and audio effects** work immediately once connected. To make Preset apply-able, it will need a further confguration.
