@@ -20,17 +20,20 @@ Before using Premiere Companion, make sure you have:
 
 ---
 
-## 🚀 How to Install
+## 🚀 Installation
 > ⚠️ **Reminder:** Install the UXP plugin first before proceeding. See [Prerequisites] above.
 
-### ✅ Recommended — Download the Latest Release
-1. Go to the [**Releases**](https://github.com/BlessEphraem/Premiere-Companion/releases) page.
-2. Download the latest packaged build.
-3. Extract and run **Premiere Companion** — no additional setup required.
+### ✅ Recommended — Download the Setup.exe
+1. Download the setup [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/2.1.0) page.
+2. Install and enjoy !
+
+### ✅ Recommended — Download the portable version
+1. Download the .zip archive [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/2.1.0_portable) page.
+2. Extract and run **Premiere Companion** — no additional setup required.
 The release build is pre-packaged and ready to use out of the box.
 
 ### 🛠️ From Source — Run the `.pyw` Script
-If you prefer to run directly from source:
+If you prefer to run directly from source, clone this repo.
 **Before running `Premiere Companion.pyw`, install the required dependencies:**
 ```bash
 pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
@@ -71,10 +74,6 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 ## 📖 Usage Guide
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/Searchbar.md).
 > ⚠️ Only Transition, native Premiere Video/Audio Effect will work. If you wan't to apply Presets, you need some configuration. See the []
-
----
-
-
 
 ---
 
