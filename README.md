@@ -8,8 +8,7 @@
 > Think of it as a Excalibur plugin alternatives, but can apply Presets too, and for FREE and Open Source.
 
 <p align="center">
-  <video src="./.docs/medias/preview_SearchBar.mp4" width="100%" muted autoplay loop playsinline>
-    votre navigateur ne supporte pas la lecture de vidéos.
+  <video src="./.docs/medias/preview_SearchBar.gif" width="100%" muted autoplay loop playsinline>
   </video>
 </p>
 
