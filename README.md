@@ -8,8 +8,7 @@
 > Think of it as a Excalibur plugin alternatives, but can apply Presets too, and for FREE and Open Source.
 
 <p align="center">
-  <video src="./.docs/medias/preview_SearchBar.gif" width="100%" muted autoplay loop playsinline>
-  </video>
+  <img src=".docs/medias/preview_SearchBar.gif" width="100%" alt="Preview Search Bar">
 </p>
 
 ## ✨ Features
@@ -20,9 +19,7 @@
 - **🔌 WebSocket Bridge** — Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
 
 <p align="center">
-  <video src="./.docs/medias/preview_ApplyingEffectsAndPresets.mp4" width="100%" muted autoplay loop playsinline>
-    votre navigateur ne supporte pas la lecture de vidéos.
-  </video>
+  <img src=".docs/medias/preview_ApplyingEffectsAndPresets.gif" width="100%" alt="Applying Effects and Presets">
 </p>
 
 ---
