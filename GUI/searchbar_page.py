@@ -111,10 +111,11 @@ class SearchBarPage(QDialog):
             "window_width": self.slider_width.value(),
             "window_height": self.slider_height.value(),
             "font_size": self.slider_font.value()
-            }
+        }
 
-            os.makedirs(get_data_path(), exist_ok=True)
-            with open(self.CONFIG_PATH, "w", encoding="utf-8") as f:            json.dump(data, f, indent=4)
+        os.makedirs(get_data_path(), exist_ok=True)
+        with open(self.CONFIG_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
         
         self.mw.append_log("✅ SearchBar settings saved!", "#55ff55")
         self.accept()

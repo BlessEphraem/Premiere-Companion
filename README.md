@@ -12,10 +12,11 @@
 </p>
 
 ## ✨ Features
+- **💫 NEW: Apply anything with Custom Hotkeys** — Create as many shortcuts as you like to apply effects, transitions, and even presets.
 - **⚡ Instant Search Bar** — Summon a floating search bar from anywhere with a fully customizable shortcut (default: `Ctrl+Space`) while Premiere Pro is in focus.
 - **🗂️ Category Navigation** — Use the `←` / `→` arrow keys to cycle through element categories (Transitions, Video FX, Audio FX, Presets, All) without touching the mouse.
 - **🔍 Live Filtering** — Results update as you type with a smart scoring algorithm that prioritizes recently used items.
-- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](.docs/QuickApply.md).)_
+- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](#-how-to-enable-quick-apply-apply-presets).)_
 - **🔌 WebSocket Bridge** — Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
 
 <p align="center">
@@ -37,7 +38,7 @@ Before using Premiere Companion, make sure you have:
 > ⚠️ **Reminder:** Install the UXP plugin first before proceeding. See [Prerequisites] above.
 
 ### ✅ Recommended — Download the Setup / Portable version
-1. Choose the "setup.exe" or the "portable.zip" here: [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/3.0.0) page.
+1. Choose the "setup.exe" or the "portable.zip" [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/3.0.0) page.
 2. Install and enjoy !
 * For the Portable version:
 The release build is pre-packaged and ready to use out of the box.
@@ -83,6 +84,43 @@ To fix this, go to the **Regex Cleaner** page and use one of these options:
 - **🤖 Auto-Generate Rules** — Analyzes all your fetched transitions and automatically builds cleanup rules. Works well for most setups.
 - **📄 Import my personal rules file** — Download and use my pre-made regex ruleset, crafted specifically for a clean Premiere Pro effect list. _(Link coming soon)_
 Rules are applied in order and can be individually reordered, edited, or deleted.
+
+## ⚡ How to Enable 'Quick Apply' (Apply Presets)
+Quick Apply lets you apply your saved Premiere Pro presets directly from the search bar, using screen capture and hardware-level mouse/keyboard simulation.
+
+### How it works
+Quick Apply works by recording the **exact screen position** of a preset icon in Premiere Pro's effect browser. When you apply a preset from the search bar, the app automatically:
+
+1. Opens the Effects panel
+2. Types the preset name in the search box
+3. Drags the preset from its recorded position to your timeline cursor
+For this to work reliably, **all your presets must be stored at the same folder depth** in Premiere Pro's preset browser, so that a search always returns exactly one result at a consistent screen position.
+
+### Setup Steps
+**Step 1 — Assign Keybinds**
+Go to the **Keymaps** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
+
+|Action|Default|
+|---|---|
+|Window > Effect|`Shift+2`|
+|Search Find Box|`Shift+F`|
+|Window > Timelines|`Shift+3`|
+> ⚠️ This is critical. If these shortcuts don't match Premiere Pro's actual keybindings, preset capture and application will fail.
+
+**Step 2 — Run the Configuration Wizard**
+1. Go to **Settings** and click **"⚙️ Configure"** under the Quick Apply section.
+2. Select your **Premiere Pro version** from the dropdown. This is used exclusively to locate your preset file on disk — it has **no effect** on how effects and transitions are fetched (that happens automatically via the plugin).
+3. In Premiere Pro's effect browser, search for **one specific preset** — make sure only **one result** appears in the list.
+4. Click **"🎯 Launch Calibration (5s)"** in the wizard, then move your mouse cursor over the preset icon in Premiere Pro within the 5-second countdown.
+5. After 5 seconds, the app will verify that the Effects search bar is correctly focused. If validation fails, double-check your keybinds.
+
+**Step 3 — Keep Your Layout Stable**
+> ⚠️ Do not move or resize the Premiere Pro window after calibration. The recorded position is absolute. If the window moves, you must re-run the calibration wizard.
+
+**Step 4 — Fetch Presets**
+Click **"Fetch Presets"** in the main application. Your presets will be indexed and will appear in the search bar under the `Preset` category.
+
+That's it — you can now apply presets instantly from the search bar! 🎉
 
 ---
 
