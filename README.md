@@ -16,7 +16,7 @@ Before using Premiere Companion, make sure you have:
 - **Adobe Premiere Pro 25.6.1** or a **Beta version** that supports **UXP plugins**.
 - The **Premiere Companion UXP Plugin** installed inside Premiere Pro.
 > ⚠️ **The UXP plugin is mandatory regardless of which installation method you choose.** Premiere Companion cannot communicate with Premiere Pro without it.
-📦 **Plugin download & installation guide:** []()
+📦 **Plugin download & installation guide:** [Premiere Companion (Listener)](https://github.com/BlessEphraem/Premiere-Companion-UXP)
 
 ---
 
@@ -72,7 +72,7 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 ---
 
 ## 📖 Usage Guide
-Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/Searchbar.md).
+Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/SearchBar.md) ***IN PROGRESS***.
 > ⚠️ Only Transition, native Premiere Video/Audio Effect will work. If you wan't to apply Presets, you need some configuration. See the []
 
 ---
