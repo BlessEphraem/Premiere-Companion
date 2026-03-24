@@ -55,7 +55,7 @@ By default, **transitions, video effects, and audio effects** work immediately o
 
 ### 2. Fetch Effects & Transitions
 1. In Premiere Companion, click **"Fetch Effects"** and wait for the process to complete.
-    > ℹ️ The application may appear unresponsive during the sync — this is normal. Do not close it, just wait.
+    > ℹ️ The application may appear unresponsive during the sync — this is normal. Do not close it, just wait.
 2. Once done, all your effects and transitions are indexed and searchable.
 
 🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
