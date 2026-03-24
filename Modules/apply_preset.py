@@ -7,6 +7,7 @@ import win32gui
 import win32con
 import win32api
 import pynput
+import ctypes
 from PyQt6.QtWidgets import QApplication
 from Modules.apply_effect import EffectApplier
 
@@ -191,12 +192,19 @@ class PresetApplier:
         PresetApplier.send_shortcut("ctrl+v")
         time.sleep(delay)
 
-        # Déplacement et Drag & Drop
-        pyautogui.moveTo(config["mouse_x"], config["mouse_y"], duration=0.1)
-        pyautogui.mouseDown(button='left')
-        time.sleep(0.05)
-        pyautogui.moveTo(orig_x, orig_y, duration=0.1)
-        # On ne relâche pas le bouton pour laisser le preset accroché à la souris
-        # pyautogui.mouseUp(button='left')
+        # Déplacement et Drag & Drop avec blocage matériel
+        try:
+            # 🔒 BLOQUE les entrées (souris + clavier) de l'utilisateur
+            ctypes.windll.user32.BlockInput(True)
+            
+            pyautogui.moveTo(config["mouse_x"], config["mouse_y"], duration=0.1)
+            pyautogui.mouseDown(button='left')
+            time.sleep(0.05)
+            pyautogui.moveTo(orig_x, orig_y, duration=0.1)
+            # On ne relâche pas le bouton pour laisser le preset accroché à la souris
+            
+        finally:
+            # 🔓 DÉBLOQUE TOUJOURS les entrées, même en cas de crash pendant le mouvement !
+            ctypes.windll.user32.BlockInput(False)
 
         return True, "Preset ready to be dropped."

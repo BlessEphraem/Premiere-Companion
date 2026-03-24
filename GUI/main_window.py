@@ -20,6 +20,8 @@ from GUI.keymaps_page import KeymapsPage
 from GUI.regex_page import RegexPage
 
 from Modules.SearchBar import FloatingSearchBar
+from Modules.fetch_effects import trigger_effect_sync
+from Core.paths import get_data_path
 
 class HotkeySignal(QObject):
     trigger_search_bar = pyqtSignal()
@@ -27,16 +29,16 @@ class HotkeySignal(QObject):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Ultimate Companion - V3")
+        self.setWindowTitle("Premiere Companion")
         self.resize(750, 850)
         self.setMinimumSize(500, 600)
 
         self.cleaner = EffectCleaner()
         self.all_effects = []
         self.all_presets = []
-        self.cache_path = os.path.join("Data", "effects_cache.json")
-        self.presets_cache_path = os.path.join("Data", "presets_cache.json")
-        self.settings_path = os.path.join("Data", "settings.json")
+        self.cache_path = get_data_path("effects_cache.json")
+        self.presets_cache_path = get_data_path("presets_cache.json")
+        self.settings_path = get_data_path("settings.json")
         self.settings = self.load_settings()
 
         self.filter_modes = [
@@ -259,12 +261,18 @@ class MainWindow(QMainWindow):
         self.switch_page(0, self.btn_main)
 
     def trigger_fetch_script(self):
+        """Lance la synchronisation des effets dans un thread séparé pour ne pas figer l'UI"""
+        import threading
         try:
-            self.temp_effects = [] 
-            self.append_log("Executing fetch_effects.py script... Please wait.", "#aaaaaa")
-            subprocess.Popen([sys.executable, os.path.join("Modules", "fetch_effects.py")])
+            self.temp_effects = []
+            self.append_log("⚡ Synchronizing effects from Premiere Pro...", "#55ccff")
+            
+            # On lance la fonction de Modules/fetch_effects.py directement dans un thread
+            thread = threading.Thread(target=trigger_effect_sync, daemon=True)
+            thread.start()
+            
         except Exception as e:
-            self.append_log(f"Execution error: {e}", "#ff5555")
+            self.append_log(f"❌ Synchronization error: {e}", "#ff5555")
 
     def populate_effects(self, effects):
         self.temp_effects.extend(effects)

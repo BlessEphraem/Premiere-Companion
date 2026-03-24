@@ -15,21 +15,18 @@ def fetch_presets(version_folder):
     # 2. Trouver le dossier Profile-*
     profile_dirs = glob.glob(os.path.join(target_dir, "Profile-*"))
     if not profile_dirs:
-        print(f"ERROR:No 'Profile-*' folder found in {target_dir}")
-        sys.exit(1)
+        raise Exception(f"No 'Profile-*' folder found in {target_dir}")
         
     xml_file = os.path.join(profile_dirs[0], "Effect Presets and Custom Items.prfpset")
     if not os.path.exists(xml_file):
-        print("ERROR:PRFPSET file not found.")
-        sys.exit(1)
+        raise Exception("PRFPSET file not found.")
 
     # 3. Parsing XML
     try:
         tree = ET.parse(xml_file)
         root_xml = tree.getroot()
     except Exception as e:
-        print(f"ERROR:Cannot load XML file: {e}")
-        sys.exit(1)
+        raise Exception(f"Cannot load XML file: {e}")
 
     items_map = {}
     preset_ids = {p.get("ObjectID") for p in root_xml.findall(".//FilterPresetItem")}
@@ -50,15 +47,13 @@ def fetch_presets(version_folder):
 
     root_node = root_xml.find(".//RootBin")
     if root_node is None:
-        print("ERROR:Root folder not found in XML.")
-        sys.exit(1)
+        raise Exception(f"ERROR:Root folder not found in XML.")
         
     root_ref = root_node.get("ObjectRef")
     root_container = items_map.get(root_ref)
 
     if not root_container:
-        print("ERROR:Root container not found.")
-        sys.exit(1)
+        raise Exception("ERROR:Root container not found.")
 
     # 4. Règle de sécurité : Maximum 1 dossier custom en dehors de "Presets"
     custom_roots = []
@@ -68,8 +63,7 @@ def fetch_presets(version_folder):
             custom_roots.append(node["Name"])
 
     if len(custom_roots) > 1:
-        print(f"ERROR:Unstable structure! You have {len(custom_roots)} folders ({', '.join(custom_roots)}) at root outside 'Presets'. You must only have one maximum. Please clean up Premiere Pro.")
-        sys.exit(1)
+        raise Exception(f"ERROR:Unstable structure! You have {len(custom_roots)} folders ({', '.join(custom_roots)}) at root outside 'Presets'. You must only have one maximum. Please clean up Premiere Pro.")
 
     # 5. Extraction des presets
     extracted_presets = []

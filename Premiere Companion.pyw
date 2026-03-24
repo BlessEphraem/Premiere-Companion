@@ -24,12 +24,14 @@ if sys.stderr is None:
 os.environ["QT_LOGGING_RULES"] = "qt.qpa.window=false"
 
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtGui import QIcon
 from GUI.main_window import MainWindow
+from Core.paths import get_data_path, get_base_path
 
 def get_theme_colors():
     """Charge les couleurs de l'utilisateur depuis le JSON ou utilise celles par défaut"""
     defaults = {"accent": "#FF1796", "bg": "#09090b"}
-    theme_path = os.path.join("Data", "theme.json")
+    theme_path = get_data_path("theme.json")
     
     if os.path.exists(theme_path):
         try:
@@ -40,23 +42,43 @@ def get_theme_colors():
     return defaults
 
 def main():
+    myappid = 'ephraem.premierecompanion'
+    try:
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    except Exception:
+        pass
+
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
+
+    # --- CHARGEMENT DE L'ICÔNE ---
+    # Recherche l'icône dans Icons/icon.ico (relativement au dossier de base)
+    base_dir = get_base_path()
+    icon_path = os.path.join(base_dir, "Icons", "icon.ico")
+    
+    # Fallback pour PyInstaller (si Icons n'est pas trouvé)
+    if not os.path.exists(icon_path):
+        icon_path = os.path.join(base_dir, "icon.ico")
+
+    app_icon = None
+    if os.path.exists(icon_path):
+        app_icon = QIcon(icon_path)
+        app.setWindowIcon(app_icon)
 
     # 1. Récupération des couleurs
     colors = get_theme_colors()
     ACCENT = colors.get("accent", "#FF1796")
     BG = colors.get("bg", "#09090b")
 
-    # 2. Nettoyage silencieux de l'ancien fichier .qss s'il existe (pour éviter les conflits)
-    old_style_path = os.path.join("Data", "style.qss")
+    # 2. Nettoyage silencieux de l'ancien fichier .qss s'il existe
+    old_style_path = get_data_path("style.qss")
     if os.path.exists(old_style_path):
         try:
             os.remove(old_style_path)
         except:
             pass
 
-    # 3. Le QSS dynamique complet (basé EXACTEMENT sur ton QSS d'origine pour ne rien casser)
+    # 3. Le QSS dynamique complet
     dynamic_qss = f"""
     QMainWindow, QWidget {{ background-color: {BG}; color: #e4e4e7; font-family: "Inter", "Segoe UI", "-apple-system", "Helvetica Neue", sans-serif; font-size: 14px; }}
     QLabel {{ background-color: transparent; color: #e4e4e7; font-weight: 500; }}
@@ -120,10 +142,14 @@ def main():
     QLabel#RegexRuleText {{ color: #e4e4e7; font-size: 14px; background: transparent; }}
     """
 
-    # 4. On applique le style dynamiquement
     app.setStyleSheet(dynamic_qss)
 
     window = MainWindow()
+    
+    # Applique aussi l'icône spécifiquement à la fenêtre principale par sécurité
+    if app_icon:
+        window.setWindowIcon(app_icon)
+        
     window.show()
 
     sys.exit(app.exec())

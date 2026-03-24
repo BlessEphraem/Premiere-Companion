@@ -27,6 +27,8 @@ J'doit le corrigé
 
 ## 💡 Ideas
 
+- [ ] Panneau "Hotkeys" pour permettre des executions rapide basé sur des raccourcis clavier (ex: "Ctrl+1" pour "Appliquer Preset01")
+
 ---
 
 ## ✅ Done
