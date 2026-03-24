@@ -6,6 +6,15 @@
 # hence why I will soon sharing it here.)"
 bridge.js
 
+# My personnal and non-essential user config files
+effects_cache.json
+presets_cache.json
+search_history.json
+quick_apply_config.json
+port_settings.json
+pr_keybinds.json
+settings.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -6,7 +6,7 @@
 - **⚡ Instant Search Bar** — Summon a floating search bar from anywhere with a fully customizable shortcut (default: `Ctrl+Space`) while Premiere Pro is in focus.
 - **🗂️ Category Navigation** — Use the `←` / `→` arrow keys to cycle through element categories (Transitions, Video FX, Audio FX, Presets, All) without touching the mouse.
 - **🔍 Live Filtering** — Results update as you type with a smart scoring algorithm that prioritizes recently used items.
-- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply].)_
+- **🎯 Preset Support (Quick Apply)** — Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation. _(Requires initial configuration — see [How to enable Quick Apply](.docs/QuickApply.md).)_
 - **🔌 WebSocket Bridge** — Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
 
 ---
@@ -16,7 +16,7 @@ Before using Premiere Companion, make sure you have:
 - **Adobe Premiere Pro 25.6.1** or a **Beta version** that supports **UXP plugins**.
 - The **Premiere Companion UXP Plugin** installed inside Premiere Pro.
 > ⚠️ **The UXP plugin is mandatory regardless of which installation method you choose.** Premiere Companion cannot communicate with Premiere Pro without it.
-📦 **Plugin download & installation guide:** [https://your-plugin-link.example.com](https://your-plugin-link.example.com/)
+📦 **Plugin download & installation guide:** []()
 
 ---
 
@@ -24,7 +24,7 @@ Before using Premiere Companion, make sure you have:
 > ⚠️ **Reminder:** Install the UXP plugin first before proceeding. See [Prerequisites] above.
 
 ### ✅ Recommended — Download the Latest Release
-1. Go to the [**Releases**](https://claude.ai/releases) page.
+1. Go to the [**Releases**](https://github.com/BlessEphraem/Premiere-Companion/releases) page.
 2. Download the latest packaged build.
 3. Extract and run **Premiere Companion** — no additional setup required.
 The release build is pre-packaged and ready to use out of the box.
@@ -40,7 +40,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
 ---
 
 ## 🏁 First Run
-By default, **transitions, video effects, and audio effects** work immediately once connected. Presets require an additional configuration step described [below].
+By default, **transitions, video effects, and audio effects** work immediately once connected. To make Preset apply-able, it will need a further confguration.
 
 ### 1. Connect to Premiere Pro
 1. Open Premiere Pro and load the **Premiere Companion** panel from the UXP plugin manager.
@@ -69,7 +69,7 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 ---
 
 ## 📖 Usage Guide
-Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.wiki/Searchbar.md).
+Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/Searchbar.md).
 > ⚠️ Only Transition, native Premiere Video/Audio Effect will work. If you wan't to apply Presets, you need some configuration. See the []
 
 ---

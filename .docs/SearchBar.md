@@ -112,7 +112,7 @@ Use `↑` / `↓` to select the alignment, then press `Enter` to confirm. Press 
 
 ## Applying Presets (Quick Apply)
 
-> Requires **Quick Apply** to be configured and enabled. See the [main README](https://claude.ai/README.md#-how-to-enable-quick-apply-apply-presets).
+> Requires **Quick Apply** to be configured and enabled. See the [main README](../README.md).
 
 When Quick Apply is enabled, selecting a preset and pressing `Enter` triggers the following automated sequence:
 

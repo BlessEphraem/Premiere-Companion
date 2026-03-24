@@ -209,8 +209,7 @@ class MainWindow(QMainWindow):
     def load_settings(self):
         # 1. Tes réglages de base (à compléter au fur et à mesure des versions)
         defaults = {
-            "quick_apply_enabled": False,
-            "last_filter": "All" # Exemple d'ajout futur
+            "quick_apply_enabled": False
         }
         
         if not os.path.exists(self.settings_path):
