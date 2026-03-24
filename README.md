@@ -56,6 +56,11 @@ pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
 ---
 
 ## 🏁 First Run
+
+<p align="center">
+  <img src=".docs/medias/preview_MainPage.png" width="100%" alt="Preview Search Bar">
+</p>
+
 By default, **transitions, video effects, and audio effects** work immediately once connected. To make Preset apply-able, it will need a further confguration.
 
 ### 1. Connect to Premiere Pro
