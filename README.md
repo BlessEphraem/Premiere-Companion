@@ -23,7 +23,7 @@
   <img src=".docs/medias/preview_ApplyingEffectsAndPresets.gif" width="100%" alt="Applying Effects and Presets">
 </p>
 
----
+## ⚠️ Known Limitation - Undo Grouping: Currently, applying an effect to multiple clips requires pressing Undo (Ctrl/Cmd+Z) for each individual clip to revert the changes. I am actively working on an update to group these into a single Undo action!
 
 ## 📋 Prerequisites
 Before using Premiere Companion, make sure you have:
