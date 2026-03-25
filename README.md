@@ -39,7 +39,7 @@ Before using Premiere Companion, make sure you have:
 
 ### ✅ Recommended — Download the Setup / Portable version
 1. Choose the "setup.exe" or the "portable.zip" [**here**](https://github.com/BlessEphraem/Premiere-Companion/releases/tag/3.0.0) page.
-2. Install and enjoy !
+2. Install.
 * For the Portable version:
 The release build is pre-packaged and ready to use out of the box.
 
@@ -62,7 +62,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
 By default, **transitions, video effects, and audio effects** work immediately once connected. To make Preset apply-able, it will need a further confguration.
 
 ### 1. Connect to Premiere Pro
-1. Open Premiere Pro and load the **Premiere Companion** panel from the UXP plugin manager.
+1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
 2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Port & Connection Settings**.
 3. Enable **Auto-Connect** in both the plugin and the application — this is **strongly recommended** to maintain a stable connection across sessions.
 4. When the connection is established:

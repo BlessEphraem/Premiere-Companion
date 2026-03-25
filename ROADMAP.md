@@ -19,11 +19,15 @@ J'doit le corrigé
 
 ## 🚧 Work In Progress
 - [ ] **Refonte de X :** Amélioration des performances sur la recherche de presets.
+- [ ] **Convention de nommage :** 'FxVideo', 'FxAudio', 'Transion Video', il faut une meilleur convention de nommage.
+A ajouter comme paramêtre modifiable dans la configuration du theme.
 
 ## 📅 To Do
-- [ ] Possibilité d'exporter/importer ses configurations `Data/` facilement via l'UI.
+- [ ] **Transitions audio:** Je les ai oublié car je les utilise pas (étant donné que premiere pro en propose que 3) mais ça peut être important.
+- [ ] **Une case a ajouter au coté des effet et preset dans la liste**: Uniquement sur la page principal, on peut ignoré en cochant un élément, le rendant invisible durant la recherche d'effet.
 
 ## 💡 Ideas
+- [ ] Possibilité d'exporter/importer ses configurations `Data/` facilement via l'UI.
 
 ---
 
