@@ -15,7 +15,7 @@
 
 ## Work In Progress
 
-- [ ] **Custom Commands (Macros)** - Allow users to create named sequences of Premiere Pro commands (nest, rename, label, export, etc.) without writing code. These would appear as `[CMD]` items in the main list.
+- [~] **Custom Commands (Macros)** - Allow users to create named sequences of Premiere Pro commands (nest, rename, label, export, etc.) without writing code. These would appear as `[CMD]` items in the main list.
 
   *Planned command categories:*
   - Global: Undo

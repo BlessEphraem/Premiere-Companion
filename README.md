@@ -7,13 +7,10 @@
 </div>
 
 <p align="center">
-  <img src="./Assets/Icons/icon.ico" width="200" alt="Premiere Companion">
+  <img src="./Assets/icons/icon.svg" width="200" alt="Premiere Companion">
 </p>
 
 <p align="center">
-  <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
-    <img src="https://img.shields.io/github/v/release/BlessEphraem/Premiere-Companion?style=flat-square&color=blue" alt="Latest Release">
-  </a>
   <img src="https://img.shields.io/badge/OS-Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows Only">
   <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
     <img src="https://img.shields.io/github/downloads/BlessEphraem/Premiere-Companion/total?style=flat-square&color=success" alt="Downloads">
@@ -56,7 +53,6 @@ Unlike traditional alternatives (such as Excalibur), splitting the tool into a d
 - **🎯 Preset Support (Quick Apply)** - Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation.
 - 🎨 **Dynamic Theming** - A fully customizable UI with 40+ adjustable parameters driven by a JSON configuration file.
 - **🔗 Hold-to-Sync** - Interactive logo with a progress gauge: hold for 2 seconds to force a full database synchronization.
-- **🔌 WebSocket Bridge** - Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
 
 <p align="center">
   <img src=".docs/medias/preview_ApplyingEffectsAndPresets.gif" width="75%" alt="Applying Effects and Presets">
@@ -98,7 +94,7 @@ By default, **transitions, video effects, and audio effects** work immediately o
 
 ## 1. Connect to Premiere Pro
 1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
-2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Port & Connection Settings**.
+2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Premiere Pro → Configure**.
 3. Enable **Auto-Connect** in both the plugin and the application - this is **strongly recommended** to maintain a stable connection across sessions.
 4. When the connection is established:
     - The **console** at the bottom of the app will display a green confirmation message.
