@@ -11,6 +11,9 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
+    <img src="https://img.shields.io/github/v/release/BlessEphraem/Premiere-Companion?style=flat-square&color=blue" alt="Latest Release">
+  </a>
   <img src="https://img.shields.io/badge/OS-Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows Only">
   <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
     <img src="https://img.shields.io/github/downloads/BlessEphraem/Premiere-Companion/total?style=flat-square&color=success" alt="Downloads">
