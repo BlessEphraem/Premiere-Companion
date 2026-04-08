@@ -2,33 +2,31 @@
 import os
 import sys
 
-def get_base_path():
-    """Retourne le chemin de base correct, que l'on soit en script ou en .exe"""
+def get_app_path():
+    """Retourne le chemin vers les ressources internes du programme (Assets, etc.)"""
     if hasattr(sys, '_MEIPASS'):
-        # Mode PyInstaller (si --onefile, mais utile aussi en --onedir)
         return sys._MEIPASS
-    
-    # Chemin du fichier actuel
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # On remonte d'un cran car on est dans Core/
-    return os.path.dirname(current_dir)
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Alias pour compatibilité
+get_base_path = get_app_path
 
 def get_data_path(filename=""):
-    """Retourne le chemin vers le dossier Data, gérant le dossier 'lib' de PyInstaller"""
-    base = get_base_path()
-    
-    # En mode compilé avec contents_directory='lib', Data est dans lib/Data
-    # On teste si on est dans l'arborescence de l'exe
-    if os.path.basename(base) == "lib":
-        # On est déjà dans lib
-        path = os.path.join(base, "Data")
+    """Retourne le chemin vers le dossier Data (externe et persistant)"""
+    if hasattr(sys, '_MEIPASS'):
+        # En mode compilé, on veut que Data soit à côté de l'EXE, pas dans le dossier temporaire
+        base = os.path.dirname(sys.executable)
     else:
-        # On teste si lib/Data existe (cas de l'exe lancé depuis la racine)
-        lib_data = os.path.join(base, "lib", "Data")
-        if os.path.exists(lib_data):
-            path = lib_data
-        else:
-            path = os.path.join(base, "Data")
+        # En mode script, Data est à la racine du projet
+        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    path = os.path.join(base, "Data")
+    
+    if not os.path.exists(path):
+        try:
+            os.makedirs(path, exist_ok=True)
+        except:
+            pass
             
     if filename:
         return os.path.join(path, filename)

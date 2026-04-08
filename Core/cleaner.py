@@ -4,20 +4,23 @@ import os
 from Core.paths import get_data_path
 
 class EffectCleaner:
+
     def __init__(self):
         self.rules_path = get_data_path("rules.json")
         self.rules = []
+        self.invalid_rules = []  # Populated by clean_name(); read by the RegEx page for UI feedback
         self.load_rules()
 
     def load_rules(self):
+        from Core.configs.rules_config import DEFAULT_RULES
         if os.path.exists(self.rules_path):
             try:
                 with open(self.rules_path, "r", encoding="utf-8") as f:
                     self.rules = json.load(f)
             except Exception:
-                self.rules = []
+                self.rules = list(DEFAULT_RULES)
         else:
-            self.rules = []
+            self.rules = list(DEFAULT_RULES)
             os.makedirs(get_data_path(), exist_ok=True)
             self.save_rules()
 
@@ -36,8 +39,9 @@ class EffectCleaner:
         for rule in self.rules:
             rule_type = rule.get("type")
             
-            if rule_type and rule_type not in effect_type:
-                continue
+            if rule_type and rule_type != "All":
+                if rule_type not in effect_type:
+                    continue
                 
             pattern = rule.get("pattern")
             replacement = rule.get("replacement", "")
@@ -45,8 +49,10 @@ class EffectCleaner:
             if pattern:
                 try:
                     name = re.sub(pattern, replacement, name)
-                except:
-                    pass
+                except re.error as e:
+                    if pattern not in self.invalid_rules:
+                        self.invalid_rules.append(pattern)
+                    _ = e  # silenced per-item; caller checks self.invalid_rules
 
         name = re.sub(r' {2,}', ' ', name).strip()
         

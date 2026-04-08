@@ -1,134 +1,70 @@
-# 🗺️ Roadmap - Premiere Companion
+# Roadmap - Premiere Companion
 
-I'm bad in english, so sorry ! This note is made for me ;)
+## Hard Limits (API Limitations)
 
----
-
-## 🚧 Problems
-- [ ] **Missing Undo Grouping:** Actuellement, si on fait une action comme ajouter un effet a plusieurs clip, il faut
-appuyé plusieurs fois sur la touche 'Undo' pour supprimer une a une, chaque action. Trouvé une solution a ça.
-Voir dans 'types.d.ts' -v
-    Inside `Project` -> `executeTransaction(callback: (compoundAction: CompoundAction) => void, undoString?: string): boolean`
-    Inside `CompoundAction` -> `addAction(action: Action): boolean`
-Voir dans 'bridge.js' -v
-```js
-function commitActions(project, undoLabel, actions) {
-  var validActions = [];
-  for (var index = 0; index < actions.length; index++) {
-    if (actions[index]) validActions.push(actions[index]);
-  }
-  if (validActions.length === 0) return false;
-  
-  // Undo Grouping :
-  return Boolean(project.executeTransaction(function (compoundAction) {
-    for (var actionIndex = 0; actionIndex < validActions.length; actionIndex++) {
-      compoundAction.addAction(validActions[actionIndex]);
-    }
-  }, undoLabel));
-}
-```
-- [ ] **Les presets restent sur la souris jusqu'a ce qu'on clique de nouveau:**
-Actuellement, quand applique un preset, que sa sois depuis l'interface ou avec la barre de recherche, il se passe ceci :
-/ Sauvegarde les positions de la souris
-/ Recherche l'effet demandé, et amène la souris au position sauvegarder lors de la capture
-/ Ramène a la position de dépars, et laisse l'utilisateur avec le preset sur la souris.
-/ Il faut alors cliquer sur un clip ou plusieurs pré-sélectionné, pour appliquer l'effet.
-J'aime personnelement cette implémentation, mais pas tout le monde.
-Une coche dans les paramêtre peut être sympa ?
-
-J'ai juste oublié de faire un BlockInput entre le début et la fin de l'application du preset.
-J'doit le corrigé
-
-## 🚧 Work In Progress
-- [ ] **Refonte de X :** Amélioration des performances sur la recherche de presets.
-- [ ] **Convention de nommage :** 'FxVideo', 'FxAudio', 'Transion Video', il faut une meilleur convention de nommage.
-A ajouter comme paramêtre modifiable dans la configuration du theme.
-
-## 📅 To Do
-- [ ] **New [COMMAND] labelTag:** Celui-ci doit être visible sur la page principale et permet d'afficher des commande native a premiere pro.
-Par contre pour en ajouter, il faut accédé a une nouvelle page 'User Commands'
-Celle-ci permet de créer des COMPOSITIONS de commandes. On ne permet pas de faire du code pour le moment, juste d'utilisé les commandes
-présente pour pouvoir créer des enchainement de commandes.
-Exemple de commandes :
-
-Clip/Motion
-. Position
-· Scale
-. Rotation
-. Anchor Point
-. Anti-flicker Filter
-. Opacity
-. Fill Frame
-. Blend Mode
-. Volume
-. Remove/Add/Edit (Be more complexe than premiere, can remove 'Transitions', Reset a motion value,
-                    edit a specific attribute, and if i can, edit a specific attribute OF AN effect)
-Clip/Time
-. Speed
-. Reverse
-. Duration
-
-Monitor
-. Copy Frame to Clipboard
-
-Timeline
-. New Item
-. Open Sequence
-. Duplicate and Increment
-. Add Marker (to Sequence / Selection / Clip)
-. Target Video/Audio Tracks
-. Mute Video/Audio Tracks
-. Lock Video/Audio Tracks
-. Sync Lock Video/Audio Tracks
-. Match Frame to Source Sequence
-. Reverse Match Frame
-. Move Playhead
-Timeline/Selection 
-. Select Clip Above/Below
-. Extend Selection
-. Select All Clips ->  Disabled `or` After/Before Playhead
-. Invert Selection
-Timeline/Clip
-. Rename
-. Label
-. Paste Clip
-. Nest (both 'Individual' or 'All Selected')
-. Trim (In/Out Point to Playhead)
-. Move (Clip Start/End to Playhead)
-. Show Clip Keyframes
-
-Export
-. Export Media
-. Export Selected Clips
-. Export Frame
-. Export Frames at Markers
-
-Project
-. Increment and Save
-. Change Workspace
-. Execute Script
-
-Preferences
-. Display Color Management
-. Snap playhead in Timeline
-. Selection Follows Playhead
-. Linked Selection
-. Show Rulers/Guides/Transparency Grid
-. Snap in Program Monitor
-
-Special
-. Undo
-
-- [ ] **Transitions audio:** Je les ai oublié car je les utilise pas (étant donné que premiere pro en propose que 3) mais ça peut être important.
-- [ ] **Une case a ajouter au coté des effet et preset dans la liste**: Uniquement sur la page principal, on peut ignoré en cochant un élément, le rendant invisible durant la recherche d'effet.
-
-## 💡 Ideas
-- [ ] Possibilité d'exporter/importer ses configurations `Data/` facilement via l'UI.
+> ***Why can't I apply an audio transition?***
+- The Premiere Pro UXP API does not support it at this time.
 
 ---
 
-## ✅ Done
-- [X] Panneau "Hotkeys" pour permettre des executions rapide basé sur des raccourcis clavier (ex: "Ctrl+1" pour "Appliquer Preset01")
-- [X] L'utilisateur peut gêner le déplacement de la souris lors de l'application des presets
+## Known Issues
 
-////
+- **Preset Quick Apply breaks if Premiere is moved/resized** - calibration stores absolute window coordinates. If the user moves or resizes Premiere between calibration and use, the apply will fail and ask for recalibration.
+
+---
+
+## Work In Progress
+
+- [ ] **Custom Commands (Macros)** - Allow users to create named sequences of Premiere Pro commands (nest, rename, label, export, etc.) without writing code. These would appear as `[CMD]` items in the main list.
+
+  *Planned command categories:*
+  - Global: Undo
+  - Timeline: Nest, Speed, Duration, Trim, Move, Clip Labels, Keyframes
+  - Selection: Select Above/Below, Extend, Invert
+  - Export: In/Out, Full Sequence, Selected Clips, Frame, Frames at Markers
+  - Project: Increment & Save, Change Workspace, Execute Script
+  - Preferences: Snap, Linked Selection, Show Rulers/Guides, etc.
+
+- [ ] **Relative Preset Calibration** - Replace absolute window coordinate storage with relative (% of window size) so Quick Apply survives window moves and minor resizes without recalibration.
+
+- [ ] **Preset Type Detection** - Detect whether a preset is a transition, effect, audio, or keyframed. Would allow Quick Apply to be smarter (e.g., only auto-apply on keyframed presets).
+
+---
+
+## To Do
+
+- [ ] **Search Performance** - Preset search can be slow on large libraries. Needs optimization (indexing or debounce improvements).
+
+- [ ] **Utils: Debug & Developer Tools** - See `Utils/` folder. Planned tools include connection inspector, config viewer, regex tester, hotkey conflict detector, and the page scaffold generator.
+
+---
+
+## Ideas & Backlog
+
+- FFMPEG integration for local export/processing?
+- Mac version (would require replacing all `win32` / Windows API calls)
+- Better Premiere Hotkeys: auto-detect and mirror Group/Ungroup and other dual-action hotkeys
+
+---
+
+## Done
+
+- [x] **Better Motion Stability & Precision** - Fixed Premiere freezing ("Not Responding") with an intelligent frame-skipping lock. Optimized update frequency to 20 FPS and added support for keyframes in "Direct" (Add/Sub) and "Reset" modes.
+- [x] **Addons Page Refactor** - Consolidated Addons (Keymaps) and Settings. Moved "Run Search Bar" hotkey to SearchBar config and added Premiere Keybinds access directly into the Quick Apply card.
+- [x] **Search Keywords Config** - Users can now configure or disable search command prefixes (`/V`, `/A`, `/T`, `/P`, `//`) via a dedicated UI in Settings.
+- [x] **Priority / Ignore List** - Full management UI to hide specific effects/presets or pin them to the top of results.
+- [x] **Dynamic Icon Management** - Application logo and navigation icons now react to the active state (colorized vs subtle grey) for better visual feedback.
+- [x] **Complete UI Rework** - Full redesign with a `GUI/Pages/` + `GUI/Widgets/` architecture. Main window, Settings, Hotkeys, Theme, RegEx, Better Motion, Quick Apply, Search Bar config pages all implemented.
+- [x] **Dynamic Theme System** - 40+ customizable colors/sizes/fonts stored in `theme.json`, applied via generated QSS. Full theme editor UI in `GUI/Pages/theme_page.py`.
+- [x] **Floating Search Bar** - Global overlay (Ctrl+Space) with blur, opacity config, filter cycling, recent history, and quick-apply shortcut. (`GUI/Widgets/SearchBar.py`)
+- [x] **Better Motion Overlay** - Real-time mouse-driven adjustment of position, scale, rotation, and opacity via WebSocket.
+- [x] **Effect Type Labels** - FX.V, FX.A, TR.V, PRST labels with color coding, configurable in `Core/configs/labels_config.py`.
+- [x] **RegEx Rules Editor** - User-editable rules with Auto-Generate from transition names. (`GUI/Pages/regex_page.py`)
+- [x] **Configure Premiere Pro** - Port settings (WS + TCP), auto-connect toggle, version detection. (`GUI/Pages/premiere_page.py`)
+- [x] **Premiere Keybinds Retrieval** - Retrieve and store essential Premiere keybinds. (`GUI/Pages/premiereKeybinds_page.py`)
+- [x] **Custom Hotkeys** - Assign any effect/preset to a global keyboard shortcut. (`GUI/Pages/customHotkey_page.py`)
+- [x] **Quick Apply (Preset Automation)** - Calibration wizard + automated keybind+mouse sequence to apply presets. (`Modules/apply_preset.py`, `GUI/Pages/quickApply_page.py`)
+- [x] **Import / Export** - Export and import all `Data/` configs as a ZIP via the UI.
+- [x] **Chunked Effect Sync** - Effects received in chunks from the Premiere plugin to avoid timeouts on large libraries.
+- [x] **Single Instance + UAC** - Lock file enforcement and automatic admin elevation on launch.     
+- [x] **Utils: scaffold_page.py** - Interactive CLI generator for new pages, widgets, and features, following all project conventions.

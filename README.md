@@ -1,18 +1,197 @@
 <div align="center">
+  <h1 style="font-size: 3em; font-weight: 500">
+  
+✦ 𝐏𝐑𝐄𝐌𝐈𝐄𝐑𝐄 𝐂𝐎𝐌𝐏𝐀𝐍𝐈𝐎𝐍 ✦
 
-# 🚧 MASSIVE REWORK IN PROGRESS 🚧
-
-### *A major update is currently in development and will be released very soon.*
-
+  </h1>
 </div>
+
+<p align="center">
+  <img src="./Assets/Icons/icon.ico" width="200" alt="Premiere Companion">
+</p>
+
+<p align="center">
+  <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
+    <img src="https://img.shields.io/github/v/release/BlessEphraem/Premiere-Companion?style=flat-square&color=blue" alt="Latest Release">
+  </a>
+  <img src="https://img.shields.io/badge/OS-Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows Only">
+  <a href="https://github.com/BlessEphraem/Premiere-Companion/releases">
+    <img src="https://img.shields.io/github/downloads/BlessEphraem/Premiere-Companion/total?style=flat-square&color=success" alt="Downloads">
+  </a>
+  <a href="https://github.com/BlessEphraem/Premiere-Companion/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/BlessEphraem/Premiere-Companion?style=flat-square" alt="License">
+  </a>
+</p>
+
+**Premiere Companion** is a productivity tool for Adobe Premiere Pro that lets you instantly apply **video effects**, **audio effects**, **transitions**, and **presets** - all from a fast, keyboard-driven search bar without ever leaving your timeline.
+> Think of it as a free, open-source alternative to the Excalibur plugin, but with the added ability to apply Presets.
+
+<p align="center">
+  <img src=".docs/medias/preview_SearchBar.gif" width="50%" alt="Preview Search Bar">
+</p>
+
+<details>
+  <summary>
+    <b>🧩 Why "Premiere Companion" over similar plugins ?</b>
+  </summary>
+
+Unlike traditional alternatives (such as Excalibur), splitting the tool into a desktop app and a plugin brings significant advantages:
+* **Blazing Fast & Reliable Hotkeys:** Shortcut detection happens globally at the OS level, bypassing Premiere's sluggish shortcut engine for a lightning-fast search bar.
+* **Future-Proof (UXP API):** Built on Adobe's modern UXP architecture, perfectly adapted for the future while leaving behind the dying ExtendScript API.
+* **True Preset Application (Custom Keyframes Preserved):** Other tools use code hacks that ruin complex custom animations (like Bezier curves). Companion simulates a physical drag-and-drop, applying presets natively without destroying your keyframes.
+* **Free & Open-Source:** It is fully transparent, community-driven, and completely free to use.
+</details>
+
+<br/>
+
+# ✨ Features
+- **🪄 Custom Macros** - Create powerful sequences of actions (apply an effect, then a preset, then adjust opacity) and trigger them with a single click or command.
+- **🖱️ Better Motion HUD** - A revolutionary way to adjust clip properties (Position, Scale, Rotation, Opacity) using mouse movements with a real-time floating HUD.
+- **🔄 Better Transform** - Use the combined Transform tool to switch between Position, Scale, and Rotation on the fly using mouse button modifiers (RMB/MMB).
+- **⚡ Instant Search Bar** - Summon a floating search bar from anywhere with a fully customizable shortcut (default: `Ctrl+Space`) while Premiere Pro is in focus.
+- **🛠️ Dynamic Commands** - Control the application directly from the search bar (e.g., `/QA` to toggle Quick Apply, `/BM` for Better Motion).
+- **⌨️ Global Hotkeys** - Assign any effect, preset, or macro to a global keyboard shortcut that works even when Premiere is focused.
+- **🗂️ Category Navigation** - Use the `←` / `→` arrow keys to cycle through element categories (Transitions, Video FX, Audio FX, Presets, Macros, All).
+- **🔍 Live Filtering** - Results update as you type with a smart scoring algorithm that prioritizes recently used items.
+- **🎯 Preset Support (Quick Apply)** - Apply your saved Premiere Pro presets automatically using recorded mouse positions and hardware-level input simulation.
+- 🎨 **Dynamic Theming** - A fully customizable UI with 40+ adjustable parameters driven by a JSON configuration file.
+- **🔗 Hold-to-Sync** - Interactive logo with a progress gauge: hold for 2 seconds to force a full database synchronization.
+- **🔌 WebSocket Bridge** - Communicates with Premiere Pro in real-time through a dedicated UXP plugin.
+
+<p align="center">
+  <img src=".docs/medias/preview_ApplyingEffectsAndPresets.gif" width="75%" alt="Applying Effects and Presets">
+</p>
 
 ---
 
-> **⚠️ Important Notice:** The current version of this repository is unstable, incomplete, and outdated. I am completely overhauling the program from the ground up to bring you a much better experience, with MUCH MORE tool. Stay up to date !
+# 📋 Prerequisites
+Before using Premiere Companion and the plugin, make sure you have:
+- **Adobe Premiere Pro 25.6.1** or a **Beta version** that supports **UXP plugins**.
+
+# 🚀 Installation
+
+Premiere Companion works as a two-part system. You need to install both the Premiere Pro plugin and the desktop application for them to communicate.
+
+## Step 1: Install the Premiere Pro Plugin (The Listener)
+The desktop app needs a bridge to talk to your timeline. This is handled by my dedicated UXP plugin.
+* 📦 **Download & Guide:** [Get the Premiere Companion (Listener) Plugin here](https://github.com/BlessEphraem/Premiere-Companion-UXP)
+
+## Step 2: Install the Desktop App
+Once the plugin is installed, choose how you want to run the main search bar application:
+
+### ✅ Recommended - Download the Setup / Portable version
+1. Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
+2. Install or extract the files. The portable version is pre-packaged and ready to use out of the box.
+
+### 🛠️ From Source - Run the `.pyw` Script
+If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
+```bash
+pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
+```
+# 🏁 First Run
+
+<p align="center">
+  <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
+</p>
+
+By default, **transitions, video effects, and audio effects** work immediately once connected. To make Presets applicable, further configuration is required.
+
+## 1. Connect to Premiere Pro
+1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
+2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Port & Connection Settings**.
+3. Enable **Auto-Connect** in both the plugin and the application - this is **strongly recommended** to maintain a stable connection across sessions.
+4. When the connection is established:
+    - The **console** at the bottom of the app will display a green confirmation message.
+    - The **plugin panel** will also indicate that it is connected.
+
+## 2. Automatic Synchronization
+Once connected, **Premiere Companion** automatically syncs your effects, transitions, and presets. 
+- All your effects and transitions are indexed and searchable immediately.
+- If you have **Quick Apply** configured, presets will also be synced automatically.
+
+🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
 
 
-<br>
+### 🧹 Recommended: Apply a Regex Clean (Transition Names)
+> This step is **strongly recommended** if you want clean, readable names for your transitions.
+The Premiere Pro API does not expose a clean way to retrieve formatted transition names - raw internal names often include plugin prefixes, codes, and technical identifiers (e.g., `AE.ADBE Cross Dissolve PrTr`).
+To fix this, go to the **Regex** page and use one of these options:
+- **🤖 Auto-Generate Rules** - Analyzes all your fetched transitions and automatically builds cleanup rules. Works well for most setups.
+- **📄 Import my personal rules file** - Download and use my pre-made regex ruleset, crafted specifically for a clean Premiere Pro effect list. _(Link coming soon)_
+Rules are applied in order and can be individually reordered, edited, or deleted.
+
+# 📖 Usage Guide
+Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/SearchBar.md) ***IN PROGRESS***.
+
+# ⚡ How to Enable 'Quick Apply' (Apply Presets)
+Quick Apply works by recording the **exact screen position** of a preset icon in Premiere Pro's effect browser. When you apply a preset from the search bar, the app automatically:
+
+1. Opens the Effects panel
+2. Types the preset name in the search box
+3. Drags the preset from its recorded position to your timeline cursor
+For this to work reliably, **all your presets must be stored at the same folder depth** in Premiere Pro's preset browser, so that a search always returns exactly one result at a consistent screen position.
+
+## Step 1 - Assign Keybinds
+Go to the **Keymaps** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
 
 <div align="center">
-  <b>Thank you for your patience! Star ⭐ this repository and check back soon for the big release.</b>
+
+  <table width="100%">
+    <thead>
+      <tr>
+        <th align="center">Action</th>
+        <th align="center">Default</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center">Window &gt; Effect</td>
+        <td align="center"><code>Shift+2</code></td>
+      </tr>
+      <tr>
+        <td align="center">Search Find Box</td>
+        <td align="center"><code>Shift+F</code></td>
+      </tr>
+      <tr>
+        <td align="center">Window &gt; Timelines</td>
+        <td align="center"><code>Shift+3</code></td>
+      </tr>
+    </tbody>
+  </table>
+  
 </div>
+> ⚠️ This is critical. If these shortcuts don't match Premiere Pro's actual keybindings, preset capture and application will fail.
+
+## Step 2 - Run the Configuration Wizard
+1. Go to **Settings** and click **"⚙️ Configure"** under the Quick Apply section.
+2. Select your **Premiere Pro version** from the dropdown. This is used exclusively to locate your preset file on disk - it has **no effect** on how effects and transitions are fetched (that happens automatically via the plugin).
+3. In Premiere Pro's effect browser, search for **one specific preset** - make sure only **one result** appears in the list.
+4. Click **"🎯 Launch Calibration (5s)"** in the wizard, then move your mouse cursor over the preset icon in Premiere Pro within the 5-second countdown.
+5. After 5 seconds, the app will verify that the Effects search bar is correctly focused. If validation fails, double-check your keybinds.
+
+**💡 Pro Tip:** Premiere Companion records the absolute screen position of your presets. Try to keep your Premiere Pro workspace (specifically the Effects panel) at the same size and location. If you ever change your workspace layout, just re-run the quick 5-second calibration!
+
+## Step 3 - Start Using!
+Your presets will be indexed and will appear in the search bar under the `Preset` category automatically once calibration is complete.
+
+That's it - you can now apply presets instantly from the search bar! 🎉
+
+---
+
+# 🗺️ Roadmap & Known Issues
+
+I am constantly adding new features! Check out our [Roadmap](ROADMAP.md) to see:
+- ❌ Known limitations (e.g., UXP API limits on audio transitions).
+- 🏗️ What we're currently working on (WIP).
+- 🗒️ Backlog of ideas, including the upcoming **Custom Command Compositions** feature.
+
+# 🛠️ Tech Stack
+- **Language:** Python 3
+- **GUI:** PyQt6
+- **Communication:** `asyncio`, `websockets`
+- **OS Integration (Windows):** `ctypes`, `win32gui` (Global hotkey hooking & window management), `pyautogui` (Input simulation)
+- **Data Persistence:** Local JSON files for configurations, keybinds, and themes.
+
+# 📄 License
+
+GPL-3.0 license - see [LICENSE](LICENSE) for details.

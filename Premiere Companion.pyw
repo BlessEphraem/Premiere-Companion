@@ -2,75 +2,242 @@
 import sys
 import os
 import ctypes
-import json
+import time
+import traceback
 
-def is_admin():
+# Configuration du log de crash pour voir l'erreur
+def log_crash(e):
+    with open("crash_log.txt", "w") as f:
+        f.write(str(e) + "\n")
+        f.write(traceback.format_exc())
+
+# On s'assure d'être dans le bon répertoire avant d'importer nos modules
+if hasattr(sys, '_MEIPASS'):
+    current_dir = os.path.dirname(sys.executable)
+else:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+os.chdir(current_dir)
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+# Debug log file
+DEBUG_LOG = os.path.join(current_dir, "debug_startup.log")
+
+def debug_log(msg):
     try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
+        with open(DEBUG_LOG, "a", encoding="utf-8") as f:
+            f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
+    except: pass
+    print(f"[DEBUG] {msg}")
+
+try:
+    from Core.configs.betterMotion_config import DEFAULT_BM_CONFIG
+    from Core.configs.commands_config import DEFAULT_COMMANDS_CONFIG
+    from Core.configs.priority_ignore_config import DEFAULT_PRIORITY_IGNORE_CONFIG
+    from Core.configs.cmd_actions_config import DEFAULT_CMD_ACTIONS_CONFIG
+    from Core.theme_qss import THEME_USER_COLORS, generate_theme_qss
+    from Core.paths import get_data_path, get_app_path
+    
+    WINDOW_TITLE = THEME_USER_COLORS["app_title"]
+    LOCK_FILE = "premiere_companion.lock"
+
+    def is_admin():
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except:
+            return False
+
+    if not is_admin():
+        if hasattr(sys, '_MEIPASS'):
+            params = ' '.join([f'"{arg}"' for arg in sys.argv[1:]])
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
+        else:
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f'"{os.path.abspath(__file__)}"', None, 1)
+        os._exit(0)
+
+    # Imports lourds après UAC
+    from GUI.Pages.effects_page import EffectsPage
+    from PyQt6.QtWidgets import QApplication
+    from PyQt6.QtGui import QIcon, QFontDatabase, QFont
+    import json
+
+    # Centraliser pycache
+    CACHE_DIR = get_data_path("__pycache__")
+    if not os.path.exists(CACHE_DIR):
+        try: os.makedirs(CACHE_DIR)
+        except: pass
+    sys.pycache_prefix = os.path.abspath(CACHE_DIR)
+
+except Exception as e:
+    log_crash(e)
+    sys.exit(1)
+
+
+def _is_process_running(pid):
+    try:
+        PROCESS_QUERY_INFORMATION = 0x1000
+        handle = ctypes.windll.kernel32.OpenProcess(PROCESS_QUERY_INFORMATION, False, int(pid))
+        if handle:
+            ctypes.windll.kernel32.CloseHandle(handle)
+            return True
     except:
-        return False
+        pass
+    return False
 
-if not is_admin():
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f'"{os.path.abspath(__file__)}"', None, 1)
-    sys.exit()
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def _activate_window_by_title():
+    try:
+        SW_RESTORE = 9
+        EnumWindows = ctypes.windll.user32.EnumWindows
+        EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
+        GetWindowTextW = ctypes.windll.user32.GetWindowTextW
+        GetWindowTextLengthW = ctypes.windll.user32.GetWindowTextLengthW
+        IsWindowVisible = ctypes.windll.user32.IsWindowVisible
+        IsIconic = ctypes.windll.user32.IsIconic
+        ShowWindow = ctypes.windll.user32.ShowWindow
+        SetForegroundWindow = ctypes.windll.user32.SetForegroundWindow
+        BringWindowToTop = ctypes.windll.user32.BringWindowToTop
+        
+        found_hwnd = None
+        
+        def enum_callback(hwnd, lParam):
+            nonlocal found_hwnd
+            if IsWindowVisible(hwnd):
+                length = GetWindowTextLengthW(hwnd)
+                if length > 0:
+                    buff = ctypes.create_unicode_buffer(length + 1)
+                    GetWindowTextW(hwnd, buff, length + 1)
+                    if WINDOW_TITLE in buff.value:
+                        if IsIconic(hwnd):
+                            ShowWindow(hwnd, SW_RESTORE)
+                        found_hwnd = hwnd
+            return True
+        
+        EnumWindows(EnumWindowsProc(enum_callback), 0)
+        if found_hwnd:
+            time.sleep(0.05)
+            BringWindowToTop(found_hwnd)
+            SetForegroundWindow(found_hwnd)
+    except: pass
 
-if sys.stdout is None:
-    sys.stdout = open(os.devnull, "w")
-if sys.stderr is None:
-    sys.stderr = open(os.devnull, "w")
 
-os.environ["QT_LOGGING_RULES"] = "qt.qpa.window=false"
+def _check_existing_instance():
+    lock_path = os.path.join(get_data_path(), LOCK_FILE)
+    if os.path.exists(lock_path):
+        try:
+            with open(lock_path, 'r') as f:
+                old_pid = f.read().strip()
+            if old_pid and _is_process_running(old_pid):
+                _activate_window_by_title()
+                return True
+            else:
+                try: os.remove(lock_path)
+                except: pass
+        except: pass
+    return False
 
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtGui import QIcon
-from GUI.main_window import MainWindow
-from Core.paths import get_data_path, get_base_path
+
+def _write_lock():
+    lock_path = os.path.join(get_data_path(), LOCK_FILE)
+    try:
+        with open(lock_path, 'w') as f:
+            f.write(str(os.getpid()))
+    except: pass
+
 
 def get_theme_colors():
-    """Charge les couleurs de l'utilisateur depuis le JSON ou utilise celles par défaut"""
-    defaults = {
-        "accent": "#FF1796", 
-        "bg": "#09090b",
-        "bg_secondary": "#18181b",
-        "card_bg": "#121214",
-        "border": "#27272a",
-        "text_main": "#e4e4e7",
-        "text_subtle": "#a1a1aa",
-        "success": "#55ff55",
-        "error": "#ff5555",
-        "info": "#55ccff",
-        "warning": "#ffaa00",
-        "primary_btn": "#3b82f6",
-        "accent_btn": "#aa00ff"
-    }
+    defaults = THEME_USER_COLORS.copy()
     theme_path = get_data_path("theme.json")
-    
-    if os.path.exists(theme_path):
+    if not os.path.exists(theme_path):
+        os.makedirs(os.path.dirname(theme_path), exist_ok=True)
+        with open(theme_path, "w", encoding="utf-8") as f:
+            json.dump(defaults, f, indent=4)
+    else:
         try:
             with open(theme_path, "r", encoding="utf-8") as f:
                 defaults.update(json.load(f))
-        except Exception:
-            pass
+        except: pass
     return defaults
 
+
+CONFIG_DEFAULTS = {
+    "settings.json": {"console_visible": True},
+    "port_settings.json": {"auto_connect": False},
+    "keybinds.json": {
+        "Window > Timelines": "Shift+3",
+        "Window > Effect": "Shift+2",
+        "Search Find Box": "Shift+F"
+    },
+    "betterMotion_config.json": DEFAULT_BM_CONFIG,
+    "commands_config.json": DEFAULT_COMMANDS_CONFIG,
+    "priority_ignore_config.json": DEFAULT_PRIORITY_IGNORE_CONFIG,
+    "cmd_actions_config.json": DEFAULT_CMD_ACTIONS_CONFIG,
+    "quickApply_config.json": {"quick_apply_enabled": False},
+    "searchbar_config.json": {
+        "max_items": 100,
+        "max_recent": 3,
+        "window_width": 600,
+        "window_height": 420,
+        "font_size": 15,
+        "bg_opacity": 0.85,
+        "blur_background": False,
+        "apply_last_on_empty_enter": False,
+        "apply_last_without_name_enter": False
+    }
+}
+
+
+def ensure_config_defaults():
+    for filename, defaults in CONFIG_DEFAULTS.items():
+        path = get_data_path(filename)
+        if not os.path.exists(path):
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(defaults, f, indent=4)
+        else:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                updated = False
+                for key, value in defaults.items():
+                    if key not in data:
+                        data[key] = value
+                        updated = True
+                if updated:
+                    with open(path, "w", encoding="utf-8") as f:
+                        json.dump(data, f, indent=4)
+            except: pass
+
+
+def load_custom_fonts():
+    base_dir = get_app_path()
+    font_path = os.path.join(base_dir, "Assets", "Satoshi-Variable.ttf")
+    if os.path.exists(font_path):
+        font_id = QFontDatabase.addApplicationFont(font_path)
+        if font_id != -1:
+            families = QFontDatabase.applicationFontFamilies(font_id)
+            if families:
+                return families[0]
+    return None
+
+
 def main():
+    ensure_config_defaults()
+    if _check_existing_instance():
+        sys.exit(0)
+    _write_lock()
+
     myappid = 'ephraem.premierecompanion'
-    try:
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-    except Exception:
-        pass
+    try: ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    except: pass
 
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
-    # --- CHARGEMENT DE L'ICÔNE ---
-    # Recherche l'icône dans Icons/icon.ico (relativement au dossier de base)
-    base_dir = get_base_path()
-    icon_path = os.path.join(base_dir, "Icons", "icon.ico")
-    
-    # Fallback pour PyInstaller (si Icons n'est pas trouvé)
+    # Load icon
+    base_dir = get_app_path()
+    icon_path = os.path.join(base_dir, "Assets", "icons", "icon.ico")
     if not os.path.exists(icon_path):
         icon_path = os.path.join(base_dir, "icon.ico")
 
@@ -79,105 +246,39 @@ def main():
         app_icon = QIcon(icon_path)
         app.setWindowIcon(app_icon)
 
-    # 1. Récupération des couleurs
+    # Font rendering
+    font = QFont()
+    font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
+    app.setFont(font)
+
+    # Load custom font
+    loaded_font = load_custom_fonts()
+
+    # Get theme colors
     colors = get_theme_colors()
-    ACCENT = colors.get("accent", "#FF1796")
-    BG = colors.get("bg", "#09090b")
-    BG_SEC = colors.get("bg_secondary", "#18181b")
-    CARD_BG = colors.get("card_bg", "#121214")
-    BORDER = colors.get("border", "#27272a")
-    TEXT = colors.get("text_main", "#e4e4e7")
-    TEXT_SUBTLE = colors.get("text_subtle", "#a1a1aa")
-    SUCCESS = colors.get("success", "#55ff55")
-    ERROR = colors.get("error", "#ff5555")
-    INFO = colors.get("info", "#55ccff")
-    WARNING = colors.get("warning", "#ffaa00")
-    PRIMARY_BTN = colors.get("primary_btn", "#3b82f6")
-    ACCENT_BTN = colors.get("accent_btn", "#aa00ff")
 
-    # 2. Nettoyage silencieux de l'ancien fichier .qss s'il existe
-    old_style_path = get_data_path("style.qss")
-    if os.path.exists(old_style_path):
-        try:
-            os.remove(old_style_path)
-        except:
-            pass
-
-    # 3. Le QSS dynamique complet
-    dynamic_qss = f"""
-    QMainWindow, QWidget {{ background-color: {BG}; color: {TEXT}; font-family: "Inter", "Segoe UI", "-apple-system", "Helvetica Neue", sans-serif; font-size: 14px; }}
-    QLabel {{ background-color: transparent; color: {TEXT}; font-weight: 500; }}
-    QLineEdit, QComboBox, QSpinBox {{ background-color: {BG_SEC}; color: #ffffff; border: 1px solid {BORDER}; border-radius: 8px; padding: 10px 14px; }}
-    QLineEdit:focus, QComboBox:focus, QSpinBox:focus {{ border: 1px solid {ACCENT}; background-color: #202024; }}
-    QPushButton {{ background-color: {BG_SEC}; color: #fafafa; border: 1px solid {BORDER}; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 13px; }}
-    QPushButton:hover {{ background-color: {BORDER}; border: 1px solid #3f3f46; }}
-    QPushButton:pressed {{ background-color: {BG_SEC}; border: 1px solid {ACCENT}; color: {ACCENT}; }}
-    QListWidget, QTextEdit, QScrollArea {{ background-color: {BG}; border: 1px solid {BORDER}; border-radius: 10px; padding: 6px; outline: none; color: #ffffff; font-size: 15px; font-weight: 600; }}
-    QListWidget::item {{ background-color: {CARD_BG}; border: 1px solid {BG_SEC}; border-radius: 8px; margin: 4px; padding-left: 15px; min-height: 40px; }}
-    QListWidget::item:hover {{ background-color: {BG_SEC}; border: 1px solid {BORDER}; }}
-    QListWidget::item:selected {{ background-color: #1e293b; border: 1px solid {ACCENT}; color: #ffffff; }}
-    QScrollBar:vertical {{ background: transparent; width: 8px; margin: 2px; border-radius: 4px; }}
-    QScrollBar::handle:vertical {{ background: #3f3f46; min-height: 30px; border-radius: 4px; }}
-    QScrollBar::handle:vertical:hover {{ background: #52525b; }}
-    QFrame#separatorLine {{ background-color: {BORDER}; max-height: 1px; }}
-    QLabel#PageTitle {{ font-size: 22px; font-weight: bold; color: #ffffff; }}
-    QFrame#CardFrame {{ background-color: {CARD_BG}; border: 1px solid {BORDER}; border-radius: 8px; }}
-    QLabel#CardLabel {{ font-weight: bold; font-size: 14px; border: none; }}
-    QLabel#CardLabelBold {{ font-size: 16px; font-weight: bold; border: none; }}
-    QLabel#CardLabelSubtle {{ color: {TEXT_SUBTLE}; border: none; }}
-    QLabel#WarningLabel {{ color: {WARNING}; font-style: italic; font-size: 12px; }}
-    QCheckBox#SubtleCheckbox {{ border: none; color: {TEXT_SUBTLE}; font-weight: bold; }}
-    QScrollArea#TransparentScroll, QWidget#TransparentContainer, QWidget#effectItem, QWidget#FloatingSearchBar {{ background: transparent; border: none; }}
-    QPushButton#PrimaryButton {{ background-color: {PRIMARY_BTN}; border: none; font-size: 16px; padding: 10px; font-weight: bold; }}
-    QPushButton#PrimaryButton:hover {{ background-color: #2563eb; }}
-    QPushButton#AccentButton {{ background-color: {ACCENT_BTN}; border: none; color: white; font-size: 14px; font-weight: bold; padding: 10px; }}
-    QPushButton#AccentButton:hover {{ background-color: #9000d8; }}
-    QPushButton#NavButton[active="true"] {{ background-color: {ACCENT}; border: none; font-weight: bold; }}
-    QPushButton#ToggleQA[qa_state="enabled"] {{ background-color: {SUCCESS}; color: black; font-weight: bold; padding: 5px; border: none; }}
-    QPushButton#ToggleQA[qa_state="disabled"] {{ background-color: {ERROR}; color: white; font-weight: bold; padding: 5px; border: none; }}
-    QLabel#EffectTag {{ font-weight: bold; font-size: 14px; margin-right: 5px; }}
-    QLabel#EffectTag[type="TagVideo"]      {{ color: {ERROR}; }}
-    QLabel#EffectTag[type="TagAudio"]      {{ color: {SUCCESS}; }}
-    QLabel#EffectTag[type="TagTransition"] {{ color: {INFO}; }}
-    QLabel#EffectTag[type="TagPreset"]     {{ color: #ffffff; }}
-    QLabel#EffectTag[type="TagRecent"]     {{ color: {WARNING}; }}
-    QLabel#EffectTag[type="unknown"]       {{ color: {PRIMARY_BTN}; }}
-    QLabel#StatusLabel[connected="true"] {{ color: {SUCCESS}; font-weight: bold; }}
-    QLabel#StatusLabel[connected="false"] {{ color: {ERROR}; font-weight: bold; }}
-    QLabel#CoordLabel[state="undefined"] {{ color: {WARNING}; font-weight: bold; font-size: 14px; }}
-    QLabel#CoordLabel[state="saved"] {{ color: {SUCCESS}; font-weight: bold; font-size: 14px; }}
-    QFrame#SearchBarContainer {{ background-color: rgba(30, 30, 30, 240); border: 1px solid #555555; border-radius: 12px; }}
-    QListWidget#SearchList {{ background-color: transparent; border: none; color: #dddddd; font-size: 14px; outline: none; }}
-    QListWidget#SearchList::item:selected {{ background-color: #005577; color: white; border: 1px solid #0077aa; }}
-    QLineEdit#MainSearchBar {{ background-color: {BG_SEC}; color: #ffffff; border-radius: 8px; padding: 10px 14px; font-weight: bold; }}
-    QLineEdit#MainSearchBar:focus {{ background-color: #202024; }}
-    QLineEdit#MainSearchBar[filterType="All"] {{ border: 2px solid {PRIMARY_BTN}; }}
-    QLineEdit#MainSearchBar[filterType="FxVideo"] {{ border: 2px solid {ERROR}; }}
-    QLineEdit#MainSearchBar[filterType="FxAudio"] {{ border: 2px solid {SUCCESS}; }}
-    QLineEdit#MainSearchBar[filterType="Transition"] {{ border: 2px solid {INFO}; }}
-    QLineEdit#MainSearchBar[filterType="Preset"] {{ border: 2px solid #ffffff; }}
-    QLineEdit#SearchInput {{ background-color: rgba(15, 15, 15, 200); color: #ffffff; border-radius: 8px; padding: 12px 15px; font-size: 16px; font-weight: bold; }}
-    QLineEdit#SearchInput[filterType="All"] {{ border: 1px solid {PRIMARY_BTN}; }}
-    QLineEdit#SearchInput[filterType="FxVideo"] {{ border: 1px solid {ERROR}; }}
-    QLineEdit#SearchInput[filterType="FxAudio"] {{ border: 1px solid {SUCCESS}; }}
-    QLineEdit#SearchInput[filterType="Transition"] {{ border: 1px solid {INFO}; }}
-    QLineEdit#SearchInput[filterType="Preset"] {{ border: 1px solid #ffffff; }}
-    QLineEdit#SearchInput[mode="options"] {{ border: 2px solid {INFO}; background-color: rgba(15, 15, 15, 200); color: white; }}
-    QLabel#SearchResultName {{ color: {TEXT}; font-size: 15px; font-weight: bold; }}
-    QLabel#RegexRuleText {{ color: {TEXT}; font-size: 14px; background: transparent; }}
-    """
-
+    # Generate QSS
+    dynamic_qss = generate_theme_qss(colors, loaded_font)
     app.setStyleSheet(dynamic_qss)
 
-    window = MainWindow()
-    
-    # Applique aussi l'icône spécifiquement à la fenêtre principale par sécurité
+    # --- SPLASH SCREEN ---
+    from GUI.Widgets.splash import SplashScreen
+    splash = SplashScreen(colors)
+    splash.show()
+    app.processEvents()
+
+    # Initialize window
+    splash.update_progress(90, "Initializing")
+    window = EffectsPage()
+    window.setWindowTitle(WINDOW_TITLE)
     if app_icon:
         window.setWindowIcon(app_icon)
-        
-    window.show()
 
+    splash.update_progress(100, "Ready!")
+    splash.close()
+    window.show()
     sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()

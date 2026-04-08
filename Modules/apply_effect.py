@@ -5,6 +5,8 @@ import os
 import time
 import ctypes
 from Core.paths import get_data_path
+from Core.configs.port_config import DEFAULT_PORTS
+from Core.configs.keybinds_config import DEFAULT_KEYBINDS
 from ctypes import wintypes
 import pyautogui
 
@@ -56,11 +58,7 @@ class EffectApplier:
             except Exception:
                 pass
 
-        defaults = {
-            "Window > Timelines": "Shift+3",
-            "Window > Effect": "Shift+2",
-            "Search Find Box": "Shift+F"
-        }
+        defaults = DEFAULT_KEYBINDS.copy()
         return defaults.get(action_name, "")
 
     @staticmethod
@@ -102,26 +100,15 @@ class EffectApplier:
                     
                 user32.SetForegroundWindow(hwnd)
                 time.sleep(0.1)
-        except Exception as e:
-            print(f"Focus error: {e}")
+        except Exception:
+            pass
 
     @staticmethod
     def apply_effect_to_premiere(match_name, effect_type, alignment="center"):
-        # On autorise désormais les transitions !
-        # On vérifie de manière souple si le mot "Transition", "FxVideo" ou "FxAudio" est dans le type
-        valid = False
-        for allowed in ["FxVideo", "FxAudio", "Transition"]:
-            if allowed in effect_type:
-                valid = True
-                break
-                
-        if not valid:
-            raise ValueError(f"Unsupported effect type: {effect_type}")
-
         EffectApplier.focus_premiere()
-        time.sleep(0.1) # Laisse le temps à Premiere de reprendre le focus
+        time.sleep(0.1)
 
-        # On inclut l'alignement dans le payload envoyé à Premiere Pro
+        # On renvoie EXACTEMENT ce que le plugin a envoye a l'origine
         payload = {
             "action": "apply_effect",
             "matchName": match_name,
@@ -131,10 +118,10 @@ class EffectApplier:
         
         try:
             port_path = get_data_path("port_settings.json")
-            tcp_port = 8091
+            tcp_port = DEFAULT_PORTS["tcp_port"]
             if os.path.exists(port_path):
                 with open(port_path, "r") as f:
-                    tcp_port = json.load(f).get("tcp_port", 8091)
+                    tcp_port = json.load(f).get("tcp_port", DEFAULT_PORTS["tcp_port"])
                     
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.settimeout(2.0)
