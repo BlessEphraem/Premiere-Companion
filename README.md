@@ -103,13 +103,7 @@ By default, **transitions, video effects, and audio effects** work immediately o
     - The **console** at the bottom of the app will display a green confirmation message.
     - The **plugin panel** will also indicate that it is connected.
 
-## 2. Automatic Synchronization
-Once connected, **Premiere Companion** automatically syncs your effects, transitions, and presets. 
-- All your effects and transitions are indexed and searchable immediately.
-- If you have **Quick Apply** configured, presets will also be synced automatically.
-
 🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
-
 
 ### 🧹 Recommended: Apply a Regex Clean (Transition Names)
 > This step is **strongly recommended** if you want clean, readable names for your transitions.
@@ -120,60 +114,12 @@ To fix this, go to the **Regex** page and use one of these options:
 Rules are applied in order and can be individually reordered, edited, or deleted.
 
 # 📖 Usage Guide
-Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more), see the [**Search Bar Guide →**](.docs/SearchBar.md) ***IN PROGRESS***.
+Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-# ⚡ How to Enable 'Quick Apply' (Apply Presets)
-Quick Apply works by recording the **exact screen position** of a preset icon in Premiere Pro's effect browser. When you apply a preset from the search bar, the app automatically:
+***IN PROGRESS***
+- **[Quick Apply](.docs/SearchBar.md)**
+- **[Search Bar ](.docs/SearchBar.md)**
 
-1. Opens the Effects panel
-2. Types the preset name in the search box
-3. Drags the preset from its recorded position to your timeline cursor
-For this to work reliably, **all your presets must be stored at the same folder depth** in Premiere Pro's preset browser, so that a search always returns exactly one result at a consistent screen position.
-
-## Step 1 - Assign Keybinds
-Go to the **Keymaps** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
-
-<div align="center">
-
-  <table width="100%">
-    <thead>
-      <tr>
-        <th align="center">Action</th>
-        <th align="center">Default</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td align="center">Window &gt; Effect</td>
-        <td align="center"><code>Shift+2</code></td>
-      </tr>
-      <tr>
-        <td align="center">Search Find Box</td>
-        <td align="center"><code>Shift+F</code></td>
-      </tr>
-      <tr>
-        <td align="center">Window &gt; Timelines</td>
-        <td align="center"><code>Shift+3</code></td>
-      </tr>
-    </tbody>
-  </table>
-  
-</div>
-> ⚠️ This is critical. If these shortcuts don't match Premiere Pro's actual keybindings, preset capture and application will fail.
-
-## Step 2 - Run the Configuration Wizard
-1. Go to **Settings** and click **"⚙️ Configure"** under the Quick Apply section.
-2. Select your **Premiere Pro version** from the dropdown. This is used exclusively to locate your preset file on disk - it has **no effect** on how effects and transitions are fetched (that happens automatically via the plugin).
-3. In Premiere Pro's effect browser, search for **one specific preset** - make sure only **one result** appears in the list.
-4. Click **"🎯 Launch Calibration (5s)"** in the wizard, then move your mouse cursor over the preset icon in Premiere Pro within the 5-second countdown.
-5. After 5 seconds, the app will verify that the Effects search bar is correctly focused. If validation fails, double-check your keybinds.
-
-**💡 Pro Tip:** Premiere Companion records the absolute screen position of your presets. Try to keep your Premiere Pro workspace (specifically the Effects panel) at the same size and location. If you ever change your workspace layout, just re-run the quick 5-second calibration!
-
-## Step 3 - Start Using!
-Your presets will be indexed and will appear in the search bar under the `Preset` category automatically once calibration is complete.
-
-That's it - you can now apply presets instantly from the search bar! 🎉
 
 ---
 
