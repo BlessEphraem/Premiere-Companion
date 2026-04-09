@@ -25,6 +25,8 @@
   - Project: Increment & Save, Change Workspace, Execute Script
   - Preferences: Snap, Linked Selection, Show Rulers/Guides, etc.
 
+- [~] **Utils: Debug & Developer Tools** - See `Utils/` folder. Planned tools include connection inspector, config viewer, regex tester, hotkey conflict detector, and the page scaffold generator.
+
 - [ ] **Relative Preset Calibration** - Replace absolute window coordinate storage with relative (% of window size) so Quick Apply survives window moves and minor resizes without recalibration.
 
 - [ ] **Preset Type Detection** - Detect whether a preset is a transition, effect, audio, or keyframed. Would allow Quick Apply to be smarter (e.g., only auto-apply on keyframed presets).
@@ -34,8 +36,6 @@
 ## To Do
 
 - [ ] **Search Performance** - Preset search can be slow on large libraries. Needs optimization (indexing or debounce improvements).
-
-- [ ] **Utils: Debug & Developer Tools** - See `Utils/` folder. Planned tools include connection inspector, config viewer, regex tester, hotkey conflict detector, and the page scaffold generator.
 
 ---
 
