@@ -93,8 +93,6 @@ pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
   <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
 </p>
 
-By default, **transitions, video effects, and audio effects** work immediately once connected. To make Presets applicable, further configuration is required.
-
 ## 1. Connect to Premiere Pro
 1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
 2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Premiere Pro → Configure**.
@@ -103,7 +101,10 @@ By default, **transitions, video effects, and audio effects** work immediately o
     - The **console** at the bottom of the app will display a green confirmation message.
     - The **plugin panel** will also indicate that it is connected.
 
+
 🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
+
+**By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required.** (See [Quick Apply](.docs/SearchBar.md))
 
 ### 🧹 Recommended: Apply a Regex Clean (Transition Names)
 > This step is **strongly recommended** if you want clean, readable names for your transitions.
