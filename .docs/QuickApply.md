@@ -8,7 +8,7 @@ Quick Apply works by recording the **exact screen position** of a preset icon in
 For this to work reliably, **all your presets must be stored at the same folder depth** in Premiere Pro's preset browser, so that a search always returns exactly one result at a consistent screen position.
 
 ## Step 1 - Assign Keybinds
-Go to the **Keymaps** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
+Go to the **Quick Apply -> Configure** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
 
 <div align="center">
 
@@ -39,11 +39,9 @@ Go to the **Keymaps** page and make sure the following shortcuts match exactly w
 > ⚠️ This is critical. If these shortcuts don't match Premiere Pro's actual keybindings, preset capture and application will fail.
 
 ## Step 2 - Run the Configuration Wizard
-1. Go to **Settings** and click **"⚙️ Configure"** under the Quick Apply section.
-2. Select your **Premiere Pro version** from the dropdown. This is used exclusively to locate your preset file on disk - it has **no effect** on how effects and transitions are fetched (that happens automatically via the plugin).
-3. In Premiere Pro's effect browser, search for **one specific preset** - make sure only **one result** appears in the list.
-4. Click **"🎯 Launch Calibration (5s)"** in the wizard, then move your mouse cursor over the preset icon in Premiere Pro within the 5-second countdown.
-5. After 5 seconds, the app will verify that the Effects search bar is correctly focused. If validation fails, double-check your keybinds.
+1. In Premiere Pro's effect browser, search for **one specific preset** - make sure only **one result** appears in the list.
+2. Click **"🎯 Launch Calibration (5s)"** in the wizard, then move your mouse cursor over the preset icon in Premiere Pro within the 5-second countdown.
+3. After 5 seconds, the app will verify that the Effects search bar is correctly focused. If validation fails, double-check your keybinds.
 
 **💡 Pro Tip:** Premiere Companion records the absolute screen position of your presets. Try to keep your Premiere Pro workspace (specifically the Effects panel) at the same size and location. If you ever change your workspace layout, just re-run the quick 5-second calibration!
 
