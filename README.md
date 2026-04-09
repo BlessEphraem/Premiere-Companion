@@ -120,7 +120,7 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
 ***IN PROGRESS***
-- **[Quick Apply (Presets)](.docs/SearchBar.md)**
+- **[Quick Apply (Presets)](.docs/QuickApply.md)**
 - **[Search Bar ](.docs/SearchBar.md)**
 
 ---
