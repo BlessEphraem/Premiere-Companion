@@ -69,6 +69,10 @@ Before using Premiere Companion and the plugin, make sure you have:
 
 # 🚀 Installation
 
+<p align="center">
+  <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
+</p>
+
 Premiere Companion works as a two-part system. You need to install both the Premiere Pro plugin and the desktop application for them to communicate.
 
 ## Step 1: Install the Premiere Pro Plugin (The Listener)
@@ -78,35 +82,28 @@ The desktop app needs a bridge to talk to your timeline. This is handled by my d
 ## Step 2: Install the Desktop App
 Once the plugin is installed, choose how you want to run the main search bar application:
 
-### ✅ Recommended - Download the Setup / Portable version
-1. Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
-2. Install or extract the files. The portable version is pre-packaged and ready to use out of the box.
+* ✅ **Recommended - Download the Setup / Portable version**
+  1. Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
+  2. Install or extract the files. The portable version is pre-packaged and ready to use out of the box.
 
-### 🛠️ From Source - Run the `.pyw` Script
-If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
+* 🛠️ **From Source - Run the `.pyw` Script**
+  
+  If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
 ```bash
 pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
 ```
-# 🏁 First Run
 
-<p align="center">
-  <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
-</p>
+# 🏁 First Run
 
 ## 1. Connect to Premiere Pro
 1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
 2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Premiere Pro → Configure**.
-3. Enable **Auto-Connect** in both the plugin and the application - this is **strongly recommended** to maintain a stable connection across sessions.
-4. When the connection is established:
-    - The **console** at the bottom of the app will display a green confirmation message.
-    - The **plugin panel** will also indicate that it is connected.
 
+    When the connection is established:
+    - The **console** at the bottom of the app will display a green confirmation  essage.
+    - The **plugin panel** will also indicate that it is connected.
 
-🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
-
-**By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required.** (See [Quick Apply](.docs/SearchBar.md))
-
-### 🧹 Recommended: Apply a Regex Clean (Transition Names)
+## 🧹 2. Apply a Regex Clean (Transition Names)
 > This step is **strongly recommended** if you want clean, readable names for your transitions.
 The Premiere Pro API does not expose a clean way to retrieve formatted transition names - raw internal names often include plugin prefixes, codes, and technical identifiers (e.g., `AE.ADBE Cross Dissolve PrTr`).
 To fix this, go to the **Regex** page and use one of these options:
@@ -114,13 +111,17 @@ To fix this, go to the **Regex** page and use one of these options:
 - **📄 Import my personal rules file** - Download and use my pre-made regex ruleset, crafted specifically for a clean Premiere Pro effect list. _(Link coming soon)_
 Rules are applied in order and can be individually reordered, edited, or deleted.
 
+
+🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
+
+**By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required. (See below.)**
+
 # 📖 Usage Guide
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
 ***IN PROGRESS***
-- **[Quick Apply](.docs/SearchBar.md)**
+- **[Quick Apply (Presets)](.docs/SearchBar.md)**
 - **[Search Bar ](.docs/SearchBar.md)**
-
 
 ---
 
