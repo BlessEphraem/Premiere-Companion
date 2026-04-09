@@ -68,19 +68,12 @@ class AddonsPage(QWidget):
         self.btn_config_qa.setFixedWidth(THEME_SPACING["width_button_medium"])
         self.btn_config_qa.clicked.connect(self.open_qa_config)
 
-        self.btn_keybinds_qa = QPushButton()
-        self.btn_keybinds_qa.setIcon(icon("keyboard"))
-        self.btn_keybinds_qa.setText(" Keybinds")
-        self.btn_keybinds_qa.setFixedWidth(THEME_SPACING["width_button_medium"])
-        self.btn_keybinds_qa.clicked.connect(self.open_premiere_keybinds)
-        
         self.btn_toggle_qa = QPushButton()
         self.btn_toggle_qa.setObjectName("Toggle")
         self.btn_toggle_qa.setFixedWidth(THEME_SPACING["width_button_small"])
         self.btn_toggle_qa.clicked.connect(self.toggle_quick_apply)
-        
+
         hbox_qa.addWidget(self.btn_config_qa)
-        hbox_qa.addWidget(self.btn_keybinds_qa)
         hbox_qa.addWidget(self.btn_toggle_qa)
         hbox_qa.addStretch()
         qa_layout.addLayout(hbox_qa)
@@ -144,7 +137,7 @@ class AddonsPage(QWidget):
         lbl_macros_icon.setPixmap(icon_pixmap("bolt", size=THEME_SPACING["icon_medium"]))
         lbl_macros_icon.setFixedSize(THEME_SPACING["icon_medium"], THEME_SPACING["icon_medium"])
         lbl_macros_icon.setScaledContents(True)
-        lbl_macros_title = QLabel("Macros")
+        lbl_macros_title = QLabel("Hotkeys & Macros")
         lbl_macros_title.setObjectName("CardLabelBold")
         macros_title_layout.addWidget(lbl_macros_icon)
         macros_title_layout.addWidget(lbl_macros_title)
@@ -152,8 +145,7 @@ class AddonsPage(QWidget):
         macros_layout.addLayout(macros_title_layout)
 
         lbl_macros_desc = QLabel(
-            "Create sequences of effects, presets, transitions and commands.\n"
-            "Chain them together with custom parameters and timing."
+            "Create custom hotkeys and macro sequences for effects, presets and commands."
         )
         lbl_macros_desc.setObjectName("CardLabelSubtle")
         macros_layout.addWidget(lbl_macros_desc)
@@ -167,43 +159,10 @@ class AddonsPage(QWidget):
 
         layout.addWidget(macros_card)
 
-        # ── Custom Hotkeys Card ───────────────────────────────────────────────
-        custom_btn_card = QFrame()
-        custom_btn_card.setObjectName("CardFrame")
-        custom_btn_layout = QVBoxLayout(custom_btn_card)
-        custom_btn_layout.setContentsMargins(THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"])
-        custom_btn_layout.setSpacing(THEME_SPACING["spacing_element"])
-
-        lbl_custom = QLabel("Custom Hotkeys")
-        lbl_custom.setObjectName("CardLabelBold")
-        custom_btn_layout.addWidget(lbl_custom)
-
-        desc_custom = QLabel("Add custom shortcuts to quickly apply effects and presets.")
-        desc_custom.setObjectName("CardLabelSubtle")
-        custom_btn_layout.addWidget(desc_custom)
-
-        btn_custom = QPushButton()
-        btn_custom.setIcon(icon("plus", size=THEME_SPACING["icon_medium"]))
-        btn_custom.setText(" Manage Custom Hotkeys")
-        btn_custom.clicked.connect(self.open_custom_hotkey)
-        custom_btn_layout.addWidget(btn_custom)
-
-        layout.addWidget(custom_btn_card)
-
         layout.addStretch()
 
     def open_macros(self):
         dialog = create_window("macros", self.mw, modal=True)
-        if dialog:
-            dialog.exec()
-
-    def open_premiere_keybinds(self):
-        dialog = create_window("premiere_keybinds", self.mw, modal=True)
-        if dialog:
-            dialog.exec()
-
-    def open_custom_hotkey(self):
-        dialog = create_window("custom_hotkey", self.mw, modal=True)
         if dialog:
             dialog.exec()
 

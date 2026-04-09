@@ -6,13 +6,13 @@ from Core.paths import get_data_path
 from Core.functions.search import (save_last_used, load_search_history, save_history_list,
                                     load_commands_config, load_searchbar_config, load_priority_ignore_config)
 from Core.functions.icon_loader import icon, icon_pixmap
-from Core.theme_qss import THEME_USER_COLORS, THEME_SPACING
+from Core.theme_qss import THEME_USER_COLORS, THEME_SPACING, THEME_TYPOGRAPHY, hex_to_rgba
 from Core.configs.labels_config import get_type_codes, is_video, is_audio, is_transition, is_preset, is_command
 from Modules.apply_effect import EffectApplier
 from Modules.apply_preset import PresetApplier
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLineEdit, QListWidget, 
                              QListWidgetItem, QLabel, QHBoxLayout, QFrame, QApplication, QPushButton)
-from PyQt6.QtCore import Qt, pyqtSignal, QTimer, QSize, QPoint
+from PyQt6.QtCore import Qt, pyqtSignal, QTimer, QSize, QPoint, QEvent
 from PyQt6.QtGui import QColor, QPalette, QBrush
 
 _BM_ALIASES = {
@@ -148,31 +148,38 @@ class FloatingSearchBar(QWidget):
                 return f"rgba({color.red()}, {color.green()}, {color.blue()}, {opacity})"
         except Exception:
             pass
-        return "rgba(24, 24, 27, 0.85)"
+        return hex_to_rgba(THEME_USER_COLORS.get("sb_bg", "#18181b"), opacity)
 
     def apply_dynamic_styles(self):
         """Applique les styles dynamiques en utilisant les couleurs du thème en cache"""
-        font_size = self.config.get("font_size", 15)
+        font_size  = self.config.get("font_size", 15)
         bg_opacity = self.config.get("bg_opacity", 0.85)
-        
-        bg_sec = self.theme_colors.get("input_bg", "#18181b")
-        border = self.theme_colors.get("hover", "#27272a")
-        
+
+        bg_sec = self.theme_colors.get("sb_bg",     THEME_USER_COLORS["sb_bg"])
+        border = self.theme_colors.get("sb_border", THEME_USER_COLORS["sb_border"])
+        subtle = self.theme_colors.get("text_subtle", THEME_USER_COLORS["text_subtle"])
+
         bg_sec_rgba = self.get_rgba_from_hex(bg_sec, bg_opacity)
-        
+
+        filter_color = self._get_filter_text_color()
+        text_color   = filter_color if filter_color else self.theme_colors.get("sb_input_text", THEME_USER_COLORS["sb_input_text"])
+
         self.container.setStyleSheet(f"""
             QFrame#SearchBarContainer {{
                 background-color: {bg_sec_rgba};
                 border: 1px solid {border};
-                border-radius: 12px;
+                border-radius: {THEME_SPACING['radius_large']};
             }}
             QLineEdit#SearchInput {{
                 background: transparent;
                 border: none;
-                color: {self.theme_colors.get('text_white', '#ffffff')};
+                color: {text_color};
                 font-size: {font_size + 2}px;
                 font-weight: bold;
-                padding: 10px;
+                padding: {THEME_SPACING['padding_small']}px;
+            }}
+            QLineEdit#SearchInput::placeholder {{
+                color: {subtle};
             }}
             QListWidget#SearchResults {{
                 background: transparent;
@@ -182,11 +189,11 @@ class FloatingSearchBar(QWidget):
             QListWidget#SearchResults::item {{
                 background: transparent;
                 padding: 4px;
-                border-radius: 6px;
-                margin: 2px 5px;
+                border-radius: {THEME_SPACING['radius_small']};
+                margin: {THEME_SPACING['margin_search_result_item']} 5px;
             }}
             QListWidget#SearchResults::item:selected {{
-                background-color: {self.theme_colors.get('hover', '#27272a')};
+                background-color: {self.theme_colors.get('sb_item_hover', THEME_USER_COLORS['sb_item_hover'])};
             }}
         """)
 
@@ -204,16 +211,11 @@ class FloatingSearchBar(QWidget):
         search_row = QHBoxLayout()
         self.search_input = QLineEdit()
         self.search_input.setObjectName("SearchInput")
-        self.search_input.setPlaceholderText("Search Effects & Presets...")
+        self.search_input.setPlaceholderText("All")
         self.search_input.textChanged.connect(self.update_results)
-        
-        self.filter_label = QLabel("[All]")
-        self.filter_label.setObjectName("EffectTag")
-        self.filter_label.setFixedWidth(60)
-        self.filter_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
+        self.search_input.installEventFilter(self)
+
         search_row.addWidget(self.search_input, 1)
-        search_row.addWidget(self.filter_label)
         container_layout.addLayout(search_row)
         
         # ── Results List ──────────────────────────────────────────────────────
@@ -262,7 +264,7 @@ class FloatingSearchBar(QWidget):
             w_layout.setContentsMargins(10, 0, 10, 0)
             
             name = QLabel(opt["displayName"])
-            name.setStyleSheet(f"color: {self.theme_colors.get('text_white', '#ffffff')}; font-weight: bold; font-size: 14px; background: transparent;")
+            name.setStyleSheet(f"color: {self.theme_colors.get('sb_item_text', THEME_USER_COLORS['sb_item_text'])}; font-weight: bold; font-size: {THEME_TYPOGRAPHY['font_search_result']}px; background: transparent;")
             w_layout.addWidget(name)
             self.results_list.setItemWidget(list_item, widget)
             
@@ -338,40 +340,66 @@ class FloatingSearchBar(QWidget):
         key = event.key()
         if key == Qt.Key.Key_Escape:
             self.close_bar()
+        elif key == Qt.Key.Key_Tab:
+            if self.mode != "alignment" and self.results_list.count() > 0:
+                item = self.results_list.currentItem()
+                if item:
+                    data = item.data(Qt.ItemDataRole.UserRole)
+                    raw  = data.get("displayName", "")
+                    clean = self.main_window.cleaner.clean_name(raw, data.get("type", ""))
+                    if clean.startswith("\x00LASTUSED\x00"):
+                        clean = clean[len("\x00LASTUSED\x00"):]
+                    self.search_input.setText(clean)
+                    self.search_input.setCursorPosition(len(clean))
+            event.accept()
+            return
         elif key == Qt.Key.Key_Down:
-            self.results_list.setCurrentRow((self.results_list.currentRow() + 1) % self.results_list.count())
+            if self.results_list.count() > 0:
+                self.results_list.setCurrentRow((self.results_list.currentRow() + 1) % self.results_list.count())
         elif key == Qt.Key.Key_Up:
-            self.results_list.setCurrentRow((self.results_list.currentRow() - 1) % self.results_list.count())
+            if self.results_list.count() > 0:
+                self.results_list.setCurrentRow((self.results_list.currentRow() - 1) % self.results_list.count())
         elif key in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
             self.apply_selected()
-        elif key == Qt.Key.Key_Right:
-            if self.search_input.cursorPosition() == len(self.search_input.text()):
-                self.main_window.cycle_filter(1)
-        elif key == Qt.Key.Key_Left:
-            if self.search_input.cursorPosition() == 0:
-                self.main_window.cycle_filter(-1)
         super().keyPressEvent(event)
 
-    def apply_filter_style(self):
-        idx = self.main_window.current_filter_idx
-        mode = self.main_window.filter_modes[idx]
-        self.filter_label.setText(f"[{mode['name']}]")
-        
-        color_map = {
-            "error":   self.theme_colors["error"],
-            "success": self.theme_colors["success"],
-            "info":    self.theme_colors["info"],
-            "white":   self.theme_colors["text_white"],
-            "warning": self.theme_colors["warning"],
-        }
-        
-        color_key = mode.get("color", "white")
-        text_color = color_map.get(color_key, self.theme_colors["text_main"])
-        
+    def _get_filter_text_color(self):
+        """Retourne la couleur associée au filtre actuel, ou None pour 'All' (texte normal)."""
+        try:
+            idx  = self.main_window.current_filter_idx
+            mode = self.main_window.filter_modes[idx]
+        except (AttributeError, IndexError):
+            return None
         if mode["name"] == "All":
-            text_color = self.theme_colors["warning"]
-            
-        self.filter_label.setStyleSheet(f"color: {text_color}; font-weight: bold;")
+            return None
+        color_map = {
+            "error":   self.theme_colors.get("error",         THEME_USER_COLORS["error"]),
+            "success": self.theme_colors.get("success",       THEME_USER_COLORS["success"]),
+            "info":    self.theme_colors.get("info",          THEME_USER_COLORS["info"]),
+            "white":   self.theme_colors.get("sb_input_text", THEME_USER_COLORS["sb_input_text"]),
+            "warning": self.theme_colors.get("warning",       THEME_USER_COLORS["warning"]),
+        }
+        return color_map.get(mode.get("color", "white"))
+
+    def eventFilter(self, obj, event):
+        if obj is self.search_input and event.type() == QEvent.Type.KeyPress:
+            if event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+                if event.key() == Qt.Key.Key_Right:
+                    self.main_window.cycle_filter(1)
+                    return True
+                elif event.key() == Qt.Key.Key_Left:
+                    self.main_window.cycle_filter(-1)
+                    return True
+        return super().eventFilter(obj, event)
+
+    def apply_filter_style(self):
+        try:
+            idx  = self.main_window.current_filter_idx
+            mode = self.main_window.filter_modes[idx]
+        except (AttributeError, IndexError):
+            return
+        self.search_input.setPlaceholderText(mode["name"])
+        self.apply_dynamic_styles()
 
     def update_results(self, text):
         if self.mode == "alignment": return
@@ -424,7 +452,7 @@ class FloatingSearchBar(QWidget):
             if not query and self.config.get("apply_last_on_empty_enter", False):
                 last_used = history_data.get("last_used")
                 if last_used and m_name == last_used.get("match_name") and e_type == last_used.get("type"):
-                    clean_name = f"LAST USED -> [{e_type}] {clean_name}"
+                    clean_name = f"\x00LASTUSED\x00{clean_name}"
                     score += 10000
             
             if m_name in history_list:
@@ -484,29 +512,42 @@ class FloatingSearchBar(QWidget):
             tag.setFixedHeight(18)
             
             filter_color = {
-                "FX.V":   self.theme_colors.get("error", "#ff5555"),
-                "FX.A":   self.theme_colors.get("success", "#50fa7b"),
-                "TR.V":   self.theme_colors.get("info", "#8be9fd"),
-                "PRST":   "#bd93f9",
-                "CMD":    self.theme_colors.get("warning", "#f1fa8c"),
-                "CMD.QA": self.theme_colors.get("warning", "#f1fa8c"),
-                "CMD.BM": self.theme_colors.get("warning", "#f1fa8c"),
-                "CMD.MA": self.theme_colors.get("warning", "#f1fa8c"),
+                "FX.V":   self.theme_colors.get("error",      THEME_USER_COLORS["error"]),
+                "FX.A":   self.theme_colors.get("success",    THEME_USER_COLORS["success"]),
+                "TR.V":   self.theme_colors.get("info",       THEME_USER_COLORS["info"]),
+                "PRST":   self.theme_colors.get("btn_accent_2", THEME_USER_COLORS["btn_accent_2"]),
+                "CMD":    self.theme_colors.get("warning",    THEME_USER_COLORS["warning"]),
+                "CMD.QA": self.theme_colors.get("warning",    THEME_USER_COLORS["warning"]),
+                "CMD.BM": self.theme_colors.get("warning",    THEME_USER_COLORS["warning"]),
+                "CMD.MA": self.theme_colors.get("warning",    THEME_USER_COLORS["warning"]),
             }
 
-            tag_color = filter_color.get(e_type, "#ffffff")
-            tag.setStyleSheet(f"background-color: {self.get_rgba_from_hex(tag_color, 0.15)}; color: {tag_color}; border: 1px solid {tag_color}; border-radius: 4px; font-size: 10px; font-weight: bold;")
-            
-            name = QLabel(clean_name)
-            name.setStyleSheet(f"color: {self.theme_colors.get('text_white', '#ffffff')}; font-weight: bold; font-size: 13px; background: transparent;")
-            
+            tag_color = filter_color.get(e_type, THEME_USER_COLORS["text_white"])
+            tag.setStyleSheet(f"background-color: {self.get_rgba_from_hex(tag_color, 0.15)}; color: {tag_color}; border: 1px solid {tag_color}; border-radius: 4px; font-size: {THEME_TYPOGRAPHY['font_tag']}px; font-weight: bold;")
+
+            item_color      = self.theme_colors.get("sb_item_text",   THEME_USER_COLORS["sb_item_text"])
+            last_used_color = self.theme_colors.get("sb_last_used",  THEME_USER_COLORS["sb_last_used"])
+            recent_color    = self.theme_colors.get("sb_recent_icon", THEME_USER_COLORS["sb_recent_icon"])
+
+            is_last_used = clean_name.startswith("\x00LASTUSED\x00")
+            if is_last_used:
+                clean_name = clean_name[len("\x00LASTUSED\x00"):]
+
+            name = QLabel()
+            name.setStyleSheet(f"font-weight: bold; font-size: {THEME_TYPOGRAPHY['font_search_item']}px; background: transparent;")
+            name.setText(f"<span style='color:{item_color}'>{clean_name}</span>")
+
             w_layout.addWidget(tag)
             w_layout.addWidget(name, 1)
-            
-            if m_name in history_list:
-                recent_icon = QLabel("🕒")
-                recent_icon.setStyleSheet("background: transparent; color: #6272a4;")
-                w_layout.addWidget(recent_icon)
+
+            if is_last_used or m_name in history_list:
+                clock_color = last_used_color if is_last_used else recent_color
+                clock_lbl = QLabel()
+                clock_lbl.setPixmap(icon_pixmap("clock", color=clock_color, size=14))
+                clock_lbl.setFixedSize(14, 14)
+                clock_lbl.setScaledContents(True)
+                clock_lbl.setStyleSheet("background: transparent;")
+                w_layout.addWidget(clock_lbl)
 
             self.results_list.setItemWidget(list_item, widget)
             

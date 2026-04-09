@@ -144,13 +144,12 @@ class PremierePage(QWidget):
         if version:
             if name:
                 self.lbl_version_value.setText(f"{version} ({name})")
-                self.lbl_version_value.setStyleSheet("color: #55ff55;")
             else:
                 self.lbl_version_value.setText(version)
-                self.lbl_version_value.setStyleSheet("color: #55ff55;")
+            self.lbl_version_value.setStyleSheet(f"color: {THEME_USER_COLORS['success']};")
         else:
             self.lbl_version_value.setText("Not detected")
-            self.lbl_version_value.setStyleSheet("color: #888888;")
+            self.lbl_version_value.setStyleSheet(f"color: {THEME_USER_COLORS['text_subtle']};")
 
     def on_sync_clicked(self):
         self.btn_sync.setEnabled(False)

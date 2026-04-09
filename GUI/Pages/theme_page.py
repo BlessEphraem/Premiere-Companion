@@ -26,10 +26,13 @@ _COLOR_KEYS = frozenset({
     "hover", "text_main", "text_subtle", "info_text",
     "success", "label_audio", "error", "label_video", "info", "label_transition",
     "warning", "btn_accent_1", "btn_accent_2", "btn_accent_3", "icon_color",
+    # Search Bar
+    "sb_bg", "sb_border", "sb_input_text", "sb_item_text",
+    "sb_item_hover", "sb_recent_icon", "sb_last_used",
 })
 
 # Keys where "none" is also an accepted value (transparent backgrounds).
-_BG_COLOR_KEYS = frozenset({"bg", "btn_bg", "input_bg", "list_bg", "console_bg", "card_bg"})
+_BG_COLOR_KEYS = frozenset({"bg", "btn_bg", "input_bg", "list_bg", "console_bg", "card_bg", "sb_bg"})
 
 
 class ThemePage(QWidget):

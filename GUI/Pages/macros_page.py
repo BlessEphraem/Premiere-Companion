@@ -80,12 +80,17 @@ class MacrosPage(QDialog):
         lbl_icon.setPixmap(icon_pixmap("bolt", size=THEME_SPACING["icon_large"]))
         lbl_icon.setFixedSize(THEME_SPACING["icon_large"], THEME_SPACING["icon_large"])
         lbl_icon.setScaledContents(True)
-        lbl_title = QLabel("Macros")
+        lbl_title = QLabel("Hotkeys & Macros")
         lbl_title.setObjectName("PageTitle")
         title_layout.addWidget(lbl_icon)
         title_layout.addWidget(lbl_title)
         title_layout.addStretch()
         layout.addLayout(title_layout)
+
+        # Custom Hotkeys section (embedded)
+        from GUI.Pages.customHotkey_page import CustomHotkeyPage
+        self.hotkeys_section = CustomHotkeyPage(self.mw)
+        layout.addWidget(self.hotkeys_section)
 
         # Macros card
         macro_card = QFrame()

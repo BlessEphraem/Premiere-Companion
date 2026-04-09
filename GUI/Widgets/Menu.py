@@ -218,9 +218,9 @@ class NavIconButton(QPushButton):
                 pass
 
         if active:
-            color = "#ffffff"
+            color = THEME_USER_COLORS["text_white"]
         else:
-            color = "#a1a1aa"
+            color = THEME_USER_COLORS["text_subtle"]
 
         self.setIcon(icon_nav(self.icon_name, color=color, size=self.icon_size))
         self.setProperty("active", active)

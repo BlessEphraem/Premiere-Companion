@@ -6,7 +6,7 @@ import ctypes
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QApplication)
 from PyQt6.QtCore import Qt, QPoint, QTimer
 from PyQt6.QtGui import QCursor
-from Core.theme_qss import THEME_USER_COLORS
+from Core.theme_qss import THEME_USER_COLORS, THEME_TYPOGRAPHY
 from Core.functions.server import send_to_plugin
 
 user32 = ctypes.windll.user32
@@ -90,17 +90,17 @@ class BetterMotionOverlay(QWidget):
         layout.setSpacing(10)
 
         self.title_label = QLabel(f"Adjusting {self.prop_name.capitalize()}")
-        self.title_label.setStyleSheet(f"color: {THEME_USER_COLORS['accent']}; font-size: 24px; font-weight: bold; background: transparent;")
+        self.title_label.setStyleSheet(f"color: {THEME_USER_COLORS['accent']}; font-size: {THEME_TYPOGRAPHY['font_bm_title']}px; font-weight: bold; background: transparent;")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.title_label)
 
         self.value_label = QLabel("—")
-        self.value_label.setStyleSheet("color: white; font-size: 32px; font-weight: bold; background: transparent;")
+        self.value_label.setStyleSheet(f"color: {THEME_USER_COLORS['text_white']}; font-size: {THEME_TYPOGRAPHY['font_bm_value']}px; font-weight: bold; background: transparent;")
         self.value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.value_label)
 
         self.sub_label = QLabel("Click to Confirm | Esc to Cancel")
-        self.sub_label.setStyleSheet("color: #a1a1aa; font-size: 13px; background: transparent;")
+        self.sub_label.setStyleSheet(f"color: {THEME_USER_COLORS['text_subtle']}; font-size: {THEME_TYPOGRAPHY['font_bm_sub']}px; background: transparent;")
         self.sub_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.sub_label)
 
@@ -194,13 +194,13 @@ class BetterMotionOverlay(QWidget):
 
     def _update_value_display(self):
         if self.initial_value is None: return
-        accent, info = THEME_USER_COLORS["accent"], THEME_USER_COLORS["info"]
+        accent, info, subtle = THEME_USER_COLORS["accent"], THEME_USER_COLORS["info"], THEME_USER_COLORS["text_subtle"]
         if self.prop_name == "position":
-            self.value_label.setText(f"<span style='color:{accent}'>{int(self.delta_x)}</span> <span style='color:grey'>→</span> <span style='color:{info}'>{int(self.delta_y)}</span>")
+            self.value_label.setText(f"<span style='color:{accent}'>{int(self.delta_x)}</span> <span style='color:{subtle}'>→</span> <span style='color:{info}'>{int(self.delta_y)}</span>")
         else:
             try:
                 nv = round(float(self.initial_value) + self.delta_x, 2)
-                self.value_label.setText(f"<span style='color:{accent}'>{self.initial_value}</span> <span style='color:grey'>→</span> <span style='color:{info}'>{nv}</span>")
+                self.value_label.setText(f"<span style='color:{accent}'>{self.initial_value}</span> <span style='color:{subtle}'>→</span> <span style='color:{info}'>{nv}</span>")
             except: self.value_label.setText(str(int(self.delta_x)))
 
     def poll_loop(self):

@@ -162,7 +162,7 @@ class EffectsPage(QMainWindow):
             self.log_console = None
         
         self._console_restart_label = QLabel()
-        self._console_restart_label.setStyleSheet("color: #ff5555; background-color: #331111; padding: 5px;")
+        self._console_restart_label.setObjectName("ConsoleRestartLabel")
         self._console_restart_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._console_restart_label.hide()
         main_layout.addWidget(self._console_restart_label)

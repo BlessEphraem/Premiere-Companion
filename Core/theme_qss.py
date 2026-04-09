@@ -42,6 +42,15 @@ THEME_USER_COLORS = {
     "icon_color":       "#e4e4e7",
     "font_family":      "Satoshi",
     "font_weight":      "Black",
+
+    # -- Search Bar (floating, independent) --
+    "sb_bg":           "#18181b",   # container background
+    "sb_border":       "#27272a",   # container border
+    "sb_input_text":   "#ffffff",   # input field text
+    "sb_item_text":    "#ffffff",   # result item text
+    "sb_item_hover":   "#27272a",   # selected item background
+    "sb_recent_icon":  "#a1a1aa",   # clock / recent icon
+    "sb_last_used":    "#FF1796",   # "LAST USED →" prefix
 }
 
 QSS_CONSTANTS = {
@@ -119,6 +128,15 @@ THEME_SCHEMA_SECTIONS = [
         ("font_family", "Font",        "Satoshi"),
         ("font_weight", "Font Weight", "Black"),
     ]),
+    ("Search Bar", [
+        ("sb_bg",          "Search Background",        "#18181b"),
+        ("sb_border",      "Search Border",            "#27272a"),
+        ("sb_input_text",  "Search Input Text",        "#ffffff"),
+        ("sb_item_text",   "Search Item Text",         "#ffffff"),
+        ("sb_item_hover",  "Search Item Hover",        "#27272a"),
+        ("sb_recent_icon", "Recent Icon Color",        "#a1a1aa"),
+        ("sb_last_used",   '"Last Used" Prefix Color', "#FF1796"),
+    ]),
 ]
 
 THEME_TYPOGRAPHY = {
@@ -139,6 +157,13 @@ THEME_TYPOGRAPHY = {
     "font_splash_status": 16,
     "font_splash_label": 18,
     "font_nav_title": 24,
+    # BetterMotion overlay
+    "font_bm_title": 24,
+    "font_bm_value": 32,
+    "font_bm_sub":   14,
+    # SearchBar floating
+    "font_tag":         14,
+    "font_search_item": 14,
 }
 
 THEME_SPACING = {
@@ -259,7 +284,7 @@ def generate_theme_qss(colors, loaded_font=None):
     FILTER_BG_VIDEO      = hex_to_rgba(ERROR,   0.2)
     FILTER_BG_AUDIO      = hex_to_rgba(SUCCESS, 0.2)
     FILTER_BG_TRANSITION = hex_to_rgba(INFO,    0.2)
-    FILTER_BG_PRESET     = "rgba(255, 255, 255, 0.15)"
+    FILTER_BG_PRESET     = hex_to_rgba(TEXT_WHITE, 0.15)
 
     RS = THEME_SPACING["radius_small"]
     RM = THEME_SPACING["radius_medium"]
@@ -287,6 +312,8 @@ def generate_theme_qss(colors, loaded_font=None):
     FLB = THEME_TYPOGRAPHY["font_label_bold"]
     FE = THEME_TYPOGRAPHY["font_error"]
     FNT = THEME_TYPOGRAPHY["font_nav_title"]
+    FTG = THEME_TYPOGRAPHY["font_tag"]
+    FSI = THEME_TYPOGRAPHY["font_search_item"]
 
     BN = QSS_CONSTANTS["border_none"]
     ON = QSS_CONSTANTS["outline_none"]
@@ -372,6 +399,11 @@ def generate_theme_qss(colors, loaded_font=None):
     QLabel#SearchBarRestartLabel {{ color: {ERROR}; font-size: {FW}px; }}
     QWidget#custom_list_container {{ {BGT} }}
     QLabel#ThemeErrorLabel {{ color: {ERROR}; font-size: {FE}px; {BGT} {BN} padding: 0; margin: 0; }}
+    QLabel#ConsoleRestartLabel {{ color: {ERROR}; background-color: {hex_to_rgba(ERROR, 0.15)}; padding: 5px; border-radius: {RS}; text-align: center; }}
+    QLabel#VersionValueLabel[state="detected"] {{ color: {SUCCESS}; font-weight: bold; }}
+    QLabel#VersionValueLabel[state="missing"] {{ color: {TEXT_SUBTLE}; }}
+    QLabel#SearchResultItem {{ color: {TEXT_WHITE}; font-size: {FSI}px; font-weight: bold; {BGT} }}
+    QLabel#SearchTagLabel {{ font-size: {FTG}px; font-weight: bold; border-radius: 4px; }}
     """
     return dynamic_qss
 
@@ -419,9 +451,10 @@ def get_splash_overlay_style(colors, spacing, typo):
     """
 
 def get_bettermotion_overlay_style(colors):
+    btn_bg    = colors.get('btn_bg', '#18181b')
     hover_color = colors.get('hover', '#27272a')
     return f"""
-        background-color: rgba(24, 24, 27, 0.9);
-        border-radius: 12px;
+        background-color: {hex_to_rgba(btn_bg, 0.9)};
+        border-radius: {THEME_SPACING['radius_large']};
         border: 1px solid {hover_color};
     """

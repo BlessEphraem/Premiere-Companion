@@ -9,8 +9,6 @@ from GUI.Pages.quickApply_page import QuickApplyWizard
 from GUI.Pages.premiere_page import PremierePage
 from GUI.Pages.regex_page import RegexPage
 from GUI.Pages.betterMotion_page import BetterMotionPage
-from GUI.Pages.premiereKeybinds_page import PremiereKeybindsPage
-from GUI.Pages.customHotkey_page import CustomHotkeyPage
 from GUI.Pages.priorityIgnore_page import PriorityIgnorePage
 from GUI.Pages.commands_page import CommandsPage
 from GUI.Pages.macro_editor_page import MacroEditorPage
@@ -25,12 +23,10 @@ WINDOW_SIZES = {
     "premiere": {"width": "auto", "height": "auto"},
     "regex": {"width": 540, "height": 400},
     "better_motion": {"width": "auto", "height": "auto"},
-    "premiere_keybinds": {"width": 540, "height": 400},
-    "custom_hotkey": {"width": 540, "height": 500},
     "priority_ignore": {"width": 540, "height": 700},
     "commands": {"width": "auto", "height": "auto"},
     "macro_editor": {"width": 540, "height": 600},
-    "macros": {"width": 540, "height": 500},
+    "macros": {"width": 540, "height": 700},
 }
 
 
@@ -108,28 +104,6 @@ def create_window(window_type, parent, modal=True):
         apply_window_config(window, "better_motion", "Configuration: Better Motion")
         return window
     
-    elif window_type == "premiere_keybinds":
-        from PyQt6.QtWidgets import QVBoxLayout
-        dialog = QDialog(parent)
-        dialog.setWindowTitle("Premiere Keybinds")
-        apply_window_config(dialog, "premiere_keybinds")
-        dialog.setWindowModality(Qt.WindowModality.ApplicationModal)
-        layout = QVBoxLayout(dialog)
-        page = PremiereKeybindsPage(parent)
-        layout.addWidget(page)
-        return dialog
-    
-    elif window_type == "custom_hotkey":
-        from PyQt6.QtWidgets import QVBoxLayout
-        dialog = QDialog(parent)
-        dialog.setWindowTitle("Custom Hotkeys")
-        apply_window_config(dialog, "custom_hotkey")
-        dialog.setWindowModality(Qt.WindowModality.ApplicationModal)
-        layout = QVBoxLayout(dialog)
-        page = CustomHotkeyPage(parent)
-        layout.addWidget(page)
-        return dialog
-
     elif window_type == "priority_ignore":
         window = PriorityIgnorePage(parent)
         window.setParent(parent)

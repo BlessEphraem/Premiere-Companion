@@ -17,9 +17,10 @@ class KeybindInput(KeybindCapture):
 
 
 class PremiereKeybindsPage(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window, embed_mode=False):
         super().__init__()
         self.mw = main_window
+        self.embed_mode = embed_mode
         self.inputs = {}
         self.init_ui()
         self.load_keybinds()
@@ -58,16 +59,17 @@ class PremiereKeybindsPage(QWidget):
 
         layout.addWidget(self.keybinds_frame)
 
-        btn_layout = QHBoxLayout()
-        btn_layout.addStretch()
+        if not self.embed_mode:
+            btn_layout = QHBoxLayout()
+            btn_layout.addStretch()
 
-        btn_save = QPushButton()
-        btn_save.setIcon(icon("save"))
-        btn_save.setText(" Save")
-        btn_save.clicked.connect(self.save_keybinds)
-        btn_layout.addWidget(btn_save)
+            btn_save = QPushButton()
+            btn_save.setIcon(icon("save"))
+            btn_save.setText(" Save")
+            btn_save.clicked.connect(self.save_keybinds)
+            btn_layout.addWidget(btn_save)
 
-        layout.addLayout(btn_layout)
+            layout.addLayout(btn_layout)
 
     def check_conflict(self, action_name, new_keybind):
         new_norm = new_keybind.strip().lower()

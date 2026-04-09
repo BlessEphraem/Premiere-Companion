@@ -1,5 +1,0 @@
-{
-    "ws_port": 8090,
-    "tcp_port": 8091,
-    "auto_connect": true
-}

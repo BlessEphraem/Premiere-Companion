@@ -29,11 +29,16 @@ class QuickApplyWizard(QDialog):
 
         config = PresetApplier.load_config() or {}
 
+        # --- PREMIERE KEYBINDS SECTION ---
+        from GUI.Pages.premiereKeybinds_page import PremiereKeybindsPage
+        self.keybinds_section = PremiereKeybindsPage(self.main_window, embed_mode=True)
+        layout.addWidget(self.keybinds_section)
+
         # --- LATENCY SECTION ---
-        layout.addWidget(QLabel("<b>2. Latency (ms)</b>"))
+        layout.addWidget(QLabel("<b>1. Latency (ms)</b>"))
         self.lbl_delay = QLabel(f"Delay : {config.get('delay_ms', 200)} ms")
         layout.addWidget(self.lbl_delay)
-        
+
         self.slider_delay = QSlider(Qt.Orientation.Horizontal)
         self.slider_delay.setRange(50, 1000)
         self.slider_delay.setValue(config.get("delay_ms", 200))
@@ -41,7 +46,7 @@ class QuickApplyWizard(QDialog):
         layout.addWidget(self.slider_delay)
 
         # --- CALIBRATION SECTION ---
-        layout.addWidget(QLabel("<b>3. Mouse Position Calibration (Edit1 Check)</b>"))
+        layout.addWidget(QLabel("<b>2. Mouse Position Calibration (Edit1 Check)</b>"))
         lbl_info = QLabel("<b>Search for a unique preset, press 'Capture', and move your mouse above the Preset icon</b>"
                           "<b>It will : Focus Premiere > Focus Effects Panel > Focus Search Box. ")
         lbl_info.setWordWrap(True)
@@ -78,7 +83,7 @@ class QuickApplyWizard(QDialog):
         current_keep = config.get("keep_on_mouse", False)
         
         # --- KEEP ON MOUSE SECTION ---
-        layout.addWidget(QLabel("<b>4. Preset Release Mode</b>"))
+        layout.addWidget(QLabel("<b>3. Preset Release Mode</b>"))
         lbl_keep_info = QLabel("Choose what happens after preset is attached to mouse:")
         lbl_keep_info.setObjectName("QuickApplyKeepInfoLabel")
         layout.addWidget(lbl_keep_info)
@@ -214,6 +219,7 @@ class QuickApplyWizard(QDialog):
         data["keep_on_mouse"] = current == "enabled"
         
         PresetApplier.save_config(data)
+        self.keybinds_section.save_keybinds()
         self.main_window.append_log(f" Config QuickApply saved (Delay: {data['delay_ms']}ms)", THEME_USER_COLORS["success"])
         if hasattr(self.main_window, 'reload_commands'):
             self.main_window.reload_commands()
