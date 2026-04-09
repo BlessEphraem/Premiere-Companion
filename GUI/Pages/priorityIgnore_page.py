@@ -20,7 +20,6 @@ _GROUP_ROWS = [
     ("TR.V",   "Video Transitions"),
     ("PRST",   "Presets"),
     ("CMD",    "Commands"),
-    ("CMD.PR", "Premiere Commands"),
 ]
 
 

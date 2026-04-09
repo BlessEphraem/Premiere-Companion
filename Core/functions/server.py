@@ -97,6 +97,7 @@ class ServerWorker(QThread):
                         self.log_signal.emit(f" UXP: {payload.get('message')}", THEME_USER_COLORS["info"])
 
                     elif action == "bm_ready":
+                        self.log_signal.emit(f" 🟢 Better Motion Ready: {payload.get('prop')}", THEME_USER_COLORS["success"])
                         self.bm_ready_signal.emit(payload.get("prop", ""), payload.get("value"))
 
                     elif action == "host_info":
@@ -221,17 +222,14 @@ class ServerWorker(QThread):
         if not self._server_ready.is_set() or self._loop is None:
             return False
         
-        def _send():
-            loop = self._loop
-            if loop is not None:
-                asyncio.run_coroutine_threadsafe(
-                    self._outgoing_queue.put(payload),
-                    loop
-                )
-        
-        thread = threading.Thread(target=_send, daemon=True)
-        thread.start()
-        return True
+        try:
+            asyncio.run_coroutine_threadsafe(
+                self._outgoing_queue.put(payload),
+                self._loop
+            )
+            return True
+        except Exception:
+            return False
 
     def wait_for_ready(self, timeout=5.0):
         """Attend que le serveur soit prêt (max timeout secondes). Retourne True si prêt."""

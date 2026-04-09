@@ -50,6 +50,7 @@ class HotkeySignal(QObject):
     trigger_transition_options = pyqtSignal(str, str)
     log_signal = pyqtSignal(str, str)
     trigger_better_motion = pyqtSignal(str)
+    trigger_better_transform = pyqtSignal()
 
 class EffectsPage(QMainWindow):
     def __init__(self):
@@ -199,6 +200,7 @@ class EffectsPage(QMainWindow):
         self.hotkey_signal.trigger_transition_options.connect(self._show_transition_safe)
         self.hotkey_signal.log_signal.connect(self.append_log)
         self.hotkey_signal.trigger_better_motion.connect(self._start_better_motion)
+        self.hotkey_signal.trigger_better_transform.connect(self._start_better_transform)
         
         debug_log("About to create GlobalHotkeyManager...")
         self.hotkey_manager = GlobalHotkeyManager(
@@ -206,6 +208,7 @@ class EffectsPage(QMainWindow):
             transition_callback=self.hotkey_signal.trigger_transition_options.emit,
             log_callback=self.hotkey_signal.log_signal.emit,
             bm_callback=self.hotkey_signal.trigger_better_motion.emit,
+            bt_callback=self.hotkey_signal.trigger_better_transform.emit,
             last_used_getter=get_last_used,
             config_getter=load_searchbar_config
         )
@@ -230,6 +233,10 @@ class EffectsPage(QMainWindow):
     def _start_better_motion(self, prop_name):
         from Core.functions.better_motion import start_better_motion_adjust
         start_better_motion_adjust(prop_name)
+
+    def _start_better_transform(self):
+        from Core.functions.better_motion import start_better_transform
+        start_better_transform()
 
     def _on_bm_ready(self, prop, value):
         from Core.functions.better_motion import handle_bm_ready

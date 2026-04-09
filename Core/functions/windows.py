@@ -14,6 +14,7 @@ from GUI.Pages.customHotkey_page import CustomHotkeyPage
 from GUI.Pages.priorityIgnore_page import PriorityIgnorePage
 from GUI.Pages.commands_page import CommandsPage
 from GUI.Pages.macro_editor_page import MacroEditorPage
+from GUI.Pages.macros_page import MacrosPage
 
 WINDOW_SIZES = {
     "main": {"width": 540, "height": 785},
@@ -29,6 +30,7 @@ WINDOW_SIZES = {
     "priority_ignore": {"width": 540, "height": 700},
     "commands": {"width": "auto", "height": "auto"},
     "macro_editor": {"width": 540, "height": 600},
+    "macros": {"width": 540, "height": 500},
 }
 
 
@@ -144,6 +146,12 @@ def create_window(window_type, parent, modal=True):
         window = MacroEditorPage(parent)
         window.setParent(parent)
         apply_window_config(window, "macro_editor", "Macro Editor")
+        return window
+
+    elif window_type == "macros":
+        window = MacrosPage(parent)
+        window.setParent(parent)
+        apply_window_config(window, "macros", "Macros")
         return window
 
     else:

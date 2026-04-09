@@ -104,11 +104,12 @@ class EffectApplier:
             pass
 
     @staticmethod
-    def apply_effect_to_premiere(match_name, effect_type, alignment="center"):
+    def apply_effect_to_premiere(match_name, effect_type, alignment="both"):
         EffectApplier.focus_premiere()
         time.sleep(0.1)
 
-        # On renvoie EXACTEMENT ce que le plugin a envoye a l'origine
+        # Le plugin JS attend EXPLICITEMENT ces chaines dans sa condition includes()
+        # Ne PAS changer en 'video' ou 'transition'.
         payload = {
             "action": "apply_effect",
             "matchName": match_name,

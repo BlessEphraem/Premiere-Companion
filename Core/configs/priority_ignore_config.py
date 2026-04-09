@@ -7,7 +7,6 @@ DEFAULT_PRIORITY_IGNORE_CONFIG = {
         "TR.V":   3,
         "PRST":   4,
         "CMD":    5,
-        "CMD.PR": 6
     },
     "priority": [],   # list of {"match_name": str, "value": int (1–999)}
     "ignore":   []    # list of matchNames — hidden from all lists and search

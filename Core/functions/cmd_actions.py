@@ -77,37 +77,13 @@ def get_dynamic_commands():
     bm_enabled = bm_config.get("enabled", False)
 
     if bm_enabled:
-        def _amt(sec, act):
-            d = bm_config.get(sec, {}).get(act, {})
-            return d.get("amount", 0) if isinstance(d, dict) else 0
-
         commands += [
-            {"displayName": "Better Transform",            "matchName": "CMD.BM.transform",       "type": "CMD.BM"},
+            {"displayName": "Better Transform", "matchName": "CMD.BM.transform", "type": "CMD.BM"},
+            {"displayName": "Position",         "matchName": "CMD.BM.position",  "type": "CMD.BM", "dynamic": True},
+            {"displayName": "Scale",            "matchName": "CMD.BM.scale",     "type": "CMD.BM", "dynamic": True},
+            {"displayName": "Rotation",         "matchName": "CMD.BM.rotation",  "type": "CMD.BM", "dynamic": True},
+            {"displayName": "Opacity",          "matchName": "CMD.BM.opacity",   "type": "CMD.BM", "dynamic": True},
         ]
-
-        pxa = _amt("position", "x_add")
-        pxs = _amt("position", "x_sub")
-        pya = _amt("position", "y_add")
-        pys = _amt("position", "y_sub")
-        commands += [
-            {"displayName": "Position Adjust",            "matchName": "CMD.BM.position.adjust", "type": "CMD.BM"},
-            {"displayName": "Position Reset",             "matchName": "CMD.BM.position.reset",  "type": "CMD.BM"},
-            {"displayName": f"Position Add X (+{pxa})",   "matchName": "CMD.BM.position.x_add",  "type": "CMD.BM"},
-            {"displayName": f"Position Sub X ({pxs})",    "matchName": "CMD.BM.position.x_sub",  "type": "CMD.BM"},
-            {"displayName": f"Position Add Y (+{pya})",   "matchName": "CMD.BM.position.y_add",  "type": "CMD.BM"},
-            {"displayName": f"Position Sub Y ({pys})",    "matchName": "CMD.BM.position.y_sub",  "type": "CMD.BM"},
-        ]
-
-        for sec in ("scale", "rotation", "opacity"):
-            amt_add = _amt(sec, "add")
-            amt_sub = _amt(sec, "sub")
-            sec_cap = sec.capitalize()
-            commands += [
-                {"displayName": f"{sec_cap} Adjust",           "matchName": f"CMD.BM.{sec}.adjust", "type": "CMD.BM"},
-                {"displayName": f"{sec_cap} Reset",            "matchName": f"CMD.BM.{sec}.reset",  "type": "CMD.BM"},
-                {"displayName": f"{sec_cap} Add (+{amt_add})", "matchName": f"CMD.BM.{sec}.add",    "type": "CMD.BM"},
-                {"displayName": f"{sec_cap} Sub ({amt_sub})",  "matchName": f"CMD.BM.{sec}.sub",    "type": "CMD.BM"},
-            ]
 
     # ── Macros ───────────────────────────────────────────────────────────────
     from Core.functions.macros import get_macros_as_commands
@@ -118,10 +94,10 @@ def get_dynamic_commands():
 
 # ── Execution ─────────────────────────────────────────────────────────────────
 
-def execute_cmd_action(match_name, main_window, custom_value=None):
+def execute_cmd_action(match_name, main_window, custom_data=None):
     """
-    Execute a CMD action. custom_value is an optional positive integer
-    provided by the smart number search (e.g. the user typed 'position add 125').
+    Execute a CMD action. custom_data is an optional string provided by
+    the search bar when the user typed an inline value (e.g. 'opacity 0').
     """
     if match_name == "CMD.QA.toggle":
         _qa_toggle(main_window)
@@ -130,7 +106,7 @@ def execute_cmd_action(match_name, main_window, custom_value=None):
     elif match_name == "CMD.QA.calibrate":
         _qa_calibrate(main_window)
     elif match_name.startswith("CMD.BM."):
-        _bm_action(match_name, main_window, custom_value)
+        _bm_action(match_name, main_window, custom_data)
     elif match_name.startswith("CMD.MA."):
         from Core.functions.macros import execute_macro
         # matchName is CMD.MA.<MacroName>
@@ -174,56 +150,127 @@ def _qa_delay(main_window):
 
 
 def _qa_calibrate(main_window):
-    from GUI.Pages.quickApply_page import QuickApplyWizard
-    from Core.functions.windows import apply_window_config
-    wizard = QuickApplyWizard(main_window)
-    apply_window_config(wizard, "quick_apply", "Configuration: Quick Apply for Presets")
-    main_window.register_child_window(wizard)
-    wizard.show()
-    wizard.start_capture()
+    from Modules.apply_preset import PresetApplier
+    from Core.theme_qss import THEME_USER_COLORS
+    success, msg, data = PresetApplier.capture_and_validate(delay_ms=200)
+    if success and data:
+        PresetApplier.save_config(data)
+        main_window.append_log(f" Quick Apply Calibration: {msg}", THEME_USER_COLORS["success"])
+    else:
+        from PyQt6.QtWidgets import QMessageBox
+        QMessageBox.warning(main_window, "Calibration Failed", msg)
+        main_window.append_log(f" Quick Apply Calibration Failed: {msg}", THEME_USER_COLORS["error"])
 
 
 # ── BM helpers ────────────────────────────────────────────────────────────────
 
-def _bm_action(match_name, main_window, custom_value=None):
+def parse_bm_value(prop, raw):
+    """
+    Parse raw user input into a structured BM command dict.
+    Returns dict with prop, op_x, val_x, op_y, val_y  — or None if unparseable.
+
+    Decimal separator : ","  (e.g. "100,5" = 100.5)
+    X/Y separator (position only): "."  (e.g. "100.200" → X=100, Y=200)
+    Prefix + → add (direct);  prefix - → sub (direct);  no prefix → set (absolute)
+    Leading dot  ".200"  → skip X, operate on Y only
+    Trailing dot "100."  → operate on X only, skip Y
+    """
+    raw = raw.strip()
+    if not raw:
+        return None
+
+    def _parse_part(s):
+        s = s.strip()
+        if not s:
+            return None, None
+        s = s.replace(",", ".")
+        try:
+            if s.startswith("+"):
+                return "add", float(s[1:])
+            elif s.startswith("-"):
+                return "sub", float(s[1:])
+            else:
+                return "set", float(s)
+        except ValueError:
+            return None, None
+
+    result = {"prop": prop, "op_x": None, "val_x": None, "op_y": None, "val_y": None}
+
+    if prop == "position":
+        dot_idx = raw.find(".")
+        if dot_idx == -1:
+            op, val = _parse_part(raw)
+            result.update(op_x=op, val_x=val, op_y=op, val_y=val)
+        else:
+            op_x, val_x = _parse_part(raw[:dot_idx])
+            op_y, val_y = _parse_part(raw[dot_idx + 1:])
+            result.update(op_x=op_x, val_x=val_x, op_y=op_y, val_y=val_y)
+    else:
+        op, val = _parse_part(raw)
+        result.update(op_x=op, val_x=val)
+
+    if result["val_x"] is None and result["val_y"] is None:
+        return None
+    return result
+
+
+def _bm_action(match_name, main_window, custom_data=None):
     # CMD.BM.transform  (special top-level)
     if match_name == "CMD.BM.transform":
         from Core.functions.better_motion import start_better_transform
         start_better_transform()
         return
 
-    # CMD.BM.<sec>.<act>  →  parts = [CMD, BM, sec, act]
     parts = match_name.split(".")
-    if len(parts) < 4:
+    prop = parts[2] if len(parts) >= 3 else None
+    if not prop:
         return
-    sec = parts[2]
-    act = parts[3]
 
-    if act == "adjust":
+    if match_name.endswith(".dynamic") and custom_data and isinstance(custom_data, str):
+        if custom_data.strip().lower() == "reset":
+            from Core.functions.better_motion import send_better_motion_reset
+            send_better_motion_reset(prop)
+            return
+
+        parsed = parse_bm_value(prop, custom_data)
+        if not parsed:
+            return
+        from Core.functions.better_motion import send_better_motion_direct, send_better_motion_set
+        op_x, val_x = parsed.get("op_x"), parsed.get("val_x")
+        op_y, val_y = parsed.get("op_y"), parsed.get("val_y")
+
+        if prop == "position":
+            # Combine X+Y into a single call when both axes are the same operation type,
+            # to avoid a read-then-write race where the second call overwrites the first.
+            both_set = (op_x == "set" and op_y == "set" and val_x is not None and val_y is not None)
+            both_rel = (op_x in ("add", "sub") and op_y in ("add", "sub") and val_x is not None and val_y is not None)
+            if both_set:
+                send_better_motion_set("position", val_x, val_y)
+            elif both_rel:
+                ax = val_x if op_x == "add" else -val_x
+                ay = val_y if op_y == "add" else -val_y
+                send_better_motion_direct("position", ax, ay)
+            else:
+                # One axis only (or mixed operations — handle individually)
+                if val_x is not None:
+                    if op_x in ("add", "sub"):
+                        send_better_motion_direct("position", val_x if op_x == "add" else -val_x, 0)
+                    elif op_x == "set":
+                        send_better_motion_set("position", val_x, None)
+                if val_y is not None:
+                    if op_y in ("add", "sub"):
+                        send_better_motion_direct("position", 0, val_y if op_y == "add" else -val_y)
+                    elif op_y == "set":
+                        send_better_motion_set("position", None, val_y)
+        else:
+            if val_x is not None:
+                if op_x in ("add", "sub"):
+                    send_better_motion_direct(prop, val_x if op_x == "add" else -val_x)
+                elif op_x == "set":
+                    send_better_motion_set(prop, val_x)
+        return
+
+    # Default: open interactive overlay
+    if prop in ("position", "scale", "rotation", "opacity"):
         from Core.functions.better_motion import start_better_motion_adjust
-        start_better_motion_adjust(sec)
-        return
-
-    if act == "reset":
-        from Core.functions.better_motion import send_better_motion_reset
-        send_better_motion_reset(sec)
-        return
-
-    if custom_value is not None:
-        # custom_value is always a positive integer from smart search
-        sign = -1 if "sub" in act else 1
-        amount = sign * abs(custom_value)
-    else:
-        bm_config = _load_bm_config()
-        d = bm_config.get(sec, {}).get(act, {})
-        amount = d.get("amount", 0) if isinstance(d, dict) else 0
-
-    from Core.functions.better_motion import send_better_motion_direct
-
-    if sec == "position":
-        if act in ("x_add", "x_sub"):
-            send_better_motion_direct("position", amount, 0)
-        elif act in ("y_add", "y_sub"):
-            send_better_motion_direct("position", 0, amount)
-    else:
-        send_better_motion_direct(sec, amount)
+        start_better_motion_adjust(prop)

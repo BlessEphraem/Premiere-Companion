@@ -98,6 +98,22 @@ class PresetApplier:
             return False, "Error during focus validation.", None
 
     @staticmethod
+    def validate_for_macro():
+        """
+        Lightweight pre-flight check — no side effects, no focus changes.
+        Returns (ok: bool, msg: str).
+        Called by the macro engine before starting execution.
+        """
+        config = PresetApplier.load_config()
+        if not config:
+            return False, "Quick Apply n'est pas calibré. Lancez la calibration."
+        if not config.get("quick_apply_enabled", False):
+            return False, "Quick Apply est désactivé. Activez-le d'abord."
+        if "mouse_x" not in config or "mouse_y" not in config:
+            return False, "Position Quick Apply non capturée. Lancez la calibration."
+        return True, "OK"
+
+    @staticmethod
     def apply_preset_to_premiere(preset_name, is_quick_apply=False, keep_on_mouse=None, skip_typing=False):
         input_was_blocked = False
         try:

@@ -96,13 +96,14 @@ class HotkeyListener(threading.Thread):
 
 class GlobalHotkeyManager:
     def __init__(self, trigger_callback, log_callback, transition_callback=None,
-                 last_used_getter=None, config_getter=None, bm_callback=None):
+                 last_used_getter=None, config_getter=None, bm_callback=None, bt_callback=None):
         self.trigger_callback = trigger_callback
         self.log_callback = log_callback
         self.transition_callback = transition_callback
         self.last_used_getter = last_used_getter
         self.config_getter = config_getter
         self.bm_callback = bm_callback
+        self.bt_callback = bt_callback
         self.hotkey_thread = None
 
     def update_global_hotkey(self):
@@ -242,8 +243,8 @@ class GlobalHotkeyManager:
                                     title = win32gui.GetWindowText(hwnd)
                                     if hwnd and ("Adobe Premiere Pro" in title or win32gui.GetClassName(hwnd) == "Premiere Pro"):
                                         self.log_callback(" Better Transform triggered", THEME_USER_COLORS["info"])
-                                        from Core.functions.better_motion import start_better_transform
-                                        start_better_transform()
+                                        if self.bt_callback:
+                                            self.bt_callback()
                                 except Exception as e:
                                     self.log_callback(f" Error in Better Transform: {e}", THEME_USER_COLORS["error"])
                             return cb

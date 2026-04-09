@@ -6,6 +6,6 @@
     "font_size": 15,
     "bg_opacity": 0.85,
     "blur_background": false,
-    "apply_last_on_empty_enter": false,
-    "apply_last_without_name_enter": false
+    "apply_last_on_empty_enter": true,
+    "apply_last_without_name_enter": true
 }

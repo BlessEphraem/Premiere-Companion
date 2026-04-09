@@ -131,6 +131,42 @@ class AddonsPage(QWidget):
         
         layout.addWidget(bm_card)
 
+        # ── Macros Card ───────────────────────────────────────────────────────
+        macros_card = QFrame()
+        macros_card.setObjectName("CardFrame")
+        macros_layout = QVBoxLayout(macros_card)
+        macros_layout.setContentsMargins(THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"])
+        macros_layout.setSpacing(THEME_SPACING["spacing_element"])
+
+        macros_title_layout = QHBoxLayout()
+        macros_title_layout.setSpacing(THEME_SPACING["spacing_element"])
+        lbl_macros_icon = QLabel()
+        lbl_macros_icon.setPixmap(icon_pixmap("bolt", size=THEME_SPACING["icon_medium"]))
+        lbl_macros_icon.setFixedSize(THEME_SPACING["icon_medium"], THEME_SPACING["icon_medium"])
+        lbl_macros_icon.setScaledContents(True)
+        lbl_macros_title = QLabel("Macros")
+        lbl_macros_title.setObjectName("CardLabelBold")
+        macros_title_layout.addWidget(lbl_macros_icon)
+        macros_title_layout.addWidget(lbl_macros_title)
+        macros_title_layout.addStretch()
+        macros_layout.addLayout(macros_title_layout)
+
+        lbl_macros_desc = QLabel(
+            "Create sequences of effects, presets, transitions and commands.\n"
+            "Chain them together with custom parameters and timing."
+        )
+        lbl_macros_desc.setObjectName("CardLabelSubtle")
+        macros_layout.addWidget(lbl_macros_desc)
+
+        btn_macros = QPushButton()
+        btn_macros.setIcon(icon("cog"))
+        btn_macros.setText(" Configure")
+        btn_macros.setFixedWidth(THEME_SPACING["width_button_medium"])
+        btn_macros.clicked.connect(self.open_macros)
+        macros_layout.addWidget(btn_macros, alignment=Qt.AlignmentFlag.AlignLeft)
+
+        layout.addWidget(macros_card)
+
         # ── Custom Hotkeys Card ───────────────────────────────────────────────
         custom_btn_card = QFrame()
         custom_btn_card.setObjectName("CardFrame")
@@ -155,6 +191,11 @@ class AddonsPage(QWidget):
         layout.addWidget(custom_btn_card)
 
         layout.addStretch()
+
+    def open_macros(self):
+        dialog = create_window("macros", self.mw, modal=True)
+        if dialog:
+            dialog.exec()
 
     def open_premiere_keybinds(self):
         dialog = create_window("premiere_keybinds", self.mw, modal=True)
@@ -201,7 +242,7 @@ class AddonsPage(QWidget):
     def update_qa_ui(self):
         config = PresetApplier.load_config()
         is_enabled = config.get("quick_apply_enabled", False) if config else False
-        self.btn_toggle_qa.setText("Toggle : Enable" if is_enabled else "Toggle : Disable")
+        self.btn_toggle_qa.setText("Toggle : ON" if is_enabled else "Toggle : OFF")
         self.btn_toggle_qa.setProperty("qa_state", "enabled" if is_enabled else "disabled")
         self.btn_toggle_qa.style().unpolish(self.btn_toggle_qa)
         self.btn_toggle_qa.style().polish(self.btn_toggle_qa)
@@ -272,7 +313,7 @@ class AddonsPage(QWidget):
             except:
                 pass
         
-        self.btn_toggle_bm.setText("Toggle : Enable" if is_enabled else "Toggle : Disable")
+        self.btn_toggle_bm.setText("Toggle : ON" if is_enabled else "Toggle : OFF")
         self.btn_toggle_bm.setProperty("qa_state", "enabled" if is_enabled else "disabled")
         self.btn_toggle_bm.style().unpolish(self.btn_toggle_bm)
         self.btn_toggle_bm.style().polish(self.btn_toggle_bm)

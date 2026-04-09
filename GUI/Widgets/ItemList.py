@@ -24,9 +24,7 @@ class EffectItemWidget(QWidget):
         elif is_video(effect_type): type_key = "TagVideo"
         elif is_audio(effect_type): type_key = "TagAudio"
 
-        self.lbl_tag = QLabel(get_display_label(effect_type))
-        self.lbl_tag.setObjectName("EffectTag")
-        self.lbl_tag.setProperty("type", type_key)
+        self.lbl_tag = QLabel(f" {effect_type} ")
         self.lbl_tag.setObjectName("EffectTag")
         self.lbl_tag.setProperty("type", type_key)
         
@@ -56,6 +54,9 @@ class EffectItemWidget(QWidget):
                 window.show()
             elif self.match_name == "CMD.BM":
                 self.parent_gui.append_log(" Better Motion is triggered via its hotkey.", THEME_USER_COLORS["info"])
+            return
+        if is_transition(self.effect_type):
+            self.parent_gui._show_transition_safe(self.match_name, self.effect_type)
             return
         if "PRST" in self.effect_type:
             self.parent_gui.append_log(f" Apply Preset: '{self.match_name}'", THEME_USER_COLORS["info"])

@@ -2,9 +2,9 @@
 import os
 import json
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel,
-                             QPushButton, QLineEdit, QFrame, QCheckBox,
-                             QWidget, QScrollArea, QListWidget, QListWidgetItem)
-from PyQt6.QtCore import Qt, QSize
+                             QPushButton, QLineEdit, QFrame,
+                             QWidget, QScrollArea)
+from PyQt6.QtCore import Qt
 from Core.paths import get_data_path
 from Core.functions.icon_loader import icon, icon_pixmap
 from Core.theme_qss import THEME_SPACING, THEME_USER_COLORS
@@ -24,53 +24,6 @@ _KEYWORD_ROWS = [
 ]
 
 
-class MacroItemWidget(QWidget):
-    def __init__(self, macro_data, parent_page):
-        super().__init__()
-        self.macro_data = macro_data
-        self.parent_page = parent_page
-
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(THEME_SPACING["padding_small"], THEME_SPACING["padding_tiny"], THEME_SPACING["padding_small"], THEME_SPACING["padding_tiny"])
-
-        lbl_tag = QLabel("[CMD.MA]")
-        lbl_tag.setObjectName("EffectTag")
-        lbl_tag.setProperty("type", "TagCommand")
-        
-        lbl_name = QLabel(macro_data.get("name", "Unnamed Macro"))
-        lbl_name.setObjectName("effectName")
-        
-        layout.addWidget(lbl_tag)
-        layout.addWidget(lbl_name)
-        layout.addStretch()
-
-        btn_edit = QPushButton()
-        btn_edit.setIcon(icon("edit"))
-        btn_edit.setFixedSize(THEME_SPACING["width_icon_button_fixed"], THEME_SPACING["width_icon_button_fixed"])
-        btn_edit.setObjectName("RegexEditBtn")
-        btn_edit.clicked.connect(self.edit_macro)
-
-        btn_del = QPushButton()
-        btn_del.setIcon(icon("times-circle"))
-        btn_del.setFixedSize(THEME_SPACING["width_icon_button_fixed"], THEME_SPACING["width_icon_button_fixed"])
-        btn_del.setObjectName("RegexDeleteBtn")
-        btn_del.clicked.connect(self.delete_macro)
-
-        layout.addWidget(btn_edit)
-        layout.addWidget(btn_del)
-
-    def edit_macro(self):
-        self.parent_page.open_macro_editor(self.macro_data)
-
-    def delete_macro(self):
-        from Core.configs.macros_config import load_macros_config, save_macros_config
-        config = load_macros_config()
-        config["macros"] = [m for m in config["macros"] if m["name"] != self.macro_data["name"]]
-        save_macros_config(config)
-        self.parent_page.load_macros_ui()
-        self.parent_page.mw.reload_commands()
-
-
 class CommandsPage(QDialog):
     def __init__(self, main_window):
         super().__init__(main_window)
@@ -79,7 +32,6 @@ class CommandsPage(QDialog):
         self._inputs = {}   # type_code -> QLineEdit
         self.init_ui()
         self.load_config()
-        self.load_macros_ui()
 
     def init_ui(self):
         layout = QVBoxLayout(self)
@@ -170,31 +122,6 @@ class CommandsPage(QDialog):
 
         scroll_layout.addWidget(kw_card)
 
-        # Macros card
-        macro_card = QFrame()
-        macro_card.setObjectName("CardFrame")
-        macro_layout = QVBoxLayout(macro_card)
-        macro_layout.setContentsMargins(THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"], THEME_SPACING["margin_card"])
-        macro_layout.setSpacing(THEME_SPACING["spacing_element"])
-
-        macro_header = QHBoxLayout()
-        lbl_macro_title = QLabel("Custom Macros")
-        lbl_macro_title.setObjectName("CardLabelBold")
-        btn_create = QPushButton(" Create Macro")
-        btn_create.setIcon(icon("plus"))
-        btn_create.setFixedWidth(THEME_SPACING["width_button_medium"])
-        btn_create.clicked.connect(lambda: self.open_macro_editor())
-        macro_header.addWidget(lbl_macro_title)
-        macro_header.addStretch()
-        macro_header.addWidget(btn_create)
-        macro_layout.addLayout(macro_header)
-
-        self.macro_list = QListWidget()
-        self.macro_list.setSelectionMode(QListWidget.SelectionMode.NoSelection)
-        self.macro_list.setFixedHeight(200)
-        macro_layout.addWidget(self.macro_list)
-        scroll_layout.addWidget(macro_card)
-
         # Warning label
         self.lbl_warning = QLabel("")
         self.lbl_warning.setObjectName("WarningLabel")
@@ -215,28 +142,6 @@ class CommandsPage(QDialog):
         btn_save.clicked.connect(self.save_config)
         footer.addWidget(btn_save)
         layout.addLayout(footer)
-
-    def load_macros_ui(self):
-        from Core.configs.macros_config import load_macros_config
-        self.macro_list.clear()
-        config = load_macros_config()
-        for macro in config.get("macros", []):
-            item = QListWidgetItem(self.macro_list)
-            item.setSizeHint(QSize(0, 45))
-            widget = MacroItemWidget(macro, self)
-            self.macro_list.setItemWidget(item, widget)
-
-    def open_macro_editor(self, macro_data=None):
-        from Core.functions.windows import create_window
-        # We need to register "macro_editor" in windows.py first
-        # But let's assume it will be there.
-        dialog = create_window("macro_editor", self.mw, modal=True)
-        if dialog:
-            if macro_data:
-                dialog.load_macro(macro_data)
-            if dialog.exec():
-                self.load_macros_ui()
-                self.mw.reload_commands()
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 

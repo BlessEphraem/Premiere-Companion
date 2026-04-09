@@ -1,5 +1,5 @@
 {
-    "Window > Timelines": "Shift+3",
-    "Window > Effect": "Shift+2",
-    "Search Find Box": "Shift+F"
+    "Window > Timelines": "F8",
+    "Window > Effect": "Shift+F4",
+    "Search Find Box": "Ctrl+F"
 }

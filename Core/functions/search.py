@@ -15,6 +15,8 @@ def _get_filter_modes():
         labels = get_labels()
         _filter_modes_cache = [{"name": "All", "type": "All"}]
         for type_code, data in labels.items():
+            if type_code.startswith("CMD."):
+                continue
             _filter_modes_cache.append({"name": data["label"], "type": type_code})
     return _filter_modes_cache
 
@@ -52,25 +54,49 @@ def load_search_history():
                 data = json.load(f)
             
             if isinstance(data, list):
-                return {"last_used": None, "history": data}
-            return {"last_used": data.get("last_used"), "history": data.get("history", [])}
+                return {"last_used": None, "history": data, "dynamic_data": {}}
+            return {
+                "last_used": data.get("last_used"),
+                "history": data.get("history", []),
+                "dynamic_data": data.get("dynamic_data", {}),
+            }
         except Exception:
             pass
     
     return {"last_used": None, "history": []}
 
-def save_last_used(match_name, effect_type, display_name):
-    """Save last used item to search_history.json."""
+def save_last_used(match_name, effect_type, display_name, custom_data=None):
+    """Save last used item to search_history.json and update history list."""
     history_path = _get_history_path()
     data = load_search_history()
+
+    # Update last_used
     data["last_used"] = {
         "match_name": match_name,
         "type": effect_type,
         "display_name": display_name
     }
+
+    # Update history list
+    history = data.get("history", [])
+    if match_name in history:
+        history.remove(match_name)
+    history.insert(0, match_name)
+
+    # Respect max_recent from config
+    config = load_searchbar_config()
+    max_recent = config.get("max_recent", 5)
+    data["history"] = history[:max_recent]
+
+    # Persist custom_data for dynamic commands (e.g. "CMD.BM.opacity.dynamic" → "0")
+    if custom_data is not None:
+        dd = data.get("dynamic_data", {})
+        dd[match_name] = {"custom_data": custom_data, "displayName": display_name, "type": effect_type}
+        data["dynamic_data"] = dd
+
     os.makedirs(os.path.dirname(history_path), exist_ok=True)
     with open(history_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False)
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 def save_history_list(history_items):
     """Save history list to search_history.json (preserves last_used)."""

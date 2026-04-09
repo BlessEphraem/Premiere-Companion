@@ -150,7 +150,7 @@ THEME_SPACING = {
     "padding_small": 10,
     "padding_tiny": 5,
     "spacing_tight": 2,
-    "padding_splash": 30,
+    "padding_splash": 16,
     "padding_splash_inner": 20,
     "icon_small": 40,
     "icon_medium": 20,
@@ -185,9 +185,9 @@ THEME_SPACING = {
     "padding_info_label_vertical": 5,
     "padding_action_button": "10px",
     "splash_width": 400,
-    "splash_height": 200,
+    "splash_height": 128,
     "splash_inner_width": 350,
-    "splash_inner_height": 80,
+    "splash_inner_height": 128,
     "splash_progress_height": 10,
 }
 
@@ -292,6 +292,13 @@ def generate_theme_qss(colors, loaded_font=None):
     ON = QSS_CONSTANTS["outline_none"]
     BGT = QSS_CONSTANTS["bg_transparent"]
 
+    BG_LABEL_VIDEO      = hex_to_rgba(LABEL_VIDEO, 0.15)
+    BG_LABEL_AUDIO      = hex_to_rgba(LABEL_AUDIO, 0.15)
+    BG_LABEL_TRANSITION = hex_to_rgba(LABEL_TRANSITION, 0.15)
+    BG_LABEL_PRESET     = hex_to_rgba(TEXT_WHITE, 0.15)
+    BG_LABEL_COMMAND    = hex_to_rgba(WARNING, 0.15)
+    BG_LABEL_UNKNOWN    = hex_to_rgba(BTN_ACCENT_1, 0.15)
+
     dynamic_qss = f"""
     * {{ {ON} }}
     QMainWindow, QWidget {{ background-color: {BG}; color: {TEXT}; font-family: "{FONT_FAMILY}", sans-serif; font-size: {FB}px; font-weight: {font_weight}; }}
@@ -332,15 +339,13 @@ def generate_theme_qss(colors, loaded_font=None):
     QPushButton#NavButton[active="true"] {{ background-color: {ACCENT}; {BN} {ON} }}
     QPushButton#Toggle[qa_state="enabled"] {{ background-color: {SUCCESS}; color: black; font-weight: bold; padding: {NBP}px; {BN} {ON} }}
     QPushButton#Toggle[qa_state="disabled"] {{ background-color: {ERROR}; color: white; font-weight: bold; padding: {NBP}px; {BN} {ON} }}
-    QLabel#EffectTag {{ font-weight: bold; font-size: {FCL}px; margin-right: {METR}px; padding: 0; }}
-    QLabel#EffectTag[type="TagVideo"] {{ color: {LABEL_VIDEO}; }}
-    QLabel#EffectTag[type="TagAudio"] {{ color: {LABEL_AUDIO}; }}
-    QLabel#EffectTag[type="TagTransition"] {{ color: {LABEL_TRANSITION}; }}
-    QLabel#EffectTag[type="TagPreset"] {{ color: {TEXT_WHITE}; }}
-    QLabel#EffectTag[type="TagRecent"] {{ color: {WARNING}; }}
-    QLabel#EffectTag[type="TagLastUsed"] {{ color: {WARNING}; }}
-    QLabel#EffectTag[type="TagCommand"] {{ color: {WARNING}; }}
-    QLabel#EffectTag[type="unknown"] {{ color: {BTN_ACCENT_1}; }}
+    QLabel#EffectTag {{ font-weight: bold; font-size: 11px; margin-right: {METR}px; padding: 2px 4px; border-radius: 4px; }}
+    QLabel#EffectTag[type="TagVideo"] {{ color: {LABEL_VIDEO}; border: 1px solid {LABEL_VIDEO}; background-color: {BG_LABEL_VIDEO}; }}
+    QLabel#EffectTag[type="TagAudio"] {{ color: {LABEL_AUDIO}; border: 1px solid {LABEL_AUDIO}; background-color: {BG_LABEL_AUDIO}; }}
+    QLabel#EffectTag[type="TagTransition"] {{ color: {LABEL_TRANSITION}; border: 1px solid {LABEL_TRANSITION}; background-color: {BG_LABEL_TRANSITION}; }}
+    QLabel#EffectTag[type="TagPreset"] {{ color: {TEXT_WHITE}; border: 1px solid {TEXT_WHITE}; background-color: {BG_LABEL_PRESET}; }}
+    QLabel#EffectTag[type="TagRecent"], QLabel#EffectTag[type="TagLastUsed"], QLabel#EffectTag[type="TagCommand"] {{ color: {WARNING}; border: 1px solid {WARNING}; background-color: {BG_LABEL_COMMAND}; }}
+    QLabel#EffectTag[type="unknown"] {{ color: {BTN_ACCENT_1}; border: 1px solid {BTN_ACCENT_1}; background-color: {BG_LABEL_UNKNOWN}; }}
     QLabel#StatusLabel[connected="true"] {{ color: {SUCCESS}; font-weight: bold; }}
     QLabel#StatusLabel[connected="false"] {{ color: {ERROR}; font-weight: bold; }}
     QLabel#StatusLabel {{ color: {TEXT_SUBTLE}; font-weight: bold; }}
