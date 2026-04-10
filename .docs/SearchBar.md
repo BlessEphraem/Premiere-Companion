@@ -2,13 +2,15 @@
 
 ## Opening & Closing the Search Bar
 
+
 |Action|Default Shortcut|
 |---|---|
 |Open search bar|`Ctrl+Space` _(while Premiere Pro is focused)_|
 |Close search bar|`Escape` _(or any click outside of it)_|
 |Close on focus loss|Automatic — the bar closes if you click outside it|
 
-> The trigger shortcut is fully configurable. Go to **Keymaps** in the app and change the **"Run Search Bar"** binding to whatever you prefer.
+To change theses, go to **Settings -> Search -> Bar**.
+> The trigger shortcut is fully configurable. Go to **Settings -> Search -> Bar** in the app and change the **"Run Search Bar"** binding to whatever you prefer.
 
 > ⚠️ The shortcut only triggers when **Adobe Premiere Pro is the active window**. It will not interfere with other applications.
 
@@ -28,7 +30,7 @@ When opened, the search bar displays:
 └────────────────────────────────────────────┘
 ```
 
-Each result shows a **colored type tag** on the left and the **clean effect name** on the right.
+Each result shows a **colored type tag** on the left and the **effect name** on the right.
 
 ### Tag Colors
 
@@ -55,8 +57,8 @@ You never need to touch the mouse to use the search bar.
 |Key|Action|
 |---|---|
 |`↑` / `↓`|Move selection up/down through results|
-|`←` (at start of input)|Switch to previous category filter|
-|`→` (at end of input)|Switch to next category filter|
+|`CTRL + ←`|Switch to previous category filter|
+|`CTRL + →`|Switch to next category filter|
 |`Enter`|Apply the selected result|
 |`Escape`|Close the search bar|
 
@@ -71,12 +73,13 @@ Use `←` / `→` when your cursor is at the beginning or end of the input field
 |**FxAudio**|Audio effects only (no transitions)|
 |**Transition**|Video and audio transitions only|
 |**Preset**|Saved presets only|
+|**Commands**|Specific commands and custom user macro.|
 
 This is useful when you know the type of element you're looking for and want to narrow down a long results list.
 
 ## Applying Effects & Audio Effects
 
-Select the desired item with `↑` / `↓` and press `Enter` (or double-click).
+Select the desired item with `↑` / `↓` and press `Enter`.
 
 The app will:
 
@@ -137,20 +140,11 @@ Recent history is saved to `Data/search_history.json` and persists across sessio
 ## Tips & Best Practices
 
 - **Leave the search field empty and press `Enter`** — the first result (most recently used item) will be applied immediately. Great for repeat applications.
-- **Use category filters** (`←` / `→`) when you have a long list and know what type you need.
+- **Use category filters** (`CTRL + ←` / `CTRL + →`) when you have a long list and know what type you need.
 - **Keep Premiere Pro's window position stable** if you use Quick Apply. Moving or resizing the Premiere window invalidates the calibration and requires you to re-run the setup wizard.
 - **Name your presets descriptively** — since Quick Apply searches for an exact name, unique and descriptive preset names make targeting much more reliable.
 - If a transition or effect name looks garbled (e.g., `AE.ADBE XYZ PrTr`), go to the **Regex Cleaner** page and run **Auto-Generate Rules** to clean them up.
 
-## Troubleshooting
 
-|Problem|Solution|
-|---|---|
-|Search bar doesn't open|Make sure Premiere Pro is the active window. Check your shortcut in **Keymaps**. Run the app as Administrator.|
-|Effect not applied|Verify the WebSocket connection — check the console for a green "Premiere Pro connected" message.|
-|Preset drag doesn't work|Re-run the calibration wizard in **Settings → Configure**. Make sure the Premiere Pro window hasn't moved.|
-|Transition alignment menu doesn't appear|This is normal behavior for non-transition types. Transitions always show the alignment picker first.|
-|Effect names look wrong|Use **Regex Cleaner → Auto-Generate Rules** to clean up transition names.|
-|"Premiere's size or position has changed" error|The Premiere Pro window moved since calibration. Re-run the Quick Apply wizard.|
 
 _Back to [README](../README.md)_

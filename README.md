@@ -119,9 +119,13 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 # 📖 Usage Guide
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-***IN PROGRESS***
 - **[Quick Apply (Presets)](.docs/QuickApply.md)**
 - **[Search Bar ](.docs/SearchBar.md)**
+<br/>
+<br/>
+***IN PROGRESS***
+- **[Commands ](.docs/Commands.md)**
+- **[Macros & Hotkeys ](.docs/MacrosAndHotkeys.md)**
 
 ---
 

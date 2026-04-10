@@ -5,7 +5,15 @@
 > ***Why can't I apply an audio transition?***
 - The Premiere Pro UXP API does not support it at this time.
 
----
+## Troubleshooting
+
+|Problem|Solution|
+|---|---|
+|Search bar doesn't open|Make sure Premiere Pro is the active window. Check your shortcut in **Keymaps**. Run the app as Administrator.|
+|Effect not applied|Verify the WebSocket connection — check the console for a green "Premiere Pro connected" message.|
+|Preset drag doesn't work|Re-run the calibration wizard in **Settings → Configure**. Make sure the Premiere Pro window hasn't moved.|
+|Effect names look wrong|Use **Regex Cleaner → Auto-Generate Rules** to clean up transition names.|
+|"Premiere's size or position has changed" error|The Premiere Pro window moved since calibration. Re-run the Quick Apply wizard.|
 
 ## Known Issues
 

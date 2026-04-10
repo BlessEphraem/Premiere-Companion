@@ -7,6 +7,15 @@ Quick Apply works by recording the **exact screen position** of a preset icon in
 
 For this to work reliably, **all your presets must be stored at the same folder depth** in Premiere Pro's preset browser, so that a search always returns exactly one result at a consistent screen position.
 
+<p align="center">
+  <img src="medias/sample_FolderDepthGood1.png" width="32%" title="✅ Bon (Même niveau d'arborescence)">
+  <img src="medias/sample_FolderDepthGood2.png" width="32%" title="✅ Bon (Sous-dossiers de même niveau)">
+</p>
+
+<p align="center">
+  <img src="medias/sample_FolderDepthBad.png" width="32%" title="❌ Mauvais (Niveaux de profondeur mixtes)">
+</p>
+
 ## Step 1 - Assign Keybinds
 Go to the **Quick Apply -> Configure** page and make sure the following shortcuts match exactly what you have configured in Premiere Pro:
 
