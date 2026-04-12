@@ -57,7 +57,7 @@ class BetterMotionPage(QDialog):
         scroll_content.setObjectName("TransparentContainer")
         scroll_layout = QVBoxLayout(scroll_content)
         scroll_layout.setContentsMargins(0, 0, 0, 0)
-        scroll_layout.setSpacing(THEME_SPACING["spacing_element"])
+        scroll_layout.setSpacing(14)
 
         # ── Better Transform (top-level hotkey) ──────────────────────────────
         bt_frame = QFrame()
@@ -67,7 +67,7 @@ class BetterMotionPage(QDialog):
         bt_layout.setSpacing(THEME_SPACING["spacing_element"])
 
         bt_lbl = QLabel("Better Transform")
-        bt_lbl.setObjectName("CardLabelBold")
+        bt_lbl.setObjectName("SectionTitle")
         bt_layout.addWidget(bt_lbl)
 
         bt_desc = QLabel("All-in-one interactive mode: Position by default, hold RMB for Rotation, hold MMB for Scale.")
@@ -128,7 +128,7 @@ class BetterMotionPage(QDialog):
             sec_layout.setSpacing(THEME_SPACING["spacing_element"])
 
             sec_lbl = QLabel(sec_title)
-            sec_lbl.setObjectName("CardLabelBold")
+            sec_lbl.setObjectName("SectionTitle")
             sec_layout.addWidget(sec_lbl)
 
             # Mouse axis/invert control — for all non-position props

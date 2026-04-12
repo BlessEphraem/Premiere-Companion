@@ -4,18 +4,11 @@ import os
 import subprocess
 import json
 import threading
-import time
 from PyQt6.QtWidgets import (QMainWindow, QLabel, QVBoxLayout, QWidget, 
                              QTextEdit, QHBoxLayout, QLineEdit, QListWidget, 
                              QPushButton, QStackedWidget, QFrame, QToolTip, QDialog, QApplication)
 from PyQt6.QtCore import Qt, QRect, QTimer, QObject, pyqtSignal, QEvent, QSize
 from PyQt6.QtGui import QCursor
-
-DEBUG_LOG = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "debug_startup.log")
-
-def debug_log(msg):
-    with open(DEBUG_LOG, "a", encoding="utf-8") as f:
-        f.write(f"[{time.strftime('%H:%M:%S')}] [EffectsPage] {msg}\n")
 
 from Core.functions.server import ServerWorker, set_server_worker
 from Core.cleaner import EffectCleaner
@@ -54,9 +47,7 @@ class HotkeySignal(QObject):
 
 class EffectsPage(QMainWindow):
     def __init__(self):
-        debug_log("__init__ started")
         super().__init__()
-        debug_log("super().__init__ done")
         self.hide()  # Prevent any premature window display
         self.resize(WINDOW_SIZES["main"]["width"], WINDOW_SIZES["main"]["height"])
         self.setMinimumSize(WINDOW_SIZES["main_min"]["width"], WINDOW_SIZES["main_min"]["height"])
@@ -108,7 +99,7 @@ class EffectsPage(QMainWindow):
             on_search_change=on_search_change,
             on_filter_change=on_filter_change
         )
-        debug_log("NavMenu.create_menu done")
+
         self.btn_keys = nav_buttons_dict["btn_keys"]
         self.btn_settings = nav_buttons_dict["btn_settings"]
         self.btn_home = nav_buttons_dict["btn_home"]
@@ -133,9 +124,9 @@ class EffectsPage(QMainWindow):
         page_main_layout.addWidget(self.effect_list)
 
         self.page_keymaps = AddonsPage(self)
-        debug_log("AddonsPage created")
+
         self.page_settings = SettingsPage(self)
-        debug_log("SettingsPage created")
+
 
         # Create stacked_widget and add pages BEFORE adding to layout
         self.stacked_widget = QStackedWidget()
@@ -174,9 +165,7 @@ class EffectsPage(QMainWindow):
         self.status_label.setObjectName("StatusLabel")
         main_layout.addWidget(self.status_label)
 
-        debug_log("About to create ServerWorker...")
         self.worker = ServerWorker()
-        debug_log("ServerWorker created")
         self.worker.log_signal.connect(self.append_log)
         self.worker.status_signal.connect(self.update_status)
         self.worker.effects_signal.connect(self.populate_effects)
@@ -202,7 +191,6 @@ class EffectsPage(QMainWindow):
         self.hotkey_signal.trigger_better_motion.connect(self._start_better_motion)
         self.hotkey_signal.trigger_better_transform.connect(self._start_better_transform)
         
-        debug_log("About to create GlobalHotkeyManager...")
         self.hotkey_manager = GlobalHotkeyManager(
             trigger_callback=self.hotkey_signal.trigger_search_bar.emit,
             transition_callback=self.hotkey_signal.trigger_transition_options.emit,
@@ -212,13 +200,10 @@ class EffectsPage(QMainWindow):
             last_used_getter=get_last_used,
             config_getter=load_searchbar_config
         )
-        debug_log("GlobalHotkeyManager created")
-
         self.update_global_hotkey()
         self.load_presets()
         self.load_effects()
         self.refresh_ui(effects=True, presets=True)
-        debug_log("__init__ completed!")
 
     def _ensure_searchbar(self):
         if self.search_bar_overlay is None:
@@ -350,14 +335,10 @@ class EffectsPage(QMainWindow):
     def load_effects(self):
         if os.path.exists(self.cache_path):
             try:
-                with open(self.cache_path, "r", encoding="utf-8") as f: 
+                with open(self.cache_path, "r", encoding="utf-8") as f:
                     self.all_effects = json.load(f)
-                
-                for effect in self.all_effects:
-                    pass
-                with open(self.cache_path, "w", encoding="utf-8") as f: 
-                    json.dump(self.all_effects, f, indent=4)
-            except: pass
+            except Exception:
+                pass
 
     def reload_commands(self):
         """Rebuild the dynamic CMD command list and refresh the UI."""

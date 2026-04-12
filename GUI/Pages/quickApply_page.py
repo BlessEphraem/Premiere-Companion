@@ -48,7 +48,7 @@ class QuickApplyWizard(QDialog):
         # --- CALIBRATION SECTION ---
         layout.addWidget(QLabel("<b>2. Mouse Position Calibration (Edit1 Check)</b>"))
         lbl_info = QLabel("<b>Search for a unique preset, press 'Capture', and move your mouse above the Preset icon</b>"
-                          "<b>It will : Focus Premiere > Focus Effects Panel > Focus Search Box. ")
+                          "<br><b>It will : Focus Premiere > Focus Effects Panel > Focus Search Box.</b>")
         lbl_info.setWordWrap(True)
         lbl_info.setObjectName("QuickApplyInfoLabel")
         layout.addWidget(lbl_info)
@@ -85,7 +85,7 @@ class QuickApplyWizard(QDialog):
         # --- KEEP ON MOUSE SECTION ---
         layout.addWidget(QLabel("<b>3. Preset Release Mode</b>"))
         lbl_keep_info = QLabel("Choose what happens after preset is attached to mouse:")
-        lbl_keep_info.setObjectName("QuickApplyKeepInfoLabel")
+        lbl_keep_info.setObjectName("QuickApplyInfoLabel")
         layout.addWidget(lbl_keep_info)
         
         hbox_keep = QHBoxLayout()

@@ -1,5 +1,6 @@
 # Core/server.py
 import asyncio
+import contextlib
 import websockets
 import json
 import threading
@@ -23,7 +24,7 @@ def send_to_plugin(payload):
     """
     if _server_worker_instance is None:
         return False
-    
+
     return _server_worker_instance.send_to_plugin(payload)
 
 class ServerWorker(QThread):
@@ -38,9 +39,11 @@ class ServerWorker(QThread):
     def __init__(self):
         super().__init__()
         self.premiere_clients = set()
-        self.effects_buffer = [] 
-        self._clients_lock = asyncio.Lock() 
-        self._outgoing_queue = asyncio.Queue(maxsize=200)
+        self.effects_buffer = []
+        # asyncio primitives are created inside serve() where the event loop is running
+        self._clients_lock = None
+        self._outgoing_queue = None
+        self._outgoing_task = None
         self._loop = None
         self._server_ready = threading.Event()
         self._premiere_connected = threading.Event()
@@ -52,43 +55,43 @@ class ServerWorker(QThread):
         async with self._clients_lock:
             self.premiere_clients.add(websocket)
             self._premiere_connected.set()
-        
+
         self.log_signal.emit("🟢 Premiere Pro connected!", THEME_USER_COLORS["success"])
         self.status_signal.emit(True)
         self.premiere_connected_signal.emit()
-        
+
         try:
             await websocket.send(json.dumps({"action": "get_premiere_version"}))
             async for message in websocket:
                 try:
                     payload = json.loads(message)
                     action = payload.get("action")
-                    
+
                     if action == "sync_done":
                         effects = payload.get("effects", [])
                         self.effects_signal.emit(effects)
-                    
+
                     elif action == "sync_effects":
                         effects = payload.get("data", [])
                         self.log_signal.emit(f" {len(effects)} effects received at once!", THEME_USER_COLORS["success"])
                         self.effects_signal.emit(effects)
-                    
+
                     elif action == "sync_effects_chunk":
                         chunk = payload.get("data", [])
                         idx = payload.get("chunkIndex", 0)
                         total = payload.get("totalChunks", 1)
-                        
+
                         if idx == 0:
-                            self.effects_buffer = [] 
+                            self.effects_buffer = []
                             self.log_signal.emit(" Receiving effects...", THEME_USER_COLORS["info_text"])
-                        
-                        self.effects_buffer.extend(chunk) 
-                        
+
+                        self.effects_buffer.extend(chunk)
+
                         if idx == total - 1:
                             self.log_signal.emit(f" {len(self.effects_buffer)} effects successfully reconstructed!", THEME_USER_COLORS["success"])
                             self.effects_signal.emit(list(self.effects_buffer))
-                            self.effects_buffer = [] 
-                    
+                            self.effects_buffer = []
+
                     elif action == "tooltip_error":
                         self.tooltip_signal.emit(payload.get("message"))
                         self.log_signal.emit(f" {payload.get('message')}", THEME_USER_COLORS["warning"])
@@ -111,7 +114,7 @@ class ServerWorker(QThread):
                     else:
                         log_msg = message if len(message) < 100 else message[:100] + "..."
                         self.log_signal.emit(f"Premiere message: {log_msg}", THEME_USER_COLORS["info_text"])
-                        
+
                 except Exception as e:
                     self.log_signal.emit(f"Payload error: {e}", THEME_USER_COLORS["error"])
         except websockets.exceptions.ConnectionClosed:
@@ -120,7 +123,7 @@ class ServerWorker(QThread):
             async with self._clients_lock:
                 if websocket in self.premiere_clients:
                     self.premiere_clients.remove(websocket)
-            
+
             self.log_signal.emit(" Premiere Pro disconnected.", THEME_USER_COLORS["error"])
             self.status_signal.emit(False)
             self._premiere_connected.clear()
@@ -132,7 +135,7 @@ class ServerWorker(QThread):
             if not message:
                 writer.close()
                 return
-            
+
             self.log_signal.emit(f" CLI Command: {message}", THEME_USER_COLORS["warning"])
             async with self._clients_lock:
                 has_clients = bool(self.premiere_clients)
@@ -142,7 +145,7 @@ class ServerWorker(QThread):
                             await client.send(message)
                         except Exception as e:
                             self.log_signal.emit(f" Send error: {e}", THEME_USER_COLORS["error"])
-            
+
             if has_clients:
                 writer.write("Success.\n".encode())
             else:
@@ -174,9 +177,12 @@ class ServerWorker(QThread):
     async def serve(self):
         import os
         import json
-        
-        self._loop = asyncio.get_event_loop()
-        
+
+        # Create asyncio primitives here, inside the running event loop
+        self._clients_lock = asyncio.Lock()
+        self._outgoing_queue = asyncio.Queue(maxsize=200)
+        self._loop = asyncio.get_running_loop()
+
         port_settings_path = get_data_path("port_settings.json")
         ws_port = DEFAULT_PORTS["ws_port"]
         tcp_port = DEFAULT_PORTS["tcp_port"]
@@ -186,17 +192,27 @@ class ServerWorker(QThread):
                     data = json.load(f)
                     ws_port = data.get("ws_port", DEFAULT_PORTS["ws_port"])
                     tcp_port = data.get("tcp_port", DEFAULT_PORTS["tcp_port"])
-            except:
+            except Exception:
                 pass
 
         self._ws_server = await websockets.serve(self.premiere_handler, "127.0.0.1", ws_port)
         self._tcp_server = await asyncio.start_server(self.cli_handler, '127.0.0.1', tcp_port)
         self._server_ready.set()
         self._running = True
-        
+
         self.log_signal.emit(f" Server started (Ports: WS={ws_port} & TCP={tcp_port})", THEME_USER_COLORS["text_white"])
-        
-        await asyncio.gather(self._ws_server.wait_closed(), self._tcp_server.serve_forever(), self.process_outgoing())
+
+        # Run process_outgoing as a task so it can be cancelled cleanly on shutdown
+        self._outgoing_task = asyncio.create_task(self.process_outgoing())
+        try:
+            await asyncio.gather(
+                self._ws_server.wait_closed(),
+                self._tcp_server.serve_forever(),
+            )
+        finally:
+            self._outgoing_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await self._outgoing_task
 
     def run(self):
         asyncio.run(self.serve())
@@ -221,7 +237,7 @@ class ServerWorker(QThread):
         """Thread-safe method to send payload to Premiere via WebSocket."""
         if not self._server_ready.is_set() or self._loop is None:
             return False
-        
+
         try:
             asyncio.run_coroutine_threadsafe(
                 self._outgoing_queue.put(payload),

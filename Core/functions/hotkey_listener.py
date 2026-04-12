@@ -83,8 +83,14 @@ class HotkeyListener(threading.Thread):
         while user32.GetMessageW(ctypes.byref(msg), None, 0, 0) > 0:
             if msg.message == 0x0312:  # 0x0312 = WM_HOTKEY
                 hk_id = msg.wParam
-                if hk_id in self.callbacks_map:
-                    self.callbacks_map[hk_id]()
+                cb = self.callbacks_map.get(hk_id)
+                if cb:
+                    try:
+                        cb()
+                    except Exception as e:
+                        if self.log_callback:
+                            from Core.theme_qss import THEME_USER_COLORS
+                            self.log_callback(f" Hotkey callback error: {e}", THEME_USER_COLORS["error"])
             user32.TranslateMessage(ctypes.byref(msg))
             user32.DispatchMessageW(ctypes.byref(msg))
 

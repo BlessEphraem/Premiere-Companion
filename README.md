@@ -79,14 +79,19 @@ Before using Premiere Companion and the plugin, make sure you have:
 
 Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
 
-
-* 🛠️ **From Source - Run the `.pyw` Script**
+<details><summary>
+  <strong>🛠️ From Source - Run the `.pyw` Script</strong>
+</summary>
 
 If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
 ```bash
 pip install PyQt6 pywin32 pyautogui websockets pynput
 ```
 > **Optional:** `pip install win11toast` for native Windows 11 toast notifications (falls back to PowerShell automatically if not installed).
+
+</details>
+
+<br/>
 
 # 🏁 First Run
 
@@ -120,7 +125,9 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 - **[Search Bar ](.docs/SearchBar.md)**
 <br/>
 <br/>
+
 ***IN PROGRESS***
+
 - **[Commands ](.docs/Commands.md)**
 - **[Macros & Hotkeys ](.docs/MacrosAndHotkeys.md)**
 

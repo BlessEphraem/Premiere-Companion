@@ -4,12 +4,7 @@ import os
 import ctypes
 import time
 import traceback
-
-# Configuration du log de crash pour voir l'erreur
-def log_crash(e):
-    with open("crash_log.txt", "w") as f:
-        f.write(str(e) + "\n")
-        f.write(traceback.format_exc())
+import threading
 
 # On s'assure d'être dans le bon répertoire avant d'importer nos modules
 if hasattr(sys, '_MEIPASS'):
@@ -21,15 +16,44 @@ os.chdir(current_dir)
 if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 
-# Debug log file
-DEBUG_LOG = os.path.join(current_dir, "debug_startup.log")
+# ── Crash logging ────────────────────────────────────────────────────────────
+_DATA_DIR = os.path.join(current_dir, "Data")
+_CRASH_LOG = os.path.join(_DATA_DIR, "crash_log.txt")
 
-def debug_log(msg):
+def _write_crash(header: str, tb: str) -> None:
     try:
-        with open(DEBUG_LOG, "a", encoding="utf-8") as f:
-            f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
-    except: pass
-    print(f"[DEBUG] {msg}")
+        os.makedirs(_DATA_DIR, exist_ok=True)
+        with open(_CRASH_LOG, "a", encoding="utf-8") as f:
+            f.write(f"\n{'='*60}\n")
+            f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {header}\n")
+            f.write(tb)
+    except Exception:
+        pass  # truly unrecoverable — nothing else we can do
+
+def log_crash(e: Exception) -> None:
+    """Called for main-thread startup exceptions."""
+    _write_crash(f"STARTUP CRASH: {e}", traceback.format_exc())
+
+def _thread_excepthook(args: threading.ExceptHookArgs) -> None:
+    """Catches uncaught exceptions in ALL background threads."""
+    if args.exc_type is SystemExit:
+        return
+    tb = "".join(traceback.format_exception(args.exc_type, args.exc_value, args.exc_tb))
+    thread_name = args.thread.name if args.thread else "unknown"
+    _write_crash(f"THREAD CRASH [{thread_name}]: {args.exc_value}", tb)
+
+threading.excepthook = _thread_excepthook
+
+def _global_excepthook(exc_type, exc_value, exc_tb) -> None:
+    """Catches uncaught exceptions on the Qt main thread after startup."""
+    if exc_type is SystemExit:
+        sys.__excepthook__(exc_type, exc_value, exc_tb)
+        return
+    tb = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    _write_crash(f"MAIN THREAD CRASH: {exc_value}", tb)
+
+sys.excepthook = _global_excepthook
+# ─────────────────────────────────────────────────────────────────────────────
 
 try:
     from Core.configs.betterMotion_config import DEFAULT_BM_CONFIG
@@ -62,12 +86,11 @@ try:
     from PyQt6.QtGui import QIcon, QFontDatabase, QFont
     import json
 
-    # Centraliser pycache
-    CACHE_DIR = get_data_path("__pycache__")
-    if not os.path.exists(CACHE_DIR):
-        try: os.makedirs(CACHE_DIR)
-        except: pass
-    sys.pycache_prefix = os.path.abspath(CACHE_DIR)
+    # Centraliser pycache (dev uniquement — build compilé = bytecode frozen, pas de .pyc)
+    if not hasattr(sys, '_MEIPASS'):
+        CACHE_DIR = get_data_path("__pycache__")
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        sys.pycache_prefix = os.path.abspath(CACHE_DIR)
 
 except Exception as e:
     log_crash(e)
