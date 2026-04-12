@@ -277,6 +277,38 @@ def main():
     splash.update_progress(100, "Ready!")
     splash.close()
     window.show()
+
+    # --- Dev mode: build .ccx from Plugin/ source if needed ---
+    try:
+        from Core.functions.plugin_manager import ensure_ccx_built
+        ensure_ccx_built()
+    except Exception:
+        pass
+
+    # --- Plugin update check (instant, synchronous) ---
+    try:
+        from Core.functions.plugin_manager import is_plugin_update_needed
+        if is_plugin_update_needed():
+            window.append_log(
+                " Plugin update available — go to Premiere Pro settings and click 'Install Plugin'.",
+                colors["warning"],
+            )
+    except Exception:
+        pass
+
+    # --- App update check (background thread, non-blocking) ---
+    try:
+        from Core.functions.update_checker import start_update_check
+        from PyQt6.QtCore import QTimer
+
+        def _safe_log(message: str, color: str) -> None:
+            # Relay from background thread → main thread via Qt event loop
+            QTimer.singleShot(0, lambda: window.append_log(message, color))
+
+        start_update_check(log_cb=_safe_log)
+    except Exception:
+        pass
+
     sys.exit(app.exec())
 
 

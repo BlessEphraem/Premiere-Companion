@@ -1,0 +1,159 @@
+/* ========================================================= */
+/* 🎨 PALETTE DE COULEURS                                    */
+/* ========================================================= */
+:root {
+  --bg-card: #121214;
+  --bg-input: #18181b;
+  --bg-hover: #202024;
+  
+  --text-main: #e4e4e7;
+  --text-white: #ffffff;
+  --text-subtle: #a1a1aa;
+  
+  --border-color: #27272a;
+  --border-focus: #FF1796;
+  
+  --accent-pink: #FF1796;
+  --accent-blue: #3b82f6;
+  --accent-green: #55ff55;
+  --accent-red: #ff5555;
+}
+
+/* ========================================================= */
+/* 🖼️ GLOBAL & RESET (TUE LES MARGES FANTÔMES D'UXP)         */
+/* ========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text-main);
+  font-family: "Inter", "Segoe UI", "-apple-system", sans-serif;
+  font-size: 14px;
+  padding: 16px;
+  margin: 0;
+}
+
+h1, p, label {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+h1#plugin-heading {
+  color: var(--text-white);
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px !important;
+}
+
+/* ========================================================= */
+/* 🧱 LAYOUT PRINCIPAL (FLEXBOX STRICT)                      */
+/* ========================================================= */
+.main-div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 🟢 C'EST ÇA QUI CONTRÔLE L'ESPACEMENT EXACT ENTRE CHAQUE BLOC */
+  width: 100%;
+}
+
+/* ========================================================= */
+/* 📜 COMPOSANTS SPÉCIFIQUES                                 */
+/* ========================================================= */
+
+#status-card {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+#status-text {
+  color: var(--accent-red);
+}
+
+.instructions {
+  font-size: 13px;
+  color: var(--text-subtle);
+  line-height: 1.5;
+}
+
+/* ========================================================= */
+/* 🖱️ BOUTON CONNECT                                         */
+/* ========================================================= */
+#btnConnect {
+  background-color: var(--accent-pink);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  padding: 12px 20px;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  margin: 0; /* Anti-bug UXP */
+  transition: background-color 0.2s;
+}
+
+#btnConnect:hover {
+  background-color: #e01283;
+}
+
+#btnConnect:disabled {
+  background-color: #3f3f46;
+  color: var(--text-subtle);
+  cursor: not-allowed;
+}
+
+/* ========================================================= */
+/* ⚙️ PANNEAU DE PARAMÈTRES                                  */
+/* ========================================================= */
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 15px;
+  margin-top: 5px;
+}
+
+.settings-panel label {
+  font-size: 12px;
+  color: var(--text-main);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px !important;
+  cursor: pointer;
+}
+
+.warning-text {
+  font-size: 11px;
+  color: #ffaa00;
+  margin-top: 5px !important;
+}
+
+/* ========================================================= */
+/* 🎛️ INPUTS                                                 */
+/* ========================================================= */
+input[type="number"], input[type="text"] {
+  background-color: var(--bg-input);
+  color: var(--text-white);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 100%;
+  outline: none;
+}
+
+input[type="number"]:focus {
+  border-color: var(--border-focus);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent-pink);
+  margin: 0;
+}

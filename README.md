@@ -73,30 +73,27 @@ Before using Premiere Companion and the plugin, make sure you have:
   <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
 </p>
 
-Premiere Companion works as a two-part system. You need to install both the Premiere Pro plugin and the desktop application for them to communicate.
-
-## Step 1: Install the Premiere Pro Plugin (The Listener)
-The desktop app needs a bridge to talk to your timeline. This is handled by my dedicated UXP plugin.
-* 📦 **Download & Guide:** [Get the Premiere Companion (Listener) Plugin here](https://github.com/BlessEphraem/Premiere-Companion-UXP)
-
-## Step 2: Install the Desktop App
-Once the plugin is installed, choose how you want to run the main search bar application:
+## Step 1: Install the Desktop App
 
 * ✅ **Recommended - Download the Setup / Portable version**
-  1. Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
-  2. Install or extract the files. The portable version is pre-packaged and ready to use out of the box.
+
+Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
+
 
 * 🛠️ **From Source - Run the `.pyw` Script**
-  
-  If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
+
+If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
 ```bash
-pip install PyQt6 pywin32 pyautogui websockets pynput keyboard
+pip install PyQt6 pywin32 pyautogui websockets pynput
 ```
+> **Optional:** `pip install win11toast` for native Windows 11 toast notifications (falls back to PowerShell automatically if not installed).
 
 # 🏁 First Run
 
 ## 1. Connect to Premiere Pro
-1. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
+**Premiere Pro must be closed if you install/update the plugin.**
+1. Go to **Settings -> Configure -> Install Plugin**.
+2. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
 2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Premiere Pro → Configure**.
 
     When the connection is established:

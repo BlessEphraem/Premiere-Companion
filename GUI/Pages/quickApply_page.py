@@ -30,8 +30,8 @@ class QuickApplyWizard(QDialog):
         config = PresetApplier.load_config() or {}
 
         # --- PREMIERE KEYBINDS SECTION ---
-        from GUI.Pages.premiereKeybinds_page import PremiereKeybindsPage
-        self.keybinds_section = PremiereKeybindsPage(self.main_window, embed_mode=True)
+        from GUI.Widgets.premiereKeybindsWidget import PremiereKeybindsWidget
+        self.keybinds_section = PremiereKeybindsWidget(self.main_window)
         layout.addWidget(self.keybinds_section)
 
         # --- LATENCY SECTION ---

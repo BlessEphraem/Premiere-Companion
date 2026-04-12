@@ -1,0 +1,7 @@
+{
+  "name": "ephraem-pc-listener",
+  "version": "1.0.1",
+  "description": "WebSocket bridge for Premiere Companion desktop app.",
+  "author": "Ephraem",
+  "license": "GPL-3.0"
+}

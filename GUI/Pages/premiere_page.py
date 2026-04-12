@@ -1,13 +1,36 @@
 import os
 import json
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFrame, QHBoxLayout, 
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFrame, QHBoxLayout,
                               QLineEdit, QCheckBox, QPushButton)
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from Core.paths import get_data_path
 from Core.functions.icon_loader import icon, icon_pixmap
 from Core.theme_qss import THEME_SPACING, THEME_USER_COLORS
 from Core.configs.port_config import DEFAULT_PORTS
 from Core.functions.bridge import get_premiere_version, get_premiere_name, request_premiere_version
+
+
+class _PluginWorker(QThread):
+    """Runs install or uninstall in a background thread."""
+    log_signal = pyqtSignal(str, str)   # message, color
+    finished_signal = pyqtSignal(bool)  # success
+
+    def __init__(self, action: str):
+        super().__init__()
+        self._action = action  # "install" or "uninstall"
+
+    def run(self):
+        from Core.functions.plugin_manager import install_plugin, uninstall_plugin
+
+        def _log(msg: str, color: str = THEME_USER_COLORS["text_main"]):
+            self.log_signal.emit(msg, color)
+
+        if self._action == "install":
+            ok = install_plugin(log_cb=lambda m: _log(m))
+        else:
+            ok = uninstall_plugin(log_cb=lambda m: _log(m))
+
+        self.finished_signal.emit(ok)
 
 
 class PremierePage(QWidget):
@@ -81,6 +104,36 @@ class PremierePage(QWidget):
         hbox_sync.addWidget(self.btn_sync)
         hbox_sync.addStretch()
         premiere_layout.addLayout(hbox_sync)
+
+        sep_plugin = QFrame()
+        sep_plugin.setFrameShape(QFrame.Shape.HLine)
+        sep_plugin.setObjectName("Separator")
+        premiere_layout.addWidget(sep_plugin)
+
+        plugin_title = QLabel("Plugin")
+        plugin_title.setObjectName("CardLabelBold")
+        premiere_layout.addWidget(plugin_title)
+
+        hbox_plugin = QHBoxLayout()
+        hbox_plugin.setSpacing(THEME_SPACING["spacing_element"])
+
+        self.btn_install_plugin = QPushButton()
+        self.btn_install_plugin.setIcon(icon("download", size=THEME_SPACING["icon_small"]))
+        self.btn_install_plugin.setText(" Install Plugin")
+        self.btn_install_plugin.setFixedHeight(THEME_SPACING["height_search_bar"])
+        self.btn_install_plugin.setObjectName("PrimaryButton")
+        self.btn_install_plugin.clicked.connect(self.on_install_plugin_clicked)
+        hbox_plugin.addWidget(self.btn_install_plugin)
+
+        self.btn_uninstall_plugin = QPushButton()
+        self.btn_uninstall_plugin.setIcon(icon("trash", size=THEME_SPACING["icon_small"]))
+        self.btn_uninstall_plugin.setText(" Uninstall Plugin")
+        self.btn_uninstall_plugin.setFixedHeight(THEME_SPACING["height_search_bar"])
+        self.btn_uninstall_plugin.clicked.connect(self.on_uninstall_plugin_clicked)
+        hbox_plugin.addWidget(self.btn_uninstall_plugin)
+
+        hbox_plugin.addStretch()
+        premiere_layout.addLayout(hbox_plugin)
 
         port_title = QLabel("Connection Settings")
         port_title.setObjectName("CardLabelBold")
@@ -179,5 +232,39 @@ class PremierePage(QWidget):
         os.makedirs(get_data_path(), exist_ok=True)
         with open(self.settings_path, "w") as f:
             json.dump(data, f, indent=4)
-        
+
         self.mw.append_log(f" Port settings saved (WS: {data['ws_port']}, TCP: {data['tcp_port']}). Please restart.", THEME_USER_COLORS["success"])
+
+    # ------------------------------------------------------------------
+    # Plugin install / uninstall
+    # ------------------------------------------------------------------
+
+    def _set_plugin_buttons_enabled(self, enabled: bool) -> None:
+        self.btn_install_plugin.setEnabled(enabled)
+        self.btn_uninstall_plugin.setEnabled(enabled)
+
+    def _start_plugin_worker(self, action: str) -> None:
+        self._set_plugin_buttons_enabled(False)
+        self._plugin_worker = _PluginWorker(action)
+        self._plugin_worker.log_signal.connect(self._on_plugin_log)
+        self._plugin_worker.finished_signal.connect(self._on_plugin_finished)
+        self._plugin_worker.start()
+
+    def _on_plugin_log(self, message: str, color: str) -> None:
+        self.mw.append_log(message, color)
+
+    def _on_plugin_finished(self, success: bool) -> None:
+        self._set_plugin_buttons_enabled(True)
+        if not success:
+            self.mw.append_log(
+                " Plugin operation failed. Check logs above.",
+                THEME_USER_COLORS["error"],
+            )
+
+    def on_install_plugin_clicked(self) -> None:
+        self.mw.append_log(" Starting plugin installation...", THEME_USER_COLORS["info"])
+        self._start_plugin_worker("install")
+
+    def on_uninstall_plugin_clicked(self) -> None:
+        self.mw.append_log(" Starting plugin uninstall...", THEME_USER_COLORS["info"])
+        self._start_plugin_worker("uninstall")

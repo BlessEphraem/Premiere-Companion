@@ -455,7 +455,7 @@ def run():
         print()
         print("  stacked → part of the main window navigation (like Settings, Keymaps)")
         print("  child   → separate sub-window, QWidget-based  (like ThemePage, SearchBarPage)")
-        print("  dialog  → modal QDialog                       (like RegexPage, PremiereKeybindsPage)")
+        print("  dialog  → modal QDialog                       (like RegexPage)")
         print()
         placement = ask("Placement", choices=["stacked", "child", "dialog"], default="stacked")
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="plugin-heading">Premiere Companion</h1> 
+    
+    <div class="main-div">
+      <div id="status-card">
+        <span id="status-icon">🔴</span> 
+        <strong id="status-text">Disconnected from server.</strong>
+      </div>
+      
+      <p class="instructions">
+        1. Start Premiere Companion software.<br/>
+        2. Click connect.
+      </p>
+
+      <button id="btnConnect">
+        🔌 Connect to websocket
+      </button>
+
+      <div class="settings-panel">
+        <label>WebSocket Port :</label>
+        <input type="number" id="portInput" value="8090" />
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="autoConnectCheckbox" />
+          Auto-Connect
+        </label>
+
+        <p class="warning-text">⚠️ After editing ports, click connect again to apply.</p>
+      </div>
+    </div>
+  </body>
+</html>

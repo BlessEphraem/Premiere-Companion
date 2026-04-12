@@ -1,4 +1,4 @@
-# GUI/premiereKeybinds_page.py
+# GUI/Widgets/premiereKeybindsWidget.py
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QFrame, QHBoxLayout,
                              QPushButton, QLineEdit, QMessageBox)
 from PyQt6.QtCore import Qt
@@ -9,18 +9,13 @@ from Core.theme_qss import THEME_SPACING, THEME_USER_COLORS
 import json
 import os
 
-
 from GUI.Widgets.hotkeyInputBox import KeybindCapture
 
-class KeybindInput(KeybindCapture):
-    pass
 
-
-class PremiereKeybindsPage(QWidget):
-    def __init__(self, main_window, embed_mode=False):
+class PremiereKeybindsWidget(QWidget):
+    def __init__(self, main_window):
         super().__init__()
         self.mw = main_window
-        self.embed_mode = embed_mode
         self.inputs = {}
         self.init_ui()
         self.load_keybinds()
@@ -49,7 +44,7 @@ class PremiereKeybindsPage(QWidget):
             row = QHBoxLayout()
             lbl = QLabel(action)
             lbl.setObjectName("CardLabel")
-            inp = KeybindInput(DEFAULT_KEYBINDS.get(action, ""), action_name=action)
+            inp = KeybindCapture(DEFAULT_KEYBINDS.get(action, ""), action_name=action)
             inp.setFixedWidth(THEME_SPACING["width_input_keybind"])
             self.inputs[action] = inp
             row.addWidget(lbl)
@@ -59,19 +54,7 @@ class PremiereKeybindsPage(QWidget):
 
         layout.addWidget(self.keybinds_frame)
 
-        if not self.embed_mode:
-            btn_layout = QHBoxLayout()
-            btn_layout.addStretch()
-
-            btn_save = QPushButton()
-            btn_save.setIcon(icon("save"))
-            btn_save.setText(" Save")
-            btn_save.clicked.connect(self.save_keybinds)
-            btn_layout.addWidget(btn_save)
-
-            layout.addLayout(btn_layout)
-
-    def check_conflict(self, action_name, new_keybind):
+    def check_conflict(self, action_name: str, new_keybind: str) -> str | None:
         new_norm = new_keybind.strip().lower()
         for act, inp in self.inputs.items():
             if act != action_name and inp.text():
@@ -83,7 +66,7 @@ class PremiereKeybindsPage(QWidget):
         path = get_data_path("keybinds.json")
         if not os.path.exists(path) and os.path.exists(get_data_path("pr_keybinds.json")):
             path = get_data_path("pr_keybinds.json")
-        
+
         if os.path.exists(path):
             try:
                 with open(path, "r", encoding="utf-8") as f:
