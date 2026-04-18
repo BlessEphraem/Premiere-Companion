@@ -97,7 +97,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-[![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](SearchBar.md)
+[![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](.docs/SearchBar.md)
 
 [![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](.docs/QuickApply.md)
 
