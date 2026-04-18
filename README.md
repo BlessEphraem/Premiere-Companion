@@ -93,7 +93,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 # 📖 Guides
 
-### [✅ Recommended - How to Getting Started guide](GettingStarted.md)
+### [✅ Recommended - How to Getting Started guide](.docs/GettingStarted.md)
 
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
