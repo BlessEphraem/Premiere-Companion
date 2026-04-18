@@ -1,7 +1,8 @@
-# 🔍 Search Bar — Complete Usage Guide
+# 🔍 Search Bar
+
+[![](https://img.shields.io/badge/←_📖_Guides-30363d?style=for-the-badge)](../README.md#-📖-Guides)
 
 ## Opening & Closing the Search Bar
-
 
 |Action|Default Shortcut|
 |---|---|
@@ -146,5 +147,87 @@ Recent history is saved to `Data/search_history.json` and persists across sessio
 - If a transition or effect name looks garbled (e.g., `AE.ADBE XYZ PrTr`), go to the **Regex Cleaner** page and run **Auto-Generate Rules** to clean them up.
 
 
+
+---
+
+## Examples
+
+### Example 1 — Instant re-apply (empty field)
+
+```
+Ctrl+Space  →  Enter
+```
+
+No typing needed. The most recently used item is pre-selected and applies immediately. Great for repeating the same effect across multiple clips.
+
+---
+
+### Example 2 — Find and apply a video effect
+
+```
+Ctrl+Space  →  gaussian  →  ↓ (select Gaussian Blur)  →  Enter
+```
+
+The effect is applied to all selected clips on the Premiere timeline.
+
+---
+
+### Example 3 — Apply a transition to the end of a clip
+
+```
+Ctrl+Space  →  cross dissolve  →  Enter  →  ↓ (select "At End")  →  Enter
+```
+
+After selecting a transition, the bar switches to alignment mode. Use ↑/↓ to pick **At Start**, **At End**, or **Both**, then confirm with Enter.
+
+---
+
+### Example 4 — Filter to presets only before searching
+
+```
+Ctrl+Space  →  CTRL+→ (switch to Preset)  →  my grade  →  Enter
+```
+
+Cycling to the **Preset** category first narrows a long list to only your saved presets.
+
+---
+
+### Example 5 — Apply a preset via keyword
+
+```
+Ctrl+Space  →  /P my grade  →  Enter
+```
+
+Same result as Example 4, but typed in one motion using the `/P` keyword prefix.
+
+---
+
+### Example 6 — Run a Better Motion command inline
+
+```
+Ctrl+Space  →  /BM scale 85  →  Enter
+```
+
+Sets the selected clip's scale to 85 without opening any dialog. See [Commands](Commands.md) for full BM syntax.
+
+---
+
+### Example 7 — Run a macro
+
+```
+Ctrl+Space  →  Quick Grade  →  Enter
+```
+
+Macros appear in search like any other item. No category filter needed — just type the macro name.
+
+---
+
+### Example 8 — Re-apply a recent item with keyboard only
+
+```
+Ctrl+Space  →  ↓ (select [Recent] item)  →  Enter
+```
+
+Recent items are pinned at the top even with an empty query. No typing — just arrow key and Enter.
 
 _Back to [README](../README.md)_

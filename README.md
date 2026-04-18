@@ -73,9 +73,7 @@ Before using Premiere Companion and the plugin, make sure you have:
   <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
 </p>
 
-## Step 1: Install the Desktop App
-
-* ✅ **Recommended - Download the Setup / Portable version**
+### ✅ Recommended - Setup / Portable version
 
 Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
 
@@ -91,45 +89,22 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 </details>
 
-<br/>
 
-# 🏁 First Run
+# 📖 Guides
 
-## 1. Connect to Premiere Pro
-**Premiere Pro must be closed if you install/update the plugin.**
-1. Go to **Settings -> Configure -> Install Plugin**.
-2. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
-2. In both the plugin panel and the Premiere Companion application, verify that the **WebSocket Port** matches exactly. You can check and adjust this in **Settings → Premiere Pro → Configure**.
+### [✅ Recommended - How to Getting Started guide](GettingStarted.md)
 
-    When the connection is established:
-    - The **console** at the bottom of the app will display a green confirmation  essage.
-    - The **plugin panel** will also indicate that it is connected.
-
-## 🧹 2. Apply a Regex Clean (Transition Names)
-> This step is **strongly recommended** if you want clean, readable names for your transitions.
-The Premiere Pro API does not expose a clean way to retrieve formatted transition names - raw internal names often include plugin prefixes, codes, and technical identifiers (e.g., `AE.ADBE Cross Dissolve PrTr`).
-To fix this, go to the **Regex** page and use one of these options:
-- **🤖 Auto-Generate Rules** - Analyzes all your fetched transitions and automatically builds cleanup rules. Works well for most setups.
-- **📄 Import my personal rules file** - Download and use my pre-made regex ruleset, crafted specifically for a clean Premiere Pro effect list. _(Link coming soon)_
-Rules are applied in order and can be individually reordered, edited, or deleted.
-
-
-🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
-
-**By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required. (See below.)**
-
-# 📖 Usage Guide
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-- **[Quick Apply (Presets)](.docs/QuickApply.md)**
-- **[Search Bar ](.docs/SearchBar.md)**
-<br/>
-<br/>
+[![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](SearchBar.md)
 
-***IN PROGRESS***
+[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](QuickApply.md)
 
-- **[Commands ](.docs/Commands.md)**
-- **[Macros & Hotkeys ](.docs/MacrosAndHotkeys.md)**
+[![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](BetterMotion.md)
+
+[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](MacrosAndHotkeys.md)
+
+[![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](Commands.md)
 
 ---
 
