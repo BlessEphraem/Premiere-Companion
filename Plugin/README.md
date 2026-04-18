@@ -2,6 +2,4 @@
 
 This is the UXP plugin component for **Premiere Companion**. It acts as the communication bridge between Adobe Premiere Pro and the Premiere Companion desktop application.
 
-> ⚠️ **This plugin has no standalone use.** It is a dependency of [Premiere Companion](https://github.com/BlessEphraem/Premiere-Companion) and does nothing on its own without it.
-
-
+> ⚠️ **This directory is automatically packaged during the main application's build process:** If you intend to use or integrate this plugin independently into your own project, you will need to package it into a `.ccx` file.

@@ -308,14 +308,20 @@ def main():
     except Exception:
         pass
 
-    # --- Plugin update check (instant, synchronous) ---
+    # --- Plugin update check → auto-reinstall if version mismatch ---
     try:
-        from Core.functions.plugin_manager import is_plugin_update_needed
+        from Core.functions.plugin_manager import is_plugin_update_needed, install_plugin
+
         if is_plugin_update_needed():
-            window.append_log(
-                " Plugin update available — go to Premiere Pro settings and click 'Install Plugin'.",
-                colors["warning"],
-            )
+            def _auto_install_plugin() -> None:
+                from PyQt6.QtCore import QTimer
+                def _log(msg: str) -> None:
+                    QTimer.singleShot(0, lambda: window.append_log(msg, colors["warning"]))
+                install_plugin(log_cb=_log)
+
+            threading.Thread(
+                target=_auto_install_plugin, daemon=True, name="PluginAutoUpdate"
+            ).start()
     except Exception:
         pass
 

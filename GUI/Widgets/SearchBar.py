@@ -311,9 +311,12 @@ class FloatingSearchBar(QWidget):
             elif is_preset(effect_type):
                 config = PresetApplier.load_config()
                 is_qa = config.get("quick_apply_enabled", False) if config else False
-                PresetApplier.apply_preset_to_premiere(match_name, is_qa, skip_typing=skip_typing)
-                save_last_used(match_name, effect_type, match_name)
-                self.close_bar()
+                success, msg = PresetApplier.apply_preset_to_premiere(match_name, is_qa, skip_typing=skip_typing)
+                if not success:
+                    self.main_window.append_log(f" Quick Apply error: {msg}", THEME_USER_COLORS["error"])
+                else:
+                    save_last_used(match_name, effect_type, match_name)
+                    self.close_bar()
             elif is_transition(effect_type):
                 self.show_transition_options(match_name, effect_type)
             else:
@@ -590,9 +593,12 @@ class FloatingSearchBar(QWidget):
             elif is_preset(effect_type):
                 config = PresetApplier.load_config()
                 is_qa = config.get("quick_apply_enabled", False) if config else False
-                PresetApplier.apply_preset_to_premiere(match_name, is_qa, skip_typing=skip_typing)
-                save_last_used(match_name, effect_type, match_name)
-                self.close_bar()
+                success, msg = PresetApplier.apply_preset_to_premiere(match_name, is_qa, skip_typing=skip_typing)
+                if not success:
+                    self.main_window.append_log(f" Quick Apply error: {msg}", THEME_USER_COLORS["error"])
+                else:
+                    save_last_used(match_name, effect_type, match_name)
+                    self.close_bar()
             elif is_transition(effect_type):
                 self.show_transition_options(match_name, effect_type)
             else:
