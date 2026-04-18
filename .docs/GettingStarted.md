@@ -50,4 +50,6 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 
 ### **[How to Apply Presets ?](QuickApply.md)**
 
-Once done, check every guides on the main [Readme](../README.md) page.
+Once done, check every guides on the main README page.
+
+_Back to [Guide](../README.md#-📖-Guides)_

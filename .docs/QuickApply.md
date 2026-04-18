@@ -102,4 +102,4 @@ The delay can be changed at any time without re-calibrating:
 
 ---
 
-_Back to [Guide](../Guide.md)_
+_Back to [Guide](../README.md#-📖-Guides)_

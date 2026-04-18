@@ -151,3 +151,7 @@ No need to open settings. The command label updates to show the new state immedi
 ```
 
 Triggers the 5-second countdown. Move your mouse over the preset icon in Premiere Pro before time runs out.
+
+[![](https://img.shields.io/badge/←_📖_Guides-30363d?style=for-the-badge)](../README.md#-📖-Guides)
+
+_Back to [Guide](../README.md#-📖-Guides)_
