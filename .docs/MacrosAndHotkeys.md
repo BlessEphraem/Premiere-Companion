@@ -199,4 +199,4 @@ Single Enter press — both edges get the transition.
 
 `Ctrl+Shift+G` → entire macro runs. No search bar, no mouse.
 
-_Back to [README](../README.md)_
+_Back to [Guides](../README.md#-📖-Guides)_

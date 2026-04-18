@@ -1,6 +1,5 @@
-# 📖 Guide
+# 📖 Getting Started
 [![](https://img.shields.io/badge/←_Readme-30363d?style=for-the-badge)](../README.md)
-
 
 # 📋 Prerequisites
 Before using Premiere Companion and the plugin, make sure you have:
@@ -51,6 +50,4 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 
 ### **[How to Apply Presets ?](QuickApply.md)**
 
-Once done, check every guides on the main Readme page.
-
-[![](https://img.shields.io/badge/←_Readme-30363d?style=for-the-badge)](../README.md#-📖-Guides)
+Once done, check every guides on the main [Readme](../README.md) page.

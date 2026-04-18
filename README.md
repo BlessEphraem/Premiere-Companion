@@ -99,13 +99,13 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 [![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](SearchBar.md)
 
-[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](QuickApply.md)
+[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](.docs/QuickApply.md)
 
-[![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](BetterMotion.md)
+[![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](.docs/BetterMotion.md)
 
-[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](MacrosAndHotkeys.md)
+[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](.docs/MacrosAndHotkeys.md)
 
-[![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](Commands.md)
+[![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](.docs/Commands.md)
 
 ---
 

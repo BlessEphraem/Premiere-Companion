@@ -230,4 +230,4 @@ Ctrl+Space  →  ↓ (select [Recent] item)  →  Enter
 
 Recent items are pinned at the top even with an empty query. No typing — just arrow key and Enter.
 
-_Back to [README](../README.md)_
+_Back to [Guides](../README.md#-📖-Guides)_
