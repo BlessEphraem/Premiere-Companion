@@ -89,6 +89,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 </details>
 
+</br>
 
 # 📖 Guides
 
