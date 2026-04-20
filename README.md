@@ -75,7 +75,12 @@ Before using Premiere Companion and the plugin, make sure you have:
 
 ### ✅ Recommended - Setup / Portable version
 
-Choose the "setup.exe" or the "portable.zip" from the [**Releases page**](https://github.com/BlessEphraem/Premiere-Companion/releases).
+  **Choose the "setup.exe" or the "portable.zip" from the [Releases page](https://github.com/BlessEphraem/Premiere-Companion/releases).**
+
+### ✅ Recommended - Winget
+  ```
+  winget install Ephraem.PremiereCompanion
+  ```
 
 <details><summary>
   <strong>🛠️ From Source - Run the `.pyw` Script</strong>
