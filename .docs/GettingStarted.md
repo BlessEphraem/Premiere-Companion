@@ -1,11 +1,11 @@
 # 📖 Getting Started
 [![](https://img.shields.io/badge/←_Readme-30363d?style=for-the-badge)](../README.md)
 
-# 📋 Prerequisites
+## 📋 Prerequisites
 Before using Premiere Companion and the plugin, make sure you have:
 - **Adobe Premiere Pro 25.6.1** or a **Beta version** that supports **UXP plugins**.
 
-# 🚀 Installation
+## 🚀 Installation
 
 ### ✅ Recommended - Setup / Portable version
 
@@ -25,7 +25,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 <br/>
 
-# 📡 Connect to Premiere Pro
+## 📡 Connect to Premiere Pro
 **Premiere Pro must be closed if you install/update the plugin.**
 1. Go to **Settings -> Configure -> Install Plugin**.
 2. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).

@@ -1,4 +1,5 @@
 # 🕹️ Commands
+
 [![](https://img.shields.io/badge/←_📖_Guides-30363d?style=for-the-badge)](../README.md#-📖-Guides)
 
 Commands are special items in the search bar's `[Commands]` category. They give you direct control over the app — toggling features, running transforms, executing macros — without leaving your keyboard.
