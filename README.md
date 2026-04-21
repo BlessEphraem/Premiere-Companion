@@ -104,7 +104,7 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 [![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/search-bar)
 
-[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/quickapply)
+[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/quick-apply)
 
 [![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/better-motion)
 
