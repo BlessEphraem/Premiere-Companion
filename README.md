@@ -97,15 +97,8 @@ If you prefer to run directly from source, clone this repository. Run your termi
 pip install PyQt6 pywin32 pyautogui websockets pynput
 ```
 > **Optional:** `pip install win11toast` for native Windows 11 toast notifications (falls back to PowerShell automatically if not installed).
-
 </details>
-
 </br>
-
-# 📖 Guides
-
-
----
 
 # 📖 Getting Started
 
@@ -133,7 +126,9 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-### [![](https://img.shields.io/badge/🌍_Wiki-FF1796?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/)
+<!-- wiki-hide-start -->
+### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
+<!-- wiki-hide-end -->
 
 ### **[How to Apply Presets ?](https://blessephraem.github.io/wiki/programs/premiere-companion/quickapply)**
 
