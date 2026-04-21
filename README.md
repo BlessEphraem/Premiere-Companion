@@ -44,9 +44,11 @@ Unlike traditional alternatives (such as Excalibur), splitting the tool into a d
 
 <br/>
 
-<p style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
+<!-- embed
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden">
   <iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://www.youtube.com/embed/eKo5-V1aOGs" frameborder="0" allowfullscreen></iframe>
-</p>
+</div>
+-->
 
 # ✨ Features
 - **🪄 Custom Macros** - Create powerful sequences of actions (apply an effect, then a preset, then adjust opacity) and trigger them with a single click or command.
