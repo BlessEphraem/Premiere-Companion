@@ -122,7 +122,7 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 # 🗺️ Roadmap & Known Issues
 
-I am constantly adding new features! Check out our [Roadmap](ROADMAP.md) to see:
+I am constantly adding new features! Check out our [Roadmap](https://github.com/BlessEphraem/Premiere-Companion/blob/main/ROADMAP.md) to see:
 - ❌ Known limitations (e.g., UXP API limits on audio transitions).
 - 🏗️ What we're currently working on (WIP).
 - 🗒️ Backlog of ideas, including the upcoming **Custom Command Compositions** feature.
