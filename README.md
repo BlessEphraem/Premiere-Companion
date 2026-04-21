@@ -104,7 +104,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 # 📖 Guides
 
-### [✅ Recommended - How to Getting Started guide](https://blessephraem.github.io/wiki/programs/premiere-companion/getting-started)
+### [✅ Recommended - How to Getting Started guide](https://blessephraem.github.io/wiki/programs/premiere-companion/gettingstarted)
 
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
