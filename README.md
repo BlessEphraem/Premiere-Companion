@@ -98,19 +98,19 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
 
 # 📖 Guides
 
-### [✅ Recommended - How to Getting Started guide](.docs/GettingStarted.md)
+### [✅ Recommended - How to Getting Started guide](https://blessephraem.github.io/wiki/programs/premiere-companion/getting-started)
 
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-[![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](.docs/SearchBar.md)
+[![](https://img.shields.io/badge/🔍_SearchBar-30363d?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/search-bar)
 
-[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](.docs/QuickApply.md)
+[![](https://img.shields.io/badge/⚡_Quick_Apply_(Presets)-f9c804?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/quickapply)
 
-[![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](.docs/BetterMotion.md)
+[![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/better-motion)
 
-[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](.docs/MacrosAndHotkeys.md)
+[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/macros-hotkeys)
 
-[![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](.docs/Commands.md)
+[![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/commands)
 
 ---
 
