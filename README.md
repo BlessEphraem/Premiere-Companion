@@ -124,10 +124,15 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 
 **By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required. (See below.)**
 
+<!-- wiki-hide-start -->
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-<!-- wiki-hide-start -->
-### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
+<div align="center">
+
+  ### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
+
+</div>
+
 <!-- wiki-hide-end -->
 
 ### **[How to Apply Presets ?](https://blessephraem.github.io/wiki/programs/premiere-companion/quickapply)**
