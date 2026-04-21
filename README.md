@@ -50,7 +50,7 @@ Unlike traditional alternatives (such as Excalibur), splitting the tool into a d
 </div>
 -->
 
-# ✨ Features
+## ✨ Features
 - **🪄 Custom Macros** - Create powerful sequences of actions (apply an effect, then a preset, then adjust opacity) and trigger them with a single click or command.
 - **🖱️ Better Motion HUD** - A revolutionary way to adjust clip properties (Position, Scale, Rotation, Opacity) using mouse movements with a real-time floating HUD.
 - **🔄 Better Transform** - Use the combined Transform tool to switch between Position, Scale, and Rotation on the fly using mouse button modifiers (RMB/MMB).
@@ -69,40 +69,35 @@ Unlike traditional alternatives (such as Excalibur), splitting the tool into a d
 
 ---
 
-# 📋 Prerequisites
+## 📋 Prerequisites
 Before using Premiere Companion and the plugin, make sure you have:
 - **Adobe Premiere Pro 25.6.1** or a **Beta version** that supports **UXP plugins**.
 
-# 🚀 Installation
+## 🚀 Installation
 
 <p align="center">
   <img src=".docs/medias/preview_MainPage.png" width="50%" alt="Preview Search Bar">
 </p>
 
-### ✅ Recommended - Setup / Portable version
+* ✅ **Setup / Portable**  
+  Download the `Setup.exe` or `Portable.zip` from the [**Releases page**](https://blessephraem.github.io/wiki/programs/premiere-companion/releases).
 
-  **Choose the "setup.exe" or the "portable.zip" from the [Releases page](https://blessephraem.github.io/wiki/programs/premiere-companion/releases).**
-
-### 🛠️ Winget
+* ✅ **Winget**
   ```
   winget install Ephraem.PremiereCompanion
   ```
 
-<details><summary>
-  <strong>🛠️ From Source - Run the `.pyw` Script</strong>
-</summary>
+* 🛠️ **From Source**
 
-If you prefer to run directly from source, clone this repository. Run your terminal as Administrator (required for global hotkeys and mouse simulation) and install the dependencies:
-```bash
-pip install PyQt6 pywin32 pyautogui websockets pynput
-```
-> **Optional:** `pip install win11toast` for native Windows 11 toast notifications (falls back to PowerShell automatically if not installed).
-</details>
-</br>
+  Clone the repository, then install the dependencies:
+  ```bash
+  pip install PyQt6 pywin32 pyautogui websockets pynput
+  ```
+  Run `src/InputBar.pyw` (as Administrator for global hotkeys).
 
-# 📖 Getting Started
+## 📖 Getting Started
 
-## 📡 Connect to Premiere Pro
+### 📡 Connect to Premiere Pro
 **Premiere Pro must be closed if you install/update the plugin.**
 1. Go to **Settings -> Configure -> Install Plugin**.
 2. Open Premiere Pro and load the **Premiere Companion** plugin (Look at the top bar, `Window > UXP Plugins > Premiere Companion (Listener)`).
@@ -112,7 +107,7 @@ pip install PyQt6 pywin32 pyautogui websockets pynput
     - The **console** at the bottom of the app will display a green confirmation  essage.
     - The **plugin panel** will also indicate that it is connected.
 
-### 🧹 Recommended - Apply a Regex Clean (Transition Names)
+#### 🧹 Recommended - Apply a Regex Clean (Transition Names)
 > This step is **strongly recommended** if you want clean, readable names for your transitions.
 The Premiere Pro API does not expose a clean way to retrieve formatted transition names - raw internal names often include plugin prefixes, codes, and technical identifiers (e.g., `AE.ADBE Cross Dissolve PrTr`).
 To fix this, go to the **Regex** page and use one of these options:
@@ -129,7 +124,7 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 <div align="center">
 
-  ### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
+### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
 
 </div>
 
@@ -139,20 +134,20 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 ---
 
-# 🗺️ Roadmap & Known Issues
+## 🗺️ Roadmap & Known Issues
 
 I am constantly adding new features! Check out our [Roadmap](https://github.com/BlessEphraem/Premiere-Companion/blob/main/ROADMAP.md) to see:
 - ❌ Known limitations (e.g., UXP API limits on audio transitions).
 - 🏗️ What we're currently working on (WIP).
 - 🗒️ Backlog of ideas, including the upcoming **Custom Command Compositions** feature.
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 - **Language:** Python 3
 - **GUI:** PyQt6
 - **Communication:** `asyncio`, `websockets`
 - **OS Integration (Windows):** `ctypes`, `win32gui` (Global hotkey hooking & window management), `pyautogui` (Input simulation)
 - **Data Persistence:** Local JSON files for configurations, keybinds, and themes.
 
-# 📄 License
+## 📄 License
 
 GPL-3.0 license - see [LICENSE](LICENSE) for details.
