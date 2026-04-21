@@ -114,7 +114,7 @@ Once configured, for a detailed breakdown of how to use the search bar (keyboard
 
 [![](https://img.shields.io/badge/💠_Better_Motion-047bf9?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/bettermotion)
 
-[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/macroshotkeys)
+[![](https://img.shields.io/badge/⌨️_Macros_&_Hotkeys-f2f2f2?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/macrosandhotkeys)
 
 [![](https://img.shields.io/badge/🕹️_Commands-f74302?style=for-the-badge)](https://blessephraem.github.io/wiki/programs/premiere-companion/commands)
 
