@@ -122,11 +122,9 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 <!-- wiki-hide-start -->
 Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
 
-<div align="center">
-
-### **[🌍 Wiki Website](https://blessephraem.github.io/wiki/programs/premiere-companion/)**
-
-</div>
+<a href="https://blessephraem.github.io/wiki/programs/premiere-companion">
+  <img src="https://capsule-render.vercel.app/api?type=soft&color=278BF5&height=120&text=%F0%9F%8C%90%20%F0%9D%90%96%F0%9D%90%88%F0%9D%90%8A%F0%9D%90%88%20%F0%9F%8C%90&fontColor=ffffff&fontSize=45" alt="Wiki Banner">
+</a>
 
 <!-- wiki-hide-end -->
 
