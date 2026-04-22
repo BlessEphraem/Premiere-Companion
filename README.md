@@ -95,6 +95,15 @@ Before using Premiere Companion and the plugin, make sure you have:
   ```
   Run `src/InputBar.pyw` (as Administrator for global hotkeys).
 
+<!-- wiki-hide-start -->
+Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
+
+<a href="https://blessephraem.github.io/wiki/programs/premiere-companion">
+  <img src="https://capsule-render.vercel.app/api?type=soft&color=278BF5&height=120&text=%F0%9F%8C%90%20%F0%9D%90%96%F0%9D%90%88%F0%9D%90%8A%F0%9D%90%88%20%F0%9F%8C%90&fontColor=ffffff&fontSize=45" alt="Wiki Banner">
+</a>
+
+<!-- wiki-hide-end -->
+
 ## 📖 Getting Started
 
 ### 📡 Connect to Premiere Pro
@@ -118,15 +127,6 @@ Rules are applied in order and can be individually reordered, edited, or deleted
 🎉 You can now apply any effect or transition directly via the search bar using **`Ctrl+Space`** while Premiere Pro is focused. This shortcut is configurable in the **Keymaps** page.
 
 **By default, transitions, video effects, and audio effects work immediately once connected. To make Presets applicable, further configuration is required. (See below.)**
-
-<!-- wiki-hide-start -->
-Once configured, for a detailed breakdown of how to use the search bar (keyboard navigation, category filtering, transition alignment, recent items, and more) :
-
-<a href="https://blessephraem.github.io/wiki/programs/premiere-companion">
-  <img src="https://capsule-render.vercel.app/api?type=soft&color=278BF5&height=120&text=%F0%9F%8C%90%20%F0%9D%90%96%F0%9D%90%88%F0%9D%90%8A%F0%9D%90%88%20%F0%9F%8C%90&fontColor=ffffff&fontSize=45" alt="Wiki Banner">
-</a>
-
-<!-- wiki-hide-end -->
 
 ### **[How to Apply Presets ?](https://blessephraem.github.io/wiki/programs/premiere-companion/quickapply)**
 
